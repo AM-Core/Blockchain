@@ -1,12 +1,34 @@
-﻿using Domain.Command;
+﻿using Application.Exceptions;
+using Domain.Command;
 
 namespace Application.QueryParser;
 
 public class QueryParser : IQueryParser
 {
-    public Command Parse(string command)
+    public Command Parse(string query)
     {
-        return new Command();
+        if (query == "")
+        {
+            throw new InvalidCommandException();
+        }
+
+        string type = query;
+        string arg = "";
+        if (query.Contains('('))
+        {
+            type = query.Substring(0, query.IndexOf('('));
+            arg = query.Substring(query.IndexOf('(') + 1, query.IndexOf(')') - query.IndexOf('(') - 1);
+        }
+        if (CommandType.TryParse(type.ToUpper(), out CommandType commandType))
+        {
+            Command command = new Command(commandType, arg);
+            return command;
+        }
+        else
+        {
+            throw new InvalidCommandException();
+        }
     }
 
 }
+

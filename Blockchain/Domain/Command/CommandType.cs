@@ -2,8 +2,8 @@
 
 public enum CommandType
 {
-    SetDifficulty,
-    AddTransactionToMempool,
-    EvictMempool,
-    MineBlock
+    SETDIFICULTY,
+    ADDTRANSACTIONTOMEMPOOL,
+    EVICTMEMPOOL,
+    MINEBLOCK
 }
