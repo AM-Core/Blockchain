@@ -1,4 +1,6 @@
-﻿namespace Domain;
+﻿using DataStructures;
+
+namespace Domain;
 using Domain.Transaction;
 public class Block
 {
@@ -6,7 +8,7 @@ public class Block
     public string PrevBlockHost { get; set; }
     public int Difficulty { get; set; }
     public int Nonce { get; set; }
-    private List<Transaction.Transaction> Transactions { get; set; }
+    private DAG<Transaction.Transaction> Transactions { get; set; }
 
     public Block(string blockHost, string prevBlockHost, int difficulty, int nonce)
     {
@@ -14,6 +16,6 @@ public class Block
         PrevBlockHost = prevBlockHost;
         Difficulty = difficulty;
         Nonce = nonce;
-        Transactions = new List<Transaction.Transaction>();
+        Transactions = new DAG<Transaction.Transaction>();
     }
 }
