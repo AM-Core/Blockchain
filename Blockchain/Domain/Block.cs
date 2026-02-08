@@ -8,7 +8,7 @@ public class Block
     public string PrevBlockHost { get; private set; }
     public int Difficulty { get; set; }
     public int Nonce { get; set; }
-    public DAG<Transaction.Transaction> Transactions { get;private set; }
+    public DAG Transactions { get;private set; }
     public string MerkleRoot{ get; set; }
 
     public Block(string blockHost, string prevBlockHost, int difficulty, int nonce)
@@ -17,6 +17,6 @@ public class Block
         PrevBlockHost = prevBlockHost;
         Difficulty = difficulty;
         Nonce = nonce;
-        Transactions = new DAG<Transaction.Transaction>();
+        Transactions = new DAG();
     }
 }

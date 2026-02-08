@@ -1,6 +1,6 @@
 ﻿namespace DataStructures;
 
-public class DAG<T>
+public class DAG
 {
     
 }
