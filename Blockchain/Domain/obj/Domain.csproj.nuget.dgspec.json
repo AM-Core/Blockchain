@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Domain\\Domain.csproj": {}
+    "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Domain\\Domain.csproj": {
+    "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Domain\\Domain.csproj",
+        "projectUniqueName": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Domain\\Domain.csproj",
+        "projectPath": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\ahk84\\.nuget\\packages\\",
-        "outputPath": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Domain\\obj\\",
+        "outputPath": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

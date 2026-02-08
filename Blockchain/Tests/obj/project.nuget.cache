@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "m8TIG9qdHSs=",
+  "dgSpecHash": "TBt6ml8TBNM=",
   "success": true,
-  "projectFilePath": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Tests\\Tests.csproj",
+  "projectFilePath": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Tests\\Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ahk84\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\ahk84\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",

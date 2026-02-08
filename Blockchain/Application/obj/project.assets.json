@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Application\\Application.csproj",
+      "projectUniqueName": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Application\\Application.csproj",
+      "projectPath": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\ahk84\\.nuget\\packages\\",
-      "outputPath": "E:\\Amir\\git hub repository work\\Blockchain\\Main\\Blockchain\\Application\\obj\\",
+      "outputPath": "E:\\Amir\\git hub repository work\\Blockchain\\Blockchain\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
