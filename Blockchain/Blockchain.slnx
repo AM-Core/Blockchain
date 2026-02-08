@@ -1,3 +1,14 @@
 <Solution>
+  <Folder Name="/BlockInfos/" />
+  <Folder Name="/Domain/">
+    <Project Path="Domain/Domain.csproj" Id="051576ba-e96d-40c7-85d2-9790667d29d6" />
+    <Project Path="DomainService/DomainService.csproj" Id="0a1ae33d-25df-40ef-b948-98987cf5c88d" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="IO/IO.csproj" Id="66c7d91e-39a3-4489-b2d0-b7448963f0ae" />
+    <Project Path="Tests/Tests.csproj" Id="66310ad8-d9db-440a-90a9-92937eb119d8" />
+  </Folder>
+  <Project Path="Application/Application.csproj" Id="450c51d7-df02-4468-9c67-1bfb3c058c54" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />
+  <Project Path="DataStructures/DataStructures.csproj" Id="9d5c0656-a2cf-4f8e-bcd5-5d474c6d6ded" />
 </Solution>
