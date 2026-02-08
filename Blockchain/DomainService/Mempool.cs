@@ -1,10 +1,11 @@
 ﻿
 using DataStructures;
+using Domain.Interfaces;
 using Domain.Transaction;
 
 namespace DomainService;
 
-public class Mempool
+public class Mempool : IMempool
 {
     private readonly Dictionary<string, Transaction> _tDict = new Dictionary<string, Transaction>();
     private readonly DAG<Transaction> _tDag = new DAG<Transaction>();
@@ -12,38 +13,35 @@ public class Mempool
     private readonly AVL _evictionTree = new AVL();
     public bool AddTransaction(string transactionId)
     {
-        //need to be complete
-        return false;
+        throw new NotImplementedException();
     }
 
     public bool RemoveTransaction(string transactionId)
     {
-        //need to be complete
-        return false;
+        throw new NotImplementedException();
     }
 
     public bool Exist(string transactionId)
     {
-        //need to be complete
-        return false;
+        throw new NotImplementedException();
     }
 
     public List<Transaction> GetTransactionsByPriority()
     {
-        return new List<Transaction>();
+        throw new NotImplementedException();
     }
     public List<Transaction> GetTransactionsByEvictionPriority()
     {
-        return new List<Transaction>();
+        throw new NotImplementedException();
     }
     public void EvictHighestPriorityTransaction()
     {
-        
+        throw new NotImplementedException();
     }
 
     public Transaction GetMaxPriorityTransaction()
     {
-        return new Transaction("0");
+        throw new NotImplementedException();
     }
 
 }
