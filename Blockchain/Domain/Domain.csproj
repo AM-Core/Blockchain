@@ -10,4 +10,12 @@
     <Folder Include="Exceptions\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2025.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DataStructures\DataStructures.csproj" />
+  </ItemGroup>
+
 </Project>
