@@ -12,7 +12,7 @@ public class NonceRunner : INonceRunner
         _hashingHandler = hashingHandler;
     }
 
-    public long FindValidNonce(Block block, int difficulty, IHashingHandler hasher)
+    public long FindValidNonce(Block block, int difficulty, IHashingHandler TransactionEntry)
     {
         throw new NotImplementedException();
     }

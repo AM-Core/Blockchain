@@ -1,4 +1,6 @@
-﻿namespace Domain.Interfaces;
+﻿using Domain.Transaction;
+
+namespace Domain.Interfaces;
 
 public interface IMempool
 {
@@ -7,11 +9,11 @@ public interface IMempool
     public bool RemoveTransaction(string transactionId);
     public bool Exist(string transactionId);
 
-    public List<Transaction.Transaction> GetTransactionsByPriority();
+    public List<TransactionEntry> GetTransactionsByPriority();
 
-    public List<Transaction.Transaction> GetTransactionsByEvictionPriority();
+    public List<TransactionEntry> GetTransactionsByEvictionPriority();
 
     public void EvictHighestPriorityTransaction();
 
-    public Transaction.Transaction GetMaxPriorityTransaction();
+    public TransactionEntry GetMaxPriorityTransaction();
 }

@@ -7,7 +7,7 @@ namespace DomainService;
 
 public class Mempool : IMempool
 {
-    private readonly Dictionary<string, Transaction> _tDict = new Dictionary<string, Transaction>();
+    private readonly Dictionary<string, TransactionEntry> _tDict = new Dictionary<string, TransactionEntry>();
     private readonly DAG _tDag = new DAG();
     private readonly AVL _priorityTree = new AVL();
     private readonly AVL _evictionTree = new AVL();
@@ -26,11 +26,11 @@ public class Mempool : IMempool
         throw new NotImplementedException();
     }
 
-    public List<Transaction> GetTransactionsByPriority()
+    public List<TransactionEntry> GetTransactionsByPriority()
     {
         throw new NotImplementedException();
     }
-    public List<Transaction> GetTransactionsByEvictionPriority()
+    public List<TransactionEntry> GetTransactionsByEvictionPriority()
     {
         throw new NotImplementedException();
     }
@@ -39,7 +39,7 @@ public class Mempool : IMempool
         throw new NotImplementedException();
     }
 
-    public Transaction GetMaxPriorityTransaction()
+    public TransactionEntry GetMaxPriorityTransaction()
     {
         throw new NotImplementedException();
     }
