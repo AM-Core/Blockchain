@@ -16,3 +16,10 @@
 *.user
 *.userosscache
 *.sln.docstates
+
+
+.idea/
+*.sln.iml
+*.csproj.iml
+*.DotSettings.user
+TestResults/
