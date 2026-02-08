@@ -5,7 +5,14 @@
 /.vs
 /Blockchain/.vs/Blockchain.slnx/FileContentIndex
 /Blockchain/.vs
-/Blockchain/.vs
-/Blockchain/.vs
 /Blockchain/.vs/Blockchain.slnx
 /Blockchain/.vs/Blockchain.slnx/v18
+# Visual Studio files
+.vs/
+[Oo]bj/
+[Bb]in/
+
+# User-specific files
+*.user
+*.userosscache
+*.sln.docstates
