@@ -5,8 +5,11 @@
     <Project Path="DomainService/DomainService.csproj" Id="0a1ae33d-25df-40ef-b948-98987cf5c88d" />
   </Folder>
   <Folder Name="/Infrastructure/">
+    <Project Path="ApplicationTests/ApplicationTests.csproj" Id="2a85ccad-c03c-43b5-b7c6-54b3fe2a7806" />
+    <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" Id="b63e177c-0448-4c98-af3d-410699a65a8b" />
+    <Project Path="DataStructuresTests/DataStructuresTests.csproj" Id="903d6423-41c5-40a2-b652-4f06e43b7c12" />
+    <Project Path="DomainServicesTests/DomainServicesTests.csproj" Id="b18454f9-114a-4428-b720-146fcec32bc1" />
     <Project Path="IO/IO.csproj" Id="66c7d91e-39a3-4489-b2d0-b7448963f0ae" />
-    <Project Path="Tests/Tests.csproj" Id="66310ad8-d9db-440a-90a9-92937eb119d8" />
   </Folder>
   <Project Path="Application/Application.csproj" Id="450c51d7-df02-4468-9c67-1bfb3c058c54" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />

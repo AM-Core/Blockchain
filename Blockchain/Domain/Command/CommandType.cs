@@ -2,7 +2,7 @@
 
 public enum CommandType
 {
-    SET_DIFFICUTY,
+    SET_DIFFICULTY,
     ADD_TRANSACTION_TO_MEMPOOL,
     EVICT_MEMPOOL,
     MINE_BLOCK
