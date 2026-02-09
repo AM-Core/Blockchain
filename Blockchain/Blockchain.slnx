@@ -5,7 +5,6 @@
     <Project Path="DomainService/DomainService.csproj" Id="0a1ae33d-25df-40ef-b948-98987cf5c88d" />
   </Folder>
   <Folder Name="/Frameworks/">
-    <File Path="DomainService/Fnv1aHash.cs" />
     <Project Path="DataStructures/DataStructures.csproj" Id="9d5c0656-a2cf-4f8e-bcd5-5d474c6d6ded" />
   </Folder>
   <Folder Name="/Infrastructure/">
