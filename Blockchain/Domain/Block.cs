@@ -1,22 +1,20 @@
-﻿using DataStructures;
+﻿namespace Domain;
 
-namespace Domain;
-using Domain.Transaction;
+using Transaction;
+
 public class Block
 {
-    public string BlockHost { get; private set; }
-    public string PrevBlockHost { get; private set; }
+    public string BlockHash { get; private set; }
+    public string PrevBlockHash { get; private set; }
     public int Difficulty { get; set; }
     public int Nonce { get; set; }
-    public DAG Transactions { get;private set; }
-    public string MerkleRoot{ get; set; }
+    public List<TransactionEntry> Transactions { get; private set; }
+    public string MerkleRoot { get; set; }
 
-    public Block(string blockHost, string prevBlockHost, int difficulty, int nonce)
+    public Block(int difficulty, List<TransactionEntry> transactions)
     {
-        BlockHost = blockHost;
-        PrevBlockHost = prevBlockHost;
+        PrevBlockHash = new string('0', 64);
         Difficulty = difficulty;
-        Nonce = nonce;
-        Transactions = new DAG();
+        Transactions = transactions;
     }
 }

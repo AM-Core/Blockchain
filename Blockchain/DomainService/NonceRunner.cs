@@ -3,26 +3,26 @@ using Domain.Interfaces;
 
 namespace DomainService;
 
-public class NonceRunner : INonceRunner
+public class NonceRunner
 {
-    private readonly IHashingHandler _hashingHandler;
+    private readonly HashingHandler _hashingHandler;
 
-    public NonceRunner(IHashingHandler hashingHandler)
+    public NonceRunner(HashingHandler hashingHandler)
     {
         _hashingHandler = hashingHandler;
     }
 
-    public long FindValidNonce(Block block, int difficulty, IHashingHandler hasher)
+    public long FindValidNonce(Block block)
     {
         throw new NotImplementedException();
     }
 
-    public Task<long> FindValidNonceAsync(Block block, int difficulty, IHashingHandler hasher)
+    public Task<long> FindValidNonceAsync(Block block)
     {
         throw new NotImplementedException();
     }
 
-    public bool IsNonceValid(Block block, long nonce, int difficulty)
+    public bool IsNonceValid(Block block)
     {
         throw new NotImplementedException();
     }

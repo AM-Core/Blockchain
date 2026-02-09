@@ -1,7 +1,7 @@
 ﻿namespace Domain;
 
-public class MiningConfig(int difficulty, int size)
+public class MiningConfig
 {
-    public int Difficulty { get; set; } = difficulty;
-    public int Size { get; set; } = size;
+    public int Difficulty { get; set; }
+    public int Size { get; } = 10000;
 }

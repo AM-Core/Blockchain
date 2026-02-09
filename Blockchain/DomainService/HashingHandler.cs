@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DomainService;
 
-public class HashingHandler : IHashingHandler
+public class HashingHandler
 {
     public string ComputeHash(string data)
     {
@@ -20,8 +20,8 @@ public class HashingHandler : IHashingHandler
     public string ComputeBlockHash(Block block)
     {
         var blockData = string.Concat(
-            block.BlockHost,
-            block.PrevBlockHost,
+            block.BlockHash,
+            block.PrevBlockHash,
             block.Difficulty.ToString(),
             block.Nonce.ToString(),
             block.MerkleRoot
@@ -35,28 +35,28 @@ public class HashingHandler : IHashingHandler
         return computedHash.Equals(hash, StringComparison.OrdinalIgnoreCase);
     }
 
-    public string ComputeTransactionHash(Transaction transaction)
+    public string ComputeTransactionHash(TransactionEntry transactionEntry)
     {
         var txData = new StringBuilder();
-        txData.Append(transaction.Id);
+        txData.Append(transactionEntry.Id);
         
-        foreach (var input in transaction.Inputs)
+        foreach (var input in transactionEntry.Inputs)
         {
             txData.Append(input.ToString());
         }
         
-        foreach (var output in transaction.Outputs)
+        foreach (var output in transactionEntry.Outputs)
         {
             txData.Append(output.ToString());
         }
         
-        txData.Append(transaction.Fee.ToString("F8"));
-        txData.Append(transaction.Size.ToString());
+        txData.Append(transactionEntry.Fee.ToString("F8"));
+        txData.Append(transactionEntry.Size.ToString());
         
         return ComputeHash(txData.ToString());
     }
 
-    public string ComputeMerkleRoot(List<Transaction> transactions)
+    public string ComputeMerkleRoot(List<TransactionEntry> transactions)
     {
         if (transactions == null || transactions.Count == 0)
         {

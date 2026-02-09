@@ -12,7 +12,7 @@ public class ResultWriter : IResultWriter
         throw new NotImplementedException();
     }
 
-    public string WriteTransaction(Transaction transaction)
+    public string WriteTransaction(TransactionEntry transactionEntry)
     {
         throw new NotImplementedException();
     }

@@ -1,6 +1,6 @@
 ﻿namespace Domain.Transaction;
 
-public class Transaction
+public class TransactionEntry
 {
     public string Id { get; private set; }
     public List<Input> Inputs { get; set; }
@@ -10,7 +10,7 @@ public class Transaction
     public double Fee { get; set; } = 0;
     public int Size { get; set; } = 0;
 
-    public Transaction(string id)
+    public TransactionEntry(string id)
     {
         Id = id;
         Inputs = new List<Input>();
