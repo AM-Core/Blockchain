@@ -20,8 +20,8 @@ public class HashingHandler : IHashingHandler
     public string ComputeBlockHash(Block block)
     {
         var blockData = string.Concat(
-            block.BlockHost,
-            block.PrevBlockHost,
+            block.BlockHash,
+            block.PrevBlockHash,
             block.Difficulty.ToString(),
             block.Nonce.ToString(),
             block.MerkleRoot

@@ -12,17 +12,17 @@ public class NonceRunner : INonceRunner
         _hashingHandler = hashingHandler;
     }
 
-    public long FindValidNonce(Block block, int difficulty, IHashingHandler TransactionEntry)
+    public long FindValidNonce(Block block)
     {
         throw new NotImplementedException();
     }
 
-    public Task<long> FindValidNonceAsync(Block block, int difficulty, IHashingHandler hasher)
+    public Task<long> FindValidNonceAsync(Block block)
     {
         throw new NotImplementedException();
     }
 
-    public bool IsNonceValid(Block block, long nonce, int difficulty)
+    public bool IsNonceValid(Block block)
     {
         throw new NotImplementedException();
     }

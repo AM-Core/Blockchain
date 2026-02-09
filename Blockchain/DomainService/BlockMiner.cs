@@ -7,27 +7,26 @@ public class BlockMiner : IBlockMiner
 {
     private readonly HashingHandler _hashingHandler;
     private readonly NonceRunner _nonceRunner;
-    private readonly MiningConfig _miningConfig;
+    private readonly Mempool _mempool;
 
-    public BlockMiner(NonceRunner nonceRunner, HashingHandler hashingHandler, 
-        MiningConfig miningConfig)
+    public BlockMiner()
     {
-        _nonceRunner = nonceRunner;
-        _hashingHandler = hashingHandler;
-        _miningConfig = miningConfig;
+        _hashingHandler = new HashingHandler();
+        _nonceRunner = new NonceRunner(new HashingHandler());
+        _mempool = new Mempool();
     }
 
-    public Block MineBlock(Block block, int difficulty)
-    {
-        throw new NotImplementedException();
-    }
-
-    public bool ValidateBlock(Block block, int difficulty)
+    public Block MineBlock(MiningConfig miningConfig)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Block> MineBlockAsync(Block block, int difficulty)
+    public bool ValidateBlock(MiningConfig miningConfig)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Block> MineBlockAsync(MiningConfig miningConfig)
     {
         throw new NotImplementedException();
     }
