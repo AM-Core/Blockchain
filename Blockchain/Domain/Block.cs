@@ -7,7 +7,7 @@ public class Block
     public string BlockHash { get; private set; }
     public string PrevBlockHash { get; private set; }
     public int Difficulty { get; set; }
-    public int Nonce { get; set; }
+    public long Nonce { get; set; }
     public List<TransactionEntry> Transactions { get; private set; }
     public string MerkleRoot { get; set; }
 

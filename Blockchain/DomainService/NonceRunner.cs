@@ -1,5 +1,4 @@
 ﻿using Domain;
-using Domain.Interfaces;
 
 namespace DomainService;
 
@@ -14,16 +13,17 @@ public class NonceRunner
 
     public long FindValidNonce(Block block)
     {
-        throw new NotImplementedException();
+        for (long nonce = 0;; nonce++)
+        {
+            block.Nonce = nonce;
+            var hash = _hashingHandler.ComputeBlockHash(block);
+            if (GetLeadingZeroCount(hash) > block.Difficulty)
+                return nonce;
+        }
     }
 
-    public Task<long> FindValidNonceAsync(Block block)
+    long GetLeadingZeroCount(string value)
     {
-        throw new NotImplementedException();
-    }
-
-    public bool IsNonceValid(Block block)
-    {
-        throw new NotImplementedException();
+        return value.TakeWhile(c => c == '0').Count();
     }
 }
