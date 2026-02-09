@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DomainService;
 
-public class HashingHandler
+public class HashingHandler : IHashingHandler
 {
     public string ComputeHash(string data)
     {

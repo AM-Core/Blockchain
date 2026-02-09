@@ -3,11 +3,11 @@ using Domain.Interfaces;
 
 namespace DomainService;
 
-public class NonceRunner
+public class NonceRunner : INonceRunner
 {
-    private readonly HashingHandler _hashingHandler;
+    private readonly IHashingHandler _hashingHandler;
 
-    public NonceRunner(HashingHandler hashingHandler)
+    public NonceRunner(IHashingHandler hashingHandler)
     {
         _hashingHandler = hashingHandler;
     }

@@ -3,7 +3,7 @@ using Domain.Interfaces;
 
 namespace DomainService;
 
-public class BlockMiner
+public class BlockMiner : IBlockMiner
 {
     private readonly HashingHandler _hashingHandler;
     private readonly NonceRunner _nonceRunner;
