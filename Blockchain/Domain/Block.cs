@@ -11,11 +11,10 @@ public class Block
     public List<TransactionEntry> Transactions { get; private set; }
     public string MerkleRoot { get; set; }
 
-    public Block(string blockHash, string prevBlockHash, int difficulty)
+    public Block(int difficulty, List<TransactionEntry> transactions)
     {
-        BlockHash = blockHash;
-        PrevBlockHash = prevBlockHash;
+        PrevBlockHash = new string('0', 64);
         Difficulty = difficulty;
-        Transactions = new();
+        Transactions = transactions;
     }
 }

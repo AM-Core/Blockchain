@@ -19,7 +19,7 @@ public class Mempool : IMempool
         _evictionTree = new AVL<int, Block>();
     }
 
-    public bool AddTransaction(string transactionId)
+    public bool AddTransaction(TransactionEntry transaction)
     {
         throw new NotImplementedException();
     }
@@ -34,6 +34,11 @@ public class Mempool : IMempool
         throw new NotImplementedException();
     }
 
+    public List<TransactionEntry> GetTransactionsSortedToCreateBlock()
+    {
+        throw new NotImplementedException();
+    }
+
     public List<TransactionEntry> GetTransactionsByPriority()
     {
         throw new NotImplementedException();
@@ -42,7 +47,7 @@ public class Mempool : IMempool
     {
         throw new NotImplementedException();
     }
-    public void EvictHighestPriorityTransaction()
+    public void EvictHighestPriorityTransaction(int count)
     {
         throw new NotImplementedException();
     }

@@ -16,12 +16,17 @@ public class BlockMiner : IBlockMiner
         _mempool = new Mempool();
     }
 
-    public Block MineBlock(MiningConfig miningConfig)
+    public Block MineBlock(Block block)
     {
         throw new NotImplementedException();
     }
 
-    public bool ValidateBlock(MiningConfig miningConfig)
+    public bool ValidateBlock(Block block)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Block> MineBlockAsync(Block block)
     {
         throw new NotImplementedException();
     }

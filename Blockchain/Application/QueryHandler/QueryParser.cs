@@ -1,7 +1,7 @@
 ﻿using Application.Exceptions;
 using Domain.Command;
 
-namespace Application.QueryParser;
+namespace Application.QueryHandler;
 
 public class QueryParser : IQueryParser
 {

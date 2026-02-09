@@ -2,7 +2,7 @@
 
 public interface IBlockMiner
 {
-    Block MineBlock(MiningConfig miningConfig);
-    bool ValidateBlock(MiningConfig miningConfig);
-    Task<Block> MineBlockAsync(MiningConfig miningConfig);
+    Block MineBlock(Block block);
+    bool ValidateBlock(Block block);
+    Task<Block> MineBlockAsync(Block block);
 }

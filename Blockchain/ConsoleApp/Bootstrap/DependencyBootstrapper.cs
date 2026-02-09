@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.MiningApplication;
 using Domain.Interfaces;
 using IO;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +15,7 @@ public static class DependencyBootstrapper
         services.AddTransient<IResultWriter, ResultWriter>();
         services.AddTransient<ITransactionReader, TransactionReader>();
 
-        services.AddSingleton<MiningApplication>();
+        services.AddSingleton<Handler>();
         
         return services.BuildServiceProvider();
     }
