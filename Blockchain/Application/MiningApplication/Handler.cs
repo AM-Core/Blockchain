@@ -48,7 +48,7 @@ public class Handler
                 blockApplication.MineBlock(_resultWriter, _miningConfig, _blockMiner, _mempool);
                 break;
 
-            case CommandType.SET_DIFFICUTY:
+            case CommandType.SET_DIFFICULTY:
                 var difficultyApplication = new DifficultyApplication();
                 difficultyApplication.SetDifficulty(Convert.ToInt32(command.Argument), _miningConfig);
                 break;

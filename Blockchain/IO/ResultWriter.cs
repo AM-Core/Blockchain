@@ -16,6 +16,7 @@ public class ResultWriter : IResultWriter
     {
         throw new NotImplementedException();
     }
+
     public string WriteMempool(bool ascending = false)
     {
         throw new NotImplementedException();
