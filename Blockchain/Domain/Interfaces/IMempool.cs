@@ -1,17 +1,21 @@
-﻿namespace Domain.Interfaces;
+﻿using Domain.Transaction;
+
+namespace Domain.Interfaces;
 
 public interface IMempool
 {
-    public bool AddTransaction(string transactionId);
+    public bool AddTransaction(TransactionEntry transaction);
 
     public bool RemoveTransaction(string transactionId);
     public bool Exist(string transactionId);
 
-    public List<Transaction.Transaction> GetTransactionsByPriority();
+    public List<TransactionEntry> GetTransactionsSortedToCreateBlock();
+    
+    public List<TransactionEntry> GetTransactionsByPriority();
 
-    public List<Transaction.Transaction> GetTransactionsByEvictionPriority();
+    public List<TransactionEntry> GetTransactionsByEvictionPriority();
 
-    public void EvictHighestPriorityTransaction();
+    public void EvictHighestPriorityTransaction(int count);
 
-    public Transaction.Transaction GetMaxPriorityTransaction();
+    public TransactionEntry GetMaxPriorityTransaction();
 }

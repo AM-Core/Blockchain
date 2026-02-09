@@ -1,5 +1,5 @@
-﻿
-using DataStructures;
+﻿using DataStructures;
+using Domain;
 using Domain.Interfaces;
 using Domain.Transaction;
 
@@ -7,11 +7,19 @@ namespace DomainService;
 
 public class Mempool : IMempool
 {
-    private readonly Dictionary<string, Transaction> _tDict = new Dictionary<string, Transaction>();
-    private readonly DAG _tDag = new DAG();
-    private readonly AVL _priorityTree = new AVL();
-    private readonly AVL _evictionTree = new AVL();
-    public bool AddTransaction(string transactionId)
+    private readonly Dictionary<string, TransactionEntry> _dict;
+    private readonly DAG _dag;
+    private readonly AVL<int, Block> _priorityTree;
+    private readonly AVL<int, Block> _evictionTree;
+    public Mempool()
+    {
+        _dict = new Dictionary<string, TransactionEntry>();
+        _dag = new DAG();
+        _priorityTree = new AVL<int, Block>();
+        _evictionTree = new AVL<int, Block>();
+    }
+
+    public bool AddTransaction(TransactionEntry transaction)
     {
         throw new NotImplementedException();
     }
@@ -26,20 +34,25 @@ public class Mempool : IMempool
         throw new NotImplementedException();
     }
 
-    public List<Transaction> GetTransactionsByPriority()
-    {
-        throw new NotImplementedException();
-    }
-    public List<Transaction> GetTransactionsByEvictionPriority()
-    {
-        throw new NotImplementedException();
-    }
-    public void EvictHighestPriorityTransaction()
+    public List<TransactionEntry> GetTransactionsSortedToCreateBlock()
     {
         throw new NotImplementedException();
     }
 
-    public Transaction GetMaxPriorityTransaction()
+    public List<TransactionEntry> GetTransactionsByPriority()
+    {
+        throw new NotImplementedException();
+    }
+    public List<TransactionEntry> GetTransactionsByEvictionPriority()
+    {
+        throw new NotImplementedException();
+    }
+    public void EvictHighestPriorityTransaction(int count)
+    {
+        throw new NotImplementedException();
+    }
+
+    public TransactionEntry GetMaxPriorityTransaction()
     {
         throw new NotImplementedException();
     }

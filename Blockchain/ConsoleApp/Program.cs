@@ -1,10 +1,22 @@
-﻿namespace ConsoleApp
+﻿using Application;
+using Application.MiningApplication;
+using ConsoleApp.Bootstrap;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace ConsoleApp;
+
+internal class Program
 {
-    internal class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        var provider = DependencyBootstrapper.ConfigureServices();
+        var application = provider.GetRequiredService<Handler>();
+        string command = Console.ReadLine()!;
+        
+        while (command != "exit")
         {
-            Console.WriteLine("Hello, World!");
+            application.Handle(command);
+            command = Console.ReadLine()!;
         }
     }
 }
