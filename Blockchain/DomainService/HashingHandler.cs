@@ -2,7 +2,6 @@
 using Domain.Interfaces;
 using Domain.Transaction;
 using DataStructures;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace DomainService;
@@ -11,9 +10,9 @@ public class HashingHandler
 {
     public string ComputeHash(string data)
     {
-        using var sha256 = SHA256.Create();
+        Fnv1aHash Hasher = new Fnv1aHash();
         var bytes = Encoding.UTF8.GetBytes(data);
-        var hashBytes = sha256.ComputeHash(bytes);
+        var hashBytes = Hasher.ComputeHash(bytes);
         return ConvertToHex(hashBytes);
     }
 
