@@ -5,17 +5,17 @@ namespace IO;
 
 public class TransactionReader : ITransactionReader
 {
-    public Transaction ReadTransaction(string value)
+    public TransactionEntry ReadTransaction(string value)
     {
         throw new NotImplementedException();
     }
 
-    public Transaction ReadTransactionFromJson(string json)
+    public TransactionEntry ReadTransactionFromJson(string json)
     {
         throw new NotImplementedException();
     }
 
-    public Transaction ReadAllTransactions(List<string> values)
+    public TransactionEntry ReadAllTransactions(List<string> values)
     {
         throw new NotImplementedException();
     }

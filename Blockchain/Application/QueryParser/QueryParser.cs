@@ -19,16 +19,10 @@ public class QueryParser : IQueryParser
             type = query.Substring(0, query.IndexOf('('));
             arg = query.Substring(query.IndexOf('(') + 1, query.IndexOf(')') - query.IndexOf('(') - 1);
         }
-        if (CommandType.TryParse(type.ToUpper(), out CommandType commandType))
-        {
-            Command command = new Command(commandType, arg);
-            return command;
-        }
-        else
-        {
-            throw new InvalidCommandException();
-        }
+
+        if (Enum.TryParse(type.ToUpper(), out CommandType commandType))
+            return new Command(commandType, arg);
+        
+        throw new InvalidCommandException();
     }
-
 }
-
