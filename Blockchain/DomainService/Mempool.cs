@@ -7,54 +7,134 @@ namespace DomainService;
 
 public class Mempool
 {
-    private readonly Dictionary<string, TransactionEntry> _dict;
+    private readonly HashMap<string, TransactionEntry> _map;
     private readonly DAG<TransactionEntry> _dag;
-    private readonly AVL<int, Block> _priorityTree;
-    private readonly AVL<int, Block> _evictionTree;
+    private readonly AVL<string, TransactionEntry> _priorityTree;
+    private readonly AVL<string, TransactionEntry> _evictionTree;
+    private readonly object _lock = new object();
     public Mempool()
     {
-        _dict = new Dictionary<string, TransactionEntry>();
+        _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
-        _priorityTree = new AVL<int, Block>();
-        _evictionTree = new AVL<int, Block>();
+        _priorityTree = new AVL<string, TransactionEntry>();
+        _evictionTree = new AVL<string, TransactionEntry>();
     }
 
     public bool AddTransaction(TransactionEntry transaction)
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            if (Exist(transaction.Id))
+                return false;
+
+            _map.Put(transaction.Id, transaction);
+            _dag.AddNode(transaction);
+            AddDependencies(transaction);
+            double effectiveFee = transaction.Fee + transaction.ParentFee;
+            int effectiveSize = transaction.Size + transaction.ParentSize;
+            int feeRate = effectiveSize > 0 ? (int)((effectiveFee / effectiveSize) * 1_000_000) : 0;
+            string priorityKey = $"{feeRate:D10}_{transaction.Id}";
+            string evictionKey = $"{-feeRate:D10}_{transaction.Id}";
+            _priorityTree.InsertOne(priorityKey, transaction);
+            _evictionTree.InsertOne(evictionKey, transaction);
+            return true;
+        }
+        
     }
 
     public bool RemoveTransaction(string transactionId)
     {
-        throw new NotImplementedException();
+        lock (_lock)
+        {
+            var transaction = _map.TryGet(transactionId);
+            if (transaction == null)
+                return false;
+
+            double effectiveFee = transaction.Fee + transaction.ParentFee;
+            int effectiveSize = transaction.Size + transaction.ParentSize;
+            int feeRate = effectiveSize > 0 ? (int)((effectiveFee / effectiveSize) * 1_000_000) : 0;
+            string priorityKey = $"{feeRate:D10}_{transaction.Id}";
+            string evictionKey = $"{-feeRate:D10}_{transaction.Id}";
+
+            _map.Remove(transactionId);
+            _dag.RemoveNode(transaction);
+            _priorityTree.DeleteOne(priorityKey, transaction);
+            _evictionTree.DeleteOne(evictionKey, transaction);
+
+            return true;
+        }
+        
     }
 
     public bool Exist(string transactionId)
     {
-        throw new NotImplementedException();
+        return _map.TryGet(transactionId) != null;
     }
 
     public List<TransactionEntry> GetTransactionsSortedToCreateBlock()
     {
-        throw new NotImplementedException();
+        try
+        {
+            return _dag.TopologicalSort();
+        }
+        catch (InvalidOperationException)
+        {
+            return new List<TransactionEntry>();
+        }
     }
 
     public List<TransactionEntry> GetTransactionsByPriority()
     {
-        throw new NotImplementedException();
+        return _priorityTree.GetValues();
     }
+
     public List<TransactionEntry> GetTransactionsByEvictionPriority()
     {
-        throw new NotImplementedException();
+        return _evictionTree.GetValues();
     }
+
     public void EvictHighestPriorityTransaction(int count)
     {
-        throw new NotImplementedException();
+        if (count <= 0)
+            return;
+
+        for (int i = 0; i < count; i++)
+        {
+            var transaction = _evictionTree.GetMin();
+            if (transaction == null)
+                break;
+
+            RemoveTransaction(transaction.Id);
+        }
     }
 
-    public TransactionEntry GetMaxPriorityTransaction()
+    private void AddDependencies(TransactionEntry transaction)
     {
-        throw new NotImplementedException();
+        foreach (var input in transaction.Inputs)
+        {
+            var parentTx = _map.TryGet(input.PrevId);
+            if (parentTx != null)
+            {
+                try
+                {
+                    _dag.AddEdge(parentTx, transaction);
+                }
+                catch (InvalidOperationException)
+                {
+                    _dag.RemoveNode(transaction);
+                    _map.Remove(transaction.Id);
+                    return;
+                }
+            }
+        }
     }
-
+    
+    public TransactionEntry? GetMaxPriorityTransaction()
+    {
+        return _priorityTree.GetMax();
+    }
+    public TransactionEntry? GetTransaction(string transactionId)
+    {
+        return _map.TryGet(transactionId);
+    }
 }

@@ -193,6 +193,47 @@ public class AVL<TKey, TValue>
         UpdateHeight(x);
     }
 
+    public List<TValue> GetValues()
+    {
+        var values = new List<TValue>();
+        InOrderTraversal(_root, values);
+        return values;
+    }
+
+    private void InOrderTraversal(AVLNode<TKey, TValue>? node, List<TValue> values)
+    {
+        if (node == null)   
+            return;
+        InOrderTraversal(node.Left, values);
+        values.Add(node.Value);
+        InOrderTraversal(node.Right, values);
+    }
+
+    public TValue GetMax()
+    {
+        if (_root == null)
+            return default;
+
+        AVLNode<TKey, TValue>? current = _root;
+        while (current?.Right != null)
+        {
+            current = current.Right;
+        }
+        return current.Value;
+    }
+    public TValue GetMin()
+    {
+        if (_root == null)
+            return default;
+
+        AVLNode<TKey, TValue>? current = _root;
+        while (current?.Left != null)
+        {
+            current = current.Left;
+        }
+        return current.Value;
+    }
+
     private void ReLink(AVLNode<TKey, TValue> parent, AVLNode<TKey, TValue>? child, bool isLeft)
     {
         if (child != null)
@@ -228,6 +269,7 @@ public class AVL<TKey, TValue>
 
         return null;
     }
+
 }
 
 public class AVLNode<TKey, TValue>
