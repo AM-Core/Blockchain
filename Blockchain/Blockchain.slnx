@@ -1,20 +1,24 @@
 <Solution>
   <Folder Name="/BlockInfos/" />
   <Folder Name="/Domain/">
-    <Project Path="Domain/Domain.csproj" Id="051576ba-e96d-40c7-85d2-9790667d29d6" />
-    <Project Path="DomainService/DomainService.csproj" Id="0a1ae33d-25df-40ef-b948-98987cf5c88d" />
+    <Project Path="Domain/Domain.csproj" />
+    <Project Path="DomainService/DomainService.csproj" />
   </Folder>
   <Folder Name="/Frameworks/">
-    <Project Path="DataStructures/DataStructures.csproj" Id="9d5c0656-a2cf-4f8e-bcd5-5d474c6d6ded" />
+    <Project Path="DataStructures/DataStructures.csproj" />
+    <Project Path="Hash\Hash.csproj" Type="Classic C#" />
+    <File Path="DomainService/Fnv1aHash.cs" />
   </Folder>
   <Folder Name="/Infrastructure/">
-    <Project Path="ApplicationTests/ApplicationTests.csproj" Id="2a85ccad-c03c-43b5-b7c6-54b3fe2a7806" />
-    <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" Id="b63e177c-0448-4c98-af3d-410699a65a8b" />
-    <Project Path="DataStructuresTests/DataStructuresTests.csproj" Id="903d6423-41c5-40a2-b652-4f06e43b7c12" />
-    <Project Path="DomainServicesTests/DomainServicesTests.csproj" Id="b18454f9-114a-4428-b720-146fcec32bc1" />
-    <Project Path="IO/IO.csproj" Id="66c7d91e-39a3-4489-b2d0-b7448963f0ae" />
-    <Project Path="IOTests/IOTests.csproj" Id="9f56c6b0-e70f-4ec0-9634-5d48b024c0d0" />
+    <Project Path="IO/IO.csproj" />
   </Folder>
-  <Project Path="Application/Application.csproj" Id="450c51d7-df02-4468-9c67-1bfb3c058c54" />
+  <Folder Name="/Infrastructure/Tests/">
+    <Project Path="ApplicationTests/ApplicationTests.csproj" />
+    <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" />
+    <Project Path="DataStructuresTests/DataStructuresTests.csproj" />
+    <Project Path="DomainServicesTests/DomainServicesTests.csproj" />
+    <Project Path="IOTests/IOTests.csproj" />
+  </Folder>
+  <Project Path="Application/Application.csproj" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />
 </Solution>
