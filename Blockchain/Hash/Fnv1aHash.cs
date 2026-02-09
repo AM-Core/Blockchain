@@ -1,6 +1,6 @@
-﻿namespace DomainService;
+﻿namespace Hash;
 
-public class Fnv1aHash
+public class Fnv1AHash
 {
     public byte[] ComputeHash(byte[] data)
     {

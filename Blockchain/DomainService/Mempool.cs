@@ -1,6 +1,4 @@
 ﻿using DataStructures;
-using Domain;
-using Domain.Interfaces;
 using Domain.Transaction;
 
 namespace DomainService;
@@ -96,7 +94,9 @@ public class Mempool
     public List<TransactionEntry> GetAllTransactions(bool ascending = false)
     {
         var transactions = _map.GetValues();
-        return ascending ? transactions.OrderBy(tx => tx.Fee).ToList() : transactions.OrderByDescending(tx => tx.Fee).ToList();
+        return ascending ? transactions.OrderBy
+            (tx => tx.Fee).ToList()
+            : transactions.OrderByDescending(tx => tx.Fee).ToList();
     }
 
     public void EvictHighestPriorityTransaction(int count)
@@ -112,6 +112,15 @@ public class Mempool
 
             RemoveTransaction(transaction.Id);
         }
+    }
+    public TransactionEntry? GetMaxPriorityTransaction()
+    {
+        return _priorityTree.GetMax();
+    }
+
+    public TransactionEntry? GetTransaction(string transactionId)
+    {
+        return _map.TryGet(transactionId);
     }
 
     private void AddDependencies(TransactionEntry transaction)
@@ -133,14 +142,5 @@ public class Mempool
                 }
             }
         }
-    }
-    
-    public TransactionEntry? GetMaxPriorityTransaction()
-    {
-        return _priorityTree.GetMax();
-    }
-    public TransactionEntry? GetTransaction(string transactionId)
-    {
-        return _map.TryGet(transactionId);
     }
 }
