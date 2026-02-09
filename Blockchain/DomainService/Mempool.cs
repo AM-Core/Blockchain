@@ -5,16 +5,16 @@ using Domain.Transaction;
 
 namespace DomainService;
 
-public class Mempool : IMempool
+public class Mempool
 {
     private readonly Dictionary<string, TransactionEntry> _dict;
-    private readonly DAG _dag;
+    private readonly DAG<TransactionEntry> _dag;
     private readonly AVL<int, Block> _priorityTree;
     private readonly AVL<int, Block> _evictionTree;
     public Mempool()
     {
         _dict = new Dictionary<string, TransactionEntry>();
-        _dag = new DAG();
+        _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<int, Block>();
         _evictionTree = new AVL<int, Block>();
     }
