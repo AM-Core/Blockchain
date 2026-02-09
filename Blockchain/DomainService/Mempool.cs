@@ -5,7 +5,7 @@ using Domain.Transaction;
 
 namespace DomainService;
 
-public class Mempool : IMempool
+public class Mempool
 {
     private readonly Dictionary<string, TransactionEntry> _dict;
     private readonly DAG _dag;
