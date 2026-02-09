@@ -10,6 +10,7 @@
     <Project Path="DataStructuresTests/DataStructuresTests.csproj" Id="903d6423-41c5-40a2-b652-4f06e43b7c12" />
     <Project Path="DomainServicesTests/DomainServicesTests.csproj" Id="b18454f9-114a-4428-b720-146fcec32bc1" />
     <Project Path="IO/IO.csproj" Id="66c7d91e-39a3-4489-b2d0-b7448963f0ae" />
+    <Project Path="IOTests/IOTests.csproj" Id="9f56c6b0-e70f-4ec0-9634-5d48b024c0d0" />
   </Folder>
   <Project Path="Application/Application.csproj" Id="450c51d7-df02-4468-9c67-1bfb3c058c54" />
   <Project Path="ConsoleApp/ConsoleApp.csproj" />

@@ -65,4 +65,17 @@ public class HashMap<TKey, TValue>
 
         return false;
     }
+
+    public List<TValue> GetValues()
+    {
+        var values = new List<TValue>();
+        foreach (var bucket in _buckets)
+        {
+            foreach (var pair in bucket)
+            {
+                values.Add(pair.Value);
+            }
+        }
+        return values;
+    }
 }
