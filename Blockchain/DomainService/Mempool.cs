@@ -93,6 +93,12 @@ public class Mempool
         return _evictionTree.GetValues();
     }
 
+    public List<TransactionEntry> GetAllTransactions(bool ascending = false)
+    {
+        var transactions = _map.GetValues();
+        return ascending ? transactions.OrderBy(tx => tx.Fee).ToList() : transactions.OrderByDescending(tx => tx.Fee).ToList();
+    }
+
     public void EvictHighestPriorityTransaction(int count)
     {
         if (count <= 0)
