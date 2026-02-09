@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.MiningApplication;
 using ConsoleApp.Bootstrap;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,12 +10,12 @@ internal class Program
     static void Main(string[] args)
     {
         var provider = DependencyBootstrapper.ConfigureServices();
-        var application = provider.GetRequiredService<MiningApplication>();
+        var application = provider.GetRequiredService<Handler>();
         string command = Console.ReadLine()!;
         
         while (command != "exit")
         {
-            application.GetCommand(command);
+            application.Handle(command);
             command = Console.ReadLine()!;
         }
     }
