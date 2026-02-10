@@ -1,5 +1,4 @@
 <Solution>
-  <Folder Name="/BlockInfos/" />
   <Folder Name="/Domain/">
     <Project Path="Domain/Domain.csproj" />
     <Project Path="DomainService/DomainService.csproj" />

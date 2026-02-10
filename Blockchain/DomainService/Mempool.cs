@@ -9,7 +9,7 @@ public class Mempool
     private readonly DAG<TransactionEntry> _dag;
     private readonly AVL<string, TransactionEntry> _priorityTree;
     private readonly AVL<string, TransactionEntry> _evictionTree;
-    private readonly object _lock = new object();
+    private readonly object _lock = new();
     public Mempool()
     {
         _map = new HashMap<string, TransactionEntry>();
