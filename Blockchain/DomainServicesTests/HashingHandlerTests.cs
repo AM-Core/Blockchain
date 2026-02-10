@@ -375,10 +375,10 @@ public class HashingHandlerTests
         };
 
         var input = new Input("prevTx1", 0, "pubKey1", "signature1");
-        transaction.Inputs.Add(input);
+        transaction.inputs.Add(input);
 
         var output = new Output(value, "pubKeyOut1");
-        transaction.Outputs.Add(output);
+        transaction.outputs.Add(output);
 
         return transaction;
     }
