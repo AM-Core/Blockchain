@@ -1,18 +1,18 @@
 ﻿namespace DataStructures;
 
-public class DAG<T>
+public class DAG<TKey>
 {
-    private readonly Dictionary<T, HashSet<T>> _adj = new();
-    private readonly HashSet<T> _nodes = new();
+    private readonly Dictionary<TKey, HashSet<TKey>> _adj = new();
+    private readonly HashSet<TKey> _nodes = new();
 
-    public void AddNode(T node)
+    public void AddNode(TKey node)
     {
         _nodes.Add(node);
         if (!_adj.ContainsKey(node))
-            _adj[node] = new HashSet<T>();
+            _adj[node] = new HashSet<TKey>();
     }
 
-    public void AddEdge(T from, T to)
+    public void AddEdge(TKey from, TKey to)
     {
         AddNode(from);
         AddNode(to);
@@ -24,7 +24,27 @@ public class DAG<T>
         }
     }
 
-    public bool RemoveNode(T node)
+    public List<TKey> GetDependencies(TKey node)
+    {
+        List<TKey> dependencyList = new List<TKey>();
+        Queue<TKey> queue = new Queue<TKey>();
+        TKey newNode;
+        queue.Enqueue(node);
+        
+        
+        
+        while (queue.Count != 0)
+        {
+            newNode = queue.Dequeue();
+            dependencyList.Add(newNode);
+
+            foreach (var n in _adj[newNode])
+                queue.Enqueue(n);
+        }
+
+        return dependencyList;
+    }
+    public bool RemoveNode(TKey node)
     {
         if (!_nodes.Contains(node))
             return false;
@@ -38,16 +58,49 @@ public class DAG<T>
         return true;
     }
 
-    public bool HasCycle()
+    public List<TKey> TopologicalSort()
     {
-        var indeg = new Dictionary<T, int>();
+        var indeg = new Dictionary<TKey, int>();
         foreach (var n in _nodes) indeg[n] = 0;
 
         foreach (var u in _adj.Keys)
         foreach (var v in _adj[u])
             indeg[v]++;
 
-        var q = new Queue<T>();
+        var q = new Queue<TKey>();
+        foreach (var n in _nodes)
+            if (indeg[n] == 0)
+                q.Enqueue(n);
+
+        var order = new List<TKey>();
+        while (q.Count > 0)
+        {
+            var u = q.Dequeue();
+            order.Add(u);
+            foreach (var v in _adj[u])
+            {
+                indeg[v]--;
+                if (indeg[v] == 0)
+                    q.Enqueue(v);
+            }
+        }
+
+        if (order.Count != _nodes.Count)
+            throw new InvalidOperationException("Graph has a cycle.");
+
+        return order;
+    }
+
+    public bool HasCycle()
+    {
+        var indeg = new Dictionary<TKey, int>();
+        foreach (var n in _nodes) indeg[n] = 0;
+
+        foreach (var u in _adj.Keys)
+        foreach (var v in _adj[u])
+            indeg[v]++;
+
+        var q = new Queue<TKey>();
         foreach (var n in _nodes)
             if (indeg[n] == 0)
                 q.Enqueue(n);
@@ -65,38 +118,5 @@ public class DAG<T>
             }
         }
         return visited != _nodes.Count;
-    }
-
-    public List<T> TopologicalSort()
-    {
-        var indeg = new Dictionary<T, int>();
-        foreach (var n in _nodes) indeg[n] = 0;
-
-        foreach (var u in _adj.Keys)
-        foreach (var v in _adj[u])
-            indeg[v]++;
-
-        var q = new Queue<T>();
-        foreach (var n in _nodes)
-            if (indeg[n] == 0)
-                q.Enqueue(n);
-
-        var order = new List<T>();
-        while (q.Count > 0)
-        {
-            var u = q.Dequeue();
-            order.Add(u);
-            foreach (var v in _adj[u])
-            {
-                indeg[v]--;
-                if (indeg[v] == 0)
-                    q.Enqueue(v);
-            }
-        }
-
-        if (order.Count != _nodes.Count)
-            throw new InvalidOperationException("Graph has a cycle.");
-
-        return order;
     }
 }
