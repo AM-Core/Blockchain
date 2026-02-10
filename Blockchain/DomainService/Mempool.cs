@@ -1,4 +1,5 @@
 ﻿using DataStructures;
+using Domain;
 using Domain.Transaction;
 
 namespace DomainService;
@@ -11,7 +12,7 @@ public class Mempool
     private readonly HashMap<string, TransactionEntry> _map;
     private readonly FeeRateCalculator _FeeRateCalculator;
     private readonly AVL<string, TransactionEntry> _priorityTree;
-
+    private readonly MiningConfig _config;
     public Mempool()
     {
         _map = new HashMap<string, TransactionEntry>();
@@ -93,7 +94,26 @@ public class Mempool
     {
         try
         {
-            return _dag.TopologicalSort();
+            var allTransactions = _dag.TopologicalSort();
+            
+            var selectedTransactions = new List<TransactionEntry>();
+            int totalSize = 0;
+            long maxBlockSize = _config.Size;
+
+            foreach (var transaction in allTransactions)
+            {
+                if (totalSize + transaction.Size <= maxBlockSize)
+                {
+                    selectedTransactions.Add(transaction);
+                    totalSize += transaction.Size;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            return selectedTransactions;
         }
         catch (InvalidOperationException)
         {
