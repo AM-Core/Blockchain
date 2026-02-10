@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Domain.Transaction;
 using IO;
 
@@ -8,9 +7,6 @@ namespace IOTests;
 [TestFixture]
 public class TransactionReaderTests
 {
-    private TransactionReader _reader;
-    private string _testDirectory;
-
     [SetUp]
     public void Setup()
     {
@@ -27,17 +23,20 @@ public class TransactionReaderTests
             if (Directory.Exists(_testDirectory))
                 Directory.Delete(_testDirectory, true);
         }
-        catch { }
+        catch
+        {
+        }
     }
 
-    #region ReadTransaction Tests
+    private TransactionReader _reader;
+    private string _testDirectory;
 
     [Test]
     public void ReadTransaction_ValidJsonFile_ReturnsTransaction()
     {
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.5, 300);
-        string filePath = Path.Combine(_testDirectory, "test_transaction.json");
+        var filePath = Path.Combine(_testDirectory, "test_transaction.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -55,7 +54,7 @@ public class TransactionReaderTests
     {
         // Arrange
         var transaction = CreateTestTransaction("tx1", 2.0, 250);
-        string filePath = Path.Combine(_testDirectory, "transaction_with_io.json");
+        var filePath = Path.Combine(_testDirectory, "transaction_with_io.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -74,7 +73,7 @@ public class TransactionReaderTests
     {
         // Arrange
         var transaction = CreateTestTransaction("tx1", 0.0, 250);
-        string filePath = Path.Combine(_testDirectory, "zero_fee_transaction.json");
+        var filePath = Path.Combine(_testDirectory, "zero_fee_transaction.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -99,7 +98,7 @@ public class TransactionReaderTests
         transaction.Inputs.Add(new Input("prevTx", 0, "pubKey", "sig"));
         transaction.Outputs.Add(new Output(10.0, "pubKeyOut"));
 
-        string filePath = Path.Combine(_testDirectory, "parent_fee_transaction.json");
+        var filePath = Path.Combine(_testDirectory, "parent_fee_transaction.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -115,7 +114,7 @@ public class TransactionReaderTests
     public void ReadTransaction_FileNotFound_ThrowsFileNotFoundException()
     {
         // Arrange
-        string nonExistentPath = Path.Combine(_testDirectory, "nonexistent.json");
+        var nonExistentPath = Path.Combine(_testDirectory, "nonexistent.json");
 
         // Act & Assert
         Assert.Throws<FileNotFoundException>(() => _reader.ReadTransaction(nonExistentPath));
@@ -125,7 +124,7 @@ public class TransactionReaderTests
     public void ReadTransaction_InvalidJson_ThrowsJsonException()
     {
         // Arrange
-        string filePath = Path.Combine(_testDirectory, "invalid.json");
+        var filePath = Path.Combine(_testDirectory, "invalid.json");
         File.WriteAllText(filePath, "{ invalid json content }");
 
         // Act & Assert
@@ -136,7 +135,7 @@ public class TransactionReaderTests
     public void ReadTransaction_EmptyFile_ThrowsInvalidDataException()
     {
         // Arrange
-        string filePath = Path.Combine(_testDirectory, "empty.json");
+        var filePath = Path.Combine(_testDirectory, "empty.json");
         File.WriteAllText(filePath, "null");
 
         // Act & Assert
@@ -147,7 +146,7 @@ public class TransactionReaderTests
     public void ReadTransaction_EmptyJsonObject_ThrowsInvalidDataException()
     {
         // Arrange
-        string filePath = Path.Combine(_testDirectory, "empty_object.json");
+        var filePath = Path.Combine(_testDirectory, "empty_object.json");
         File.WriteAllText(filePath, "{}");
 
         // Act & Assert
@@ -163,9 +162,9 @@ public class TransactionReaderTests
         var transaction2 = CreateTestTransaction("tx2", 2.0, 300);
         var transaction3 = CreateTestTransaction("tx3", 0.5, 200);
 
-        string filePath1 = Path.Combine(_testDirectory, "transaction1.json");
-        string filePath2 = Path.Combine(_testDirectory, "transaction2.json");
-        string filePath3 = Path.Combine(_testDirectory, "transaction3.json");
+        var filePath1 = Path.Combine(_testDirectory, "transaction1.json");
+        var filePath2 = Path.Combine(_testDirectory, "transaction2.json");
+        var filePath3 = Path.Combine(_testDirectory, "transaction3.json");
 
         WriteTransactionToFile(transaction1, filePath1);
         WriteTransactionToFile(transaction2, filePath2);
@@ -196,7 +195,7 @@ public class TransactionReaderTests
         transaction.Inputs.Add(new Input("prevTx3", 0, "pubKey3", "sig3"));
         transaction.Outputs.Add(new Output(10.0, "pubKeyOut"));
 
-        string filePath = Path.Combine(_testDirectory, "multiple_inputs.json");
+        var filePath = Path.Combine(_testDirectory, "multiple_inputs.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -224,7 +223,7 @@ public class TransactionReaderTests
         transaction.Outputs.Add(new Output(3.0, "pubKeyOut2"));
         transaction.Outputs.Add(new Output(2.0, "pubKeyOut3"));
 
-        string filePath = Path.Combine(_testDirectory, "multiple_outputs.json");
+        var filePath = Path.Combine(_testDirectory, "multiple_outputs.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -249,17 +248,11 @@ public class TransactionReaderTests
         };
 
         // Add many inputs and outputs
-        for (int i = 0; i < 50; i++)
-        {
-            transaction.Inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
-        }
+        for (var i = 0; i < 50; i++) transaction.Inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
 
-        for (int i = 0; i < 50; i++)
-        {
-            transaction.Outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));
-        }
+        for (var i = 0; i < 50; i++) transaction.Outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));
 
-        string filePath = Path.Combine(_testDirectory, "large_transaction.json");
+        var filePath = Path.Combine(_testDirectory, "large_transaction.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -271,16 +264,12 @@ public class TransactionReaderTests
         Assert.That(result.Outputs.Count, Is.EqualTo(50));
     }
 
-    #endregion
-
-    #region Round-Trip Tests
-
     [Test]
     public void ReadTransaction_RoundTrip_PreservesAllData()
     {
         // Arrange
         var originalTransaction = CreateTestTransaction("tx1", 2.5, 350);
-        string filePath = Path.Combine(_testDirectory, "roundtrip.json");
+        var filePath = Path.Combine(_testDirectory, "roundtrip.json");
         WriteTransactionToFile(originalTransaction, filePath);
 
         // Act
@@ -296,16 +285,12 @@ public class TransactionReaderTests
         Assert.That(readTransaction.Outputs.Count, Is.EqualTo(originalTransaction.Outputs.Count));
     }
 
-    #endregion
-
-    #region Edge Cases
-
     [Test]
     public void ReadTransaction_WithSpecialCharactersInId_ReturnsCorrectly()
     {
         // Arrange
         var transaction = CreateTestTransaction("tx_special-123!@#", 1.0, 250);
-        string filePath = Path.Combine(_testDirectory, "special_chars.json");
+        var filePath = Path.Combine(_testDirectory, "special_chars.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -330,7 +315,7 @@ public class TransactionReaderTests
         transaction.Inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
         transaction.Outputs.Add(new Output(double.MaxValue / 2, "pubKeyOut1"));
 
-        string filePath = Path.Combine(_testDirectory, "large_values.json");
+        var filePath = Path.Combine(_testDirectory, "large_values.json");
         WriteTransactionToFile(transaction, filePath);
 
         // Act
@@ -341,10 +326,6 @@ public class TransactionReaderTests
         Assert.That(result.Fee, Is.EqualTo(999999.999999));
         Assert.That(result.Size, Is.EqualTo(int.MaxValue));
     }
-
-    #endregion
-
-    #region Helper Methods
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)
     {
@@ -365,9 +346,7 @@ public class TransactionReaderTests
 
     private void WriteTransactionToFile(TransactionEntry transaction, string filePath)
     {
-        string json = JsonSerializer.Serialize(transaction, new JsonSerializerOptions { WriteIndented = true });
+        var json = JsonSerializer.Serialize(transaction, new JsonSerializerOptions { WriteIndented = true });
         File.WriteAllText(filePath, json);
     }
-
-    #endregion
 }

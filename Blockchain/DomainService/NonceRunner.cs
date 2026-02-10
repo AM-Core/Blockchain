@@ -22,7 +22,7 @@ public class NonceRunner
         }
     }
 
-    long GetLeadingZeroCount(string value)
+    private long GetLeadingZeroCount(string value)
     {
         return value.TakeWhile(c => c == '0').Count();
     }

@@ -1,4 +1,3 @@
-using System.IO;
 using System.Text.Json;
 using Domain;
 using Domain.Transaction;
@@ -10,11 +9,6 @@ namespace IOTests;
 [TestFixture]
 public class ResultWriterTests
 {
-    private ResultWriter _writer;
-    private Mempool _mempool;
-    private string _testDirectory;
-    private string _resultDir;
-
     [SetUp]
     public void Setup()
     {
@@ -34,16 +28,21 @@ public class ResultWriterTests
             if (Directory.Exists(_testDirectory))
                 Directory.Delete(_testDirectory, true);
         }
-        catch { }
+        catch
+        {
+        }
     }
 
-    #region WriteBlock Tests
+    private ResultWriter _writer;
+    private Mempool _mempool;
+    private string _testDirectory;
+    private string _resultDir;
 
     [Test]
     public void WriteBlock_ValidBlock_CreatesJsonFile()
     {
         var block = CreateTestBlock();
-        string filePath = _writer.WriteBlock(block);
+        var filePath = _writer.WriteBlock(block);
         Assert.That(File.Exists(filePath), Is.True);
         Assert.That(filePath, Does.StartWith("Result"));
         Assert.That(filePath, Does.EndWith(".json"));
@@ -53,22 +52,18 @@ public class ResultWriterTests
     public void WriteBlock_WritesCorrectContent()
     {
         var block = CreateTestBlock();
-        string filePath = _writer.WriteBlock(block);
-        string json = File.ReadAllText(filePath);
+        var filePath = _writer.WriteBlock(block);
+        var json = File.ReadAllText(filePath);
         var deserialized = JsonSerializer.Deserialize<Block>(json);
         Assert.That(deserialized, Is.Not.Null);
         Assert.That(deserialized.Difficulty, Is.EqualTo(block.Difficulty));
     }
 
-    #endregion
-
-    #region WriteTransaction Tests
-
     [Test]
     public void WriteTransaction_ValidTransaction_CreatesJsonFile()
     {
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
-        string filePath = _writer.WriteTransaction(transaction);
+        var filePath = _writer.WriteTransaction(transaction);
         Assert.That(File.Exists(filePath), Is.True);
         Assert.That(filePath, Does.StartWith("Result"));
     }
@@ -77,20 +72,16 @@ public class ResultWriterTests
     public void WriteTransaction_WritesCorrectContent()
     {
         var transaction = CreateTestTransaction("tx1", 1.5, 300);
-        string filePath = _writer.WriteTransaction(transaction);
-        string json = File.ReadAllText(filePath);
+        var filePath = _writer.WriteTransaction(transaction);
+        var json = File.ReadAllText(filePath);
         var deserialized = JsonSerializer.Deserialize<TransactionEntry>(json);
         Assert.That(deserialized.Id, Is.EqualTo("tx1"));
     }
 
-    #endregion
-
-    #region WriteMempool Tests
-
     [Test]
     public void WriteMempool_EmptyMempool_CreatesJsonFile()
     {
-        string filePath = _writer.WriteMempool();
+        var filePath = _writer.WriteMempool();
         Assert.That(File.Exists(filePath), Is.True);
         Assert.That(filePath, Does.StartWith("Result"));
     }
@@ -100,13 +91,11 @@ public class ResultWriterTests
     {
         _mempool.AddTransaction(CreateTestTransaction("tx1", 1.0, 250));
         _mempool.AddTransaction(CreateTestTransaction("tx2", 2.0, 300));
-        string filePath = _writer.WriteMempool();
-        string json = File.ReadAllText(filePath);
+        var filePath = _writer.WriteMempool();
+        var json = File.ReadAllText(filePath);
         var deserialized = JsonSerializer.Deserialize<MempoolResult>(json);
         Assert.That(deserialized.TransactionEntries.Count, Is.EqualTo(2));
     }
-
-    #endregion
 
     private Block CreateTestBlock()
     {

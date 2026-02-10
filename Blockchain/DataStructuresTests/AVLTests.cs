@@ -1,20 +1,17 @@
 using DataStructures;
-using NUnit.Framework;
 
 namespace DataStructuresTests;
 
 [TestFixture]
 public class AVLTests
 {
-    private AVL<int, string> _avl;
-
     [SetUp]
     public void Setup()
     {
         _avl = new AVL<int, string>();
     }
 
-    #region InsertOne Tests
+    private AVL<int, string> _avl;
 
     [Test]
     public void InsertOne_IntoEmptyTree_InsertsSuccessfully()
@@ -62,13 +59,10 @@ public class AVLTests
     public void InsertOne_AscendingOrder_MaintainsBalance()
     {
         // Act - Insert in ascending order (worst case for unbalanced BST)
-        for (int i = 1; i <= 10; i++)
-        {
-            _avl.InsertOne(i, $"value_{i}");
-        }
+        for (var i = 1; i <= 10; i++) _avl.InsertOne(i, $"value_{i}");
 
         // Assert - All elements should be searchable
-        for (int i = 1; i <= 10; i++)
+        for (var i = 1; i <= 10; i++)
         {
             var result = _avl.Search(i);
             Assert.That(result, Is.Not.Null);
@@ -80,13 +74,10 @@ public class AVLTests
     public void InsertOne_DescendingOrder_MaintainsBalance()
     {
         // Act - Insert in descending order
-        for (int i = 10; i >= 1; i--)
-        {
-            _avl.InsertOne(i, $"value_{i}");
-        }
+        for (var i = 10; i >= 1; i--) _avl.InsertOne(i, $"value_{i}");
 
         // Assert - All elements should be searchable
-        for (int i = 1; i <= 10; i++)
+        for (var i = 1; i <= 10; i++)
         {
             var result = _avl.Search(i);
             Assert.That(result, Is.Not.Null);
@@ -101,10 +92,7 @@ public class AVLTests
         int[] keys = { 50, 25, 75, 10, 30, 60, 80, 5, 15, 27, 55 };
 
         // Act
-        foreach (var key in keys)
-        {
-            _avl.InsertOne(key, $"value_{key}");
-        }
+        foreach (var key in keys) _avl.InsertOne(key, $"value_{key}");
 
         // Assert
         foreach (var key in keys)
@@ -131,10 +119,6 @@ public class AVLTests
         Assert.That(avlString.Search("banana")?[0], Is.EqualTo(2));
         Assert.That(avlString.Search("cherry")?[0], Is.EqualTo(3));
     }
-
-    #endregion
-
-    #region Search Tests
 
     [Test]
     public void Search_ExistingKey_ReturnsValue()
@@ -178,13 +162,10 @@ public class AVLTests
     public void Search_AfterMultipleInserts_FindsAllElements()
     {
         // Arrange
-        for (int i = 1; i <= 100; i++)
-        {
-            _avl.InsertOne(i, $"value_{i}");
-        }
+        for (var i = 1; i <= 100; i++) _avl.InsertOne(i, $"value_{i}");
 
         // Act & Assert
-        for (int i = 1; i <= 100; i++)
+        for (var i = 1; i <= 100; i++)
         {
             var result = _avl.Search(i);
             Assert.That(result, Is.Not.Null);
@@ -206,10 +187,6 @@ public class AVLTests
         Assert.That(result, Is.Not.Null);
         Assert.That(result[0], Is.EqualTo("updated_ten"));
     }
-
-    #endregion
-
-    #region DeleteOne Tests
 
     [Test]
     public void DeleteOne_ExistingLeafNode_RemovesSuccessfully()
@@ -315,19 +292,13 @@ public class AVLTests
     public void DeleteOne_MultipleDeletes_MaintainsTreeIntegrity()
     {
         // Arrange
-        for (int i = 1; i <= 10; i++)
-        {
-            _avl.InsertOne(i, $"value_{i}");
-        }
+        for (var i = 1; i <= 10; i++) _avl.InsertOne(i, $"value_{i}");
 
         // Act - Delete odd numbers
-        for (int i = 1; i <= 10; i += 2)
-        {
-            _avl.DeleteOne(i, $"value_{i}");
-        }
+        for (var i = 1; i <= 10; i += 2) _avl.DeleteOne(i, $"value_{i}");
 
         // Assert - Even numbers should still exist
-        for (int i = 2; i <= 10; i += 2)
+        for (var i = 2; i <= 10; i += 2)
         {
             var result = _avl.Search(i);
             Assert.That(result, Is.Not.Null);
@@ -335,10 +306,7 @@ public class AVLTests
         }
 
         // Assert - Odd numbers should be deleted
-        for (int i = 1; i <= 10; i += 2)
-        {
-            Assert.That(_avl.Search(i), Is.Null);
-        }
+        for (var i = 1; i <= 10; i += 2) Assert.That(_avl.Search(i), Is.Null);
     }
 
     [Test]
@@ -359,10 +327,6 @@ public class AVLTests
         Assert.That(_avl.Search(5), Is.Null);
         Assert.That(_avl.Search(15), Is.Null);
     }
-
-    #endregion
-
-    #region Balance Tests
 
     [Test]
     public void AVL_LeftLeftCase_PerformsRightRotation()
@@ -420,10 +384,6 @@ public class AVLTests
         Assert.That(_avl.Search(20), Is.Not.Null);
     }
 
-    #endregion
-
-    #region Edge Cases
-
     [Test]
     public void AVL_InsertAndDeleteSameElement_TreeBecomesEmpty()
     {
@@ -439,16 +399,13 @@ public class AVLTests
     public void AVL_LargeDataSet_MaintainsPerformance()
     {
         // Arrange & Act
-        for (int i = 1; i <= 1000; i++)
-        {
-            _avl.InsertOne(i, $"value_{i}");
-        }
+        for (var i = 1; i <= 1000; i++) _avl.InsertOne(i, $"value_{i}");
 
         // Assert - Random searches should all succeed
         var random = new Random(42);
-        for (int i = 0; i < 100; i++)
+        for (var i = 0; i < 100; i++)
         {
-            int key = random.Next(1, 1001);
+            var key = random.Next(1, 1001);
             var result = _avl.Search(key);
             Assert.That(result, Is.Not.Null);
             Assert.That(result[0], Is.EqualTo($"value_{key}"));
@@ -485,10 +442,6 @@ public class AVLTests
         Assert.That(_avl.Search(5)?[0], Is.EqualTo("five"));
     }
 
-    #endregion
-
-    #region Integration Tests
-
     [Test]
     public void AVL_ComplexScenario_MaintainsCorrectness()
     {
@@ -521,22 +474,16 @@ public class AVLTests
     public void AVL_StressTest_InsertsAndDeletesManyElements()
     {
         // Arrange
-        int count = 500;
+        var count = 500;
 
         // Act - Insert
-        for (int i = 0; i < count; i++)
-        {
-            _avl.InsertOne(i, $"value_{i}");
-        }
+        for (var i = 0; i < count; i++) _avl.InsertOne(i, $"value_{i}");
 
         // Act - Delete half
-        for (int i = 0; i < count; i += 2)
-        {
-            _avl.DeleteOne(i, $"value_{i}");
-        }
+        for (var i = 0; i < count; i += 2) _avl.DeleteOne(i, $"value_{i}");
 
         // Assert - Remaining elements should exist
-        for (int i = 1; i < count; i += 2)
+        for (var i = 1; i < count; i += 2)
         {
             var result = _avl.Search(i);
             Assert.That(result, Is.Not.Null);
@@ -544,11 +491,6 @@ public class AVLTests
         }
 
         // Assert - Deleted elements should not exist
-        for (int i = 0; i < count; i += 2)
-        {
-            Assert.That(_avl.Search(i), Is.Null);
-        }
+        for (var i = 0; i < count; i += 2) Assert.That(_avl.Search(i), Is.Null);
     }
-
-    #endregion
 }

@@ -2,8 +2,8 @@
 
 public class AVL<TKey, TValue>
 {
-    private AVLNode<TKey, TValue>? _root;
     private readonly Comparer<TKey> _comparator = Comparer<TKey>.Default;
+    private AVLNode<TKey, TValue>? _root;
 
     public void InsertOne(TKey k, TValue v)
     {
@@ -13,20 +13,20 @@ public class AVL<TKey, TValue>
             return;
         }
 
-        AVLNode<TKey, TValue>? current = _root;
+        var current = _root;
         AVLNode<TKey, TValue>? parent = null;
 
         while (current != null)
         {
             parent = current;
-            int cmp = _comparator.Compare(k, current.Key);
+            var cmp = _comparator.Compare(k, current.Key);
             if (cmp == 0)
             {
                 current.Value = v;
                 return;
             }
 
-            current = (cmp > 0) ? current.Right : current.Left;
+            current = cmp > 0 ? current.Right : current.Left;
         }
 
         if (parent == null)
@@ -40,15 +40,15 @@ public class AVL<TKey, TValue>
 
         UpdateHeight(current);
 
-        AVLNode<TKey, TValue>? z = GetUnBalanceNode(current.Parent);
+        var z = GetUnBalanceNode(current.Parent);
         if (z == null)
             return;
 
-        AVLNode<TKey, TValue>? y = GetHeight(z.Left) > GetHeight(z.Right) ? z.Left : z.Right;
+        var y = GetHeight(z.Left) > GetHeight(z.Right) ? z.Left : z.Right;
         if (y == null)
             return;
 
-        AVLNode<TKey, TValue>? x = GetHeight(y.Left) >= GetHeight(y.Right) ? y.Left : y.Right;
+        var x = GetHeight(y.Left) >= GetHeight(y.Right) ? y.Left : y.Right;
         if (x == null)
             return;
 
@@ -57,7 +57,7 @@ public class AVL<TKey, TValue>
 
     public void DeleteOne(TKey k, TValue v)
     {
-        AVLNode<TKey, TValue>? node = FindNode(k);
+        var node = FindNode(k);
         if (node == null || !Equals(v, node.Value))
             return;
 
@@ -65,7 +65,7 @@ public class AVL<TKey, TValue>
 
         if (node.Left != null && node.Right != null)
         {
-            AVLNode<TKey, TValue> tmp = node.Right;
+            var tmp = node.Right;
             while (tmp.Left != null)
                 tmp = tmp.Left;
 
@@ -74,39 +74,33 @@ public class AVL<TKey, TValue>
             node = tmp;
         }
 
-        AVLNode<TKey, TValue>? child = (node.Left != null) ? node.Left : node.Right;
+        var child = node.Left != null ? node.Left : node.Right;
         start = node.Parent;
 
         if (child != null)
             child.Parent = node.Parent;
 
         if (node.Parent == null)
-        {
             _root = child;
-        }
         else if (node == node.Parent.Left)
-        {
             node.Parent.Left = child;
-        }
         else
-        {
             node.Parent.Right = child;
-        }
 
         while (start != null)
         {
             UpdateHeight(start);
 
-            AVLNode<TKey, TValue>? z = GetUnBalanceNode(start);
+            var z = GetUnBalanceNode(start);
             if (z != null)
             {
-                AVLNode<TKey, TValue>? y = GetHeight(z.Left) > GetHeight(z.Right) ? z.Left : z.Right;
+                var y = GetHeight(z.Left) > GetHeight(z.Right) ? z.Left : z.Right;
                 if (y == null)
                     return;
 
                 AVLNode<TKey, TValue>? x;
                 if (GetHeight(y.Left) == GetHeight(y.Right))
-                    x = (y == z.Left) ? y.Left : y.Right;
+                    x = y == z.Left ? y.Left : y.Right;
                 else
                     x = GetHeight(y.Left) > GetHeight(y.Right) ? y.Left : y.Right;
 
@@ -120,7 +114,7 @@ public class AVL<TKey, TValue>
 
     public List<TValue>? Search(TKey k)
     {
-        AVLNode<TKey, TValue>? node = FindNode(k);
+        var node = FindNode(k);
         if (node == null)
             return null;
 
@@ -129,14 +123,14 @@ public class AVL<TKey, TValue>
 
     private AVLNode<TKey, TValue>? FindNode(TKey k)
     {
-        AVLNode<TKey, TValue>? current = _root;
+        var current = _root;
         while (current != null)
         {
-            int cmp = _comparator.Compare(k, current.Key);
+            var cmp = _comparator.Compare(k, current.Key);
             if (cmp == 0)
                 return current;
 
-            current = (cmp > 0) ? current.Right : current.Left;
+            current = cmp > 0 ? current.Right : current.Left;
         }
 
         return null;
@@ -144,12 +138,12 @@ public class AVL<TKey, TValue>
 
     private void ReStructure(AVLNode<TKey, TValue> x)
     {
-        AVLNode<TKey, TValue>? y = x.Parent;
-        AVLNode<TKey, TValue>? z = y?.Parent;
+        var y = x.Parent;
+        var z = y?.Parent;
         if (y == null || z == null)
             return;
 
-        if ((y == z.Left) == (x == y.Left))
+        if (y == z.Left == (x == y.Left))
         {
             Rotate(y);
         }
@@ -162,11 +156,11 @@ public class AVL<TKey, TValue>
 
     private void Rotate(AVLNode<TKey, TValue> x)
     {
-        AVLNode<TKey, TValue>? y = x.Parent;
+        var y = x.Parent;
         if (y == null)
             return;
 
-        AVLNode<TKey, TValue>? z = y.Parent;
+        var z = y.Parent;
 
         if (z == null)
         {
@@ -202,7 +196,7 @@ public class AVL<TKey, TValue>
 
     private void InOrderTraversal(AVLNode<TKey, TValue>? node, List<TValue> values)
     {
-        if (node == null)   
+        if (node == null)
             return;
         InOrderTraversal(node.Left, values);
         values.Add(node.Value);
@@ -214,23 +208,18 @@ public class AVL<TKey, TValue>
         if (_root == null)
             return default;
 
-        AVLNode<TKey, TValue>? current = _root;
-        while (current?.Right != null)
-        {
-            current = current.Right;
-        }
+        var current = _root;
+        while (current?.Right != null) current = current.Right;
         return current.Value;
     }
+
     public TValue GetMin()
     {
         if (_root == null)
             return default;
 
-        AVLNode<TKey, TValue>? current = _root;
-        while (current?.Left != null)
-        {
-            current = current.Left;
-        }
+        var current = _root;
+        while (current?.Left != null) current = current.Left;
         return current.Value;
     }
 
@@ -269,17 +258,16 @@ public class AVL<TKey, TValue>
 
         return null;
     }
-
 }
 
 public class AVLNode<TKey, TValue>
 {
-    public AVLNode<TKey, TValue>? Parent;
-    public AVLNode<TKey, TValue>? Left;
-    public AVLNode<TKey, TValue>? Right;
-    public TKey Key;
-    public TValue Value;
     public int Height;
+    public TKey Key;
+    public AVLNode<TKey, TValue>? Left;
+    public AVLNode<TKey, TValue>? Parent;
+    public AVLNode<TKey, TValue>? Right;
+    public TValue Value;
 
     public AVLNode(TKey k, TValue v, AVLNode<TKey, TValue>? parent)
     {

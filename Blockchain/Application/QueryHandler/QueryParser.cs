@@ -7,13 +7,10 @@ public class QueryParser : IQueryParser
 {
     public Command Parse(string query)
     {
-        if (query == "")
-        {
-            throw new InvalidCommandException();
-        }
+        if (query == "") throw new InvalidCommandException();
 
-        string type = query;
-        string arg = "";
+        var type = query;
+        var arg = "";
         if (query.Contains('('))
         {
             type = query.Substring(0, query.IndexOf('('));
@@ -22,7 +19,7 @@ public class QueryParser : IQueryParser
 
         if (Enum.TryParse(type.ToUpper(), out CommandType commandType))
             return new Command(commandType, arg);
-        
+
         throw new InvalidCommandException();
     }
 }

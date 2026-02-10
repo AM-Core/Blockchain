@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.IO;
 using Domain;
 using Domain.Interfaces;
 using Domain.Transaction;
@@ -20,8 +19,8 @@ public class ResultWriter : IResultWriter
 
     public string WriteBlock(Block block)
     {
-        string json = JsonSerializer.Serialize(block, new JsonSerializerOptions { WriteIndented = true });
-        string filePath = Path.Combine(_resultDir, $"block_{block.GetHashCode()}.json");
+        var json = JsonSerializer.Serialize(block, new JsonSerializerOptions { WriteIndented = true });
+        var filePath = Path.Combine(_resultDir, $"block_{block.GetHashCode()}.json");
         File.WriteAllText(filePath, json);
 
         return filePath;
@@ -29,8 +28,8 @@ public class ResultWriter : IResultWriter
 
     public string WriteTransaction(TransactionEntry transactionEntry)
     {
-        string json = JsonSerializer.Serialize(transactionEntry, new JsonSerializerOptions { WriteIndented = true });
-        string filePath = Path.Combine(_resultDir, $"transaction_{transactionEntry.GetHashCode()}.json");
+        var json = JsonSerializer.Serialize(transactionEntry, new JsonSerializerOptions { WriteIndented = true });
+        var filePath = Path.Combine(_resultDir, $"transaction_{transactionEntry.GetHashCode()}.json");
         File.WriteAllText(filePath, json);
 
         return filePath;
@@ -39,8 +38,8 @@ public class ResultWriter : IResultWriter
     public string WriteMempool(bool ascending = false)
     {
         var mempoolResult = new MempoolResult(_mempool.GetAllTransactions(ascending));
-        string json = JsonSerializer.Serialize(mempoolResult, new JsonSerializerOptions { WriteIndented = true });
-        string filePath = Path.Combine(_resultDir, $"mempool_{(ascending ? "asc" : "desc")}.json");
+        var json = JsonSerializer.Serialize(mempoolResult, new JsonSerializerOptions { WriteIndented = true });
+        var filePath = Path.Combine(_resultDir, $"mempool_{(ascending ? "asc" : "desc")}.json");
         File.WriteAllText(filePath, json);
 
         return filePath;

@@ -5,8 +5,8 @@ namespace DomainService;
 public class BlockMiner
 {
     private readonly HashingHandler _hashingHandler;
-    private readonly NonceRunner _nonceRunner;
     private readonly Mempool _mempool;
+    private readonly NonceRunner _nonceRunner;
 
     public BlockMiner()
     {

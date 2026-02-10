@@ -1,7 +1,7 @@
-﻿using Domain;
-using Domain.Transaction;
+﻿using System.Text;
 using DataStructures;
-using System.Text;
+using Domain;
+using Domain.Transaction;
 using Hash;
 
 namespace DomainService;
@@ -10,7 +10,7 @@ public class HashingHandler
 {
     public string ComputeHash(string data)
     {
-        Fnv1AHash hasher = new Fnv1AHash();
+        var hasher = new Fnv1AHash();
         var bytes = Encoding.UTF8.GetBytes(data);
         var hashBytes = hasher.ComputeHash(bytes);
         return ConvertToHex(hashBytes);
@@ -38,29 +38,20 @@ public class HashingHandler
     {
         var txData = new StringBuilder();
         txData.Append(transactionEntry.Id);
-        
-        foreach (var input in transactionEntry.Inputs)
-        {
-            txData.Append(input.ToString());
-        }
-        
-        foreach (var output in transactionEntry.Outputs)
-        {
-            txData.Append(output.ToString());
-        }
-        
+
+        foreach (var input in transactionEntry.Inputs) txData.Append(input);
+
+        foreach (var output in transactionEntry.Outputs) txData.Append(output);
+
         txData.Append(transactionEntry.Fee.ToString("F8"));
         txData.Append(transactionEntry.Size.ToString());
-        
+
         return ComputeHash(txData.ToString());
     }
 
     public string ComputeMerkleRoot(List<TransactionEntry> transactions)
     {
-        if (transactions == null || transactions.Count == 0)
-        {
-            return ComputeHash(string.Empty);
-        }
+        if (transactions == null || transactions.Count == 0) return ComputeHash(string.Empty);
 
         var transactionHashes = transactions
             .Select(tx => ComputeTransactionHash(tx))
@@ -73,10 +64,7 @@ public class HashingHandler
     private static string ConvertToHex(byte[] bytes)
     {
         var sb = new StringBuilder(bytes.Length * 2);
-        foreach (var b in bytes)
-        {
-            sb.Append(b.ToString("x2"));
-        }
+        foreach (var b in bytes) sb.Append(b.ToString("x2"));
         return sb.ToString();
     }
 }

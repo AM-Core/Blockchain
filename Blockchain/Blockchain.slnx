@@ -1,23 +1,23 @@
 <Solution>
-  <Folder Name="/Domain/">
-    <Project Path="Domain/Domain.csproj" />
-    <Project Path="DomainService/DomainService.csproj" />
-  </Folder>
-  <Folder Name="/Frameworks/">
-    <Project Path="DataStructures/DataStructures.csproj" />
-    <Project Path="Hash\Hash.csproj" Type="Classic C#" />
-    <File Path="DomainService/Fnv1aHash.cs" />
-  </Folder>
-  <Folder Name="/Infrastructure/">
-    <Project Path="IO/IO.csproj" />
-  </Folder>
-  <Folder Name="/Infrastructure/Tests/">
-    <Project Path="ApplicationTests/ApplicationTests.csproj" />
-    <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" />
-    <Project Path="DataStructuresTests/DataStructuresTests.csproj" />
-    <Project Path="DomainServicesTests/DomainServicesTests.csproj" />
-    <Project Path="IOTests/IOTests.csproj" />
-  </Folder>
-  <Project Path="Application/Application.csproj" />
-  <Project Path="ConsoleApp/ConsoleApp.csproj" />
+    <Folder Name="/Domain/">
+        <Project Path="Domain/Domain.csproj"/>
+        <Project Path="DomainService/DomainService.csproj"/>
+    </Folder>
+    <Folder Name="/Frameworks/">
+        <Project Path="DataStructures/DataStructures.csproj"/>
+        <Project Path="Hash\Hash.csproj" Type="Classic C#"/>
+        <File Path="DomainService/Fnv1aHash.cs"/>
+    </Folder>
+    <Folder Name="/Infrastructure/">
+        <Project Path="IO/IO.csproj"/>
+    </Folder>
+    <Folder Name="/Infrastructure/Tests/">
+        <Project Path="ApplicationTests/ApplicationTests.csproj"/>
+        <Project Path="ConsoleAppTests/ConsoleAppTests.csproj"/>
+        <Project Path="DataStructuresTests/DataStructuresTests.csproj"/>
+        <Project Path="DomainServicesTests/DomainServicesTests.csproj"/>
+        <Project Path="IOTests/IOTests.csproj"/>
+    </Folder>
+    <Project Path="Application/Application.csproj"/>
+    <Project Path="ConsoleApp/ConsoleApp.csproj"/>
 </Solution>

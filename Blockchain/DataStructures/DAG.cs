@@ -26,13 +26,12 @@ public class DAG<TKey>
 
     public List<TKey> GetDependencies(TKey node)
     {
-        List<TKey> dependencyList = new List<TKey>();
-        Queue<TKey> queue = new Queue<TKey>();
+        var dependencyList = new List<TKey>();
+        var queue = new Queue<TKey>();
         TKey newNode;
         queue.Enqueue(node);
-        
-        
-        
+
+
         while (queue.Count != 0)
         {
             newNode = queue.Dequeue();
@@ -44,6 +43,7 @@ public class DAG<TKey>
 
         return dependencyList;
     }
+
     public bool RemoveNode(TKey node)
     {
         if (!_nodes.Contains(node))
@@ -105,7 +105,7 @@ public class DAG<TKey>
             if (indeg[n] == 0)
                 q.Enqueue(n);
 
-        int visited = 0;
+        var visited = 0;
         while (q.Count > 0)
         {
             var u = q.Dequeue();
@@ -117,6 +117,7 @@ public class DAG<TKey>
                     q.Enqueue(v);
             }
         }
+
         return visited != _nodes.Count;
     }
 }
