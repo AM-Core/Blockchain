@@ -8,6 +8,6 @@ public sealed class EvictApplication
     public void EvictMempool(int count, Mempool mempool, IResultWriter resultWriter)
     {
         mempool.EvictHighestPriorityTransaction(count);
-        resultWriter.WriteMempool();
+        resultWriter.WriteMempool(true);
     }
 }

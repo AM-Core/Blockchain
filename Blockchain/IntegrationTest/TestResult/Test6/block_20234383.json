@@ -1,0 +1,95 @@
+{
+  "BlockHash": "0000002a",
+  "PrevBlockHash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "Difficulty": 5,
+  "Nonce": 1121560,
+  "Transactions": [
+    {
+      "Id": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "Inputs": [
+        {
+          "PrevId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "PrevIndex": 0,
+          "PublicKey": null,
+          "Signature": null
+        }
+      ],
+      "Outputs": [
+        {
+          "Value": 6,
+          "PublicKey": "02bbbb..."
+        },
+        {
+          "Value": 4,
+          "PublicKey": "02cccc..."
+        }
+      ],
+      "Fee": 0,
+      "Size": 312
+    },
+    {
+      "Id": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "Inputs": [
+        {
+          "PrevId": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "PrevIndex": 0,
+          "PublicKey": null,
+          "Signature": null
+        }
+      ],
+      "Outputs": [
+        {
+          "Value": 5.8,
+          "PublicKey": "02dddd..."
+        }
+      ],
+      "Fee": 0.2,
+      "Size": 249
+    },
+    {
+      "Id": "Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "Inputs": [
+        {
+          "PrevId": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "PrevIndex": 1,
+          "PublicKey": null,
+          "Signature": null
+        }
+      ],
+      "Outputs": [
+        {
+          "Value": 3.8,
+          "PublicKey": "02eeee..."
+        }
+      ],
+      "Fee": 0.2,
+      "Size": 249
+    },
+    {
+      "Id": "Dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "Inputs": [
+        {
+          "PrevId": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "PrevIndex": 0,
+          "PublicKey": null,
+          "Signature": null
+        },
+        {
+          "PrevId": "Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "PrevIndex": 0,
+          "PublicKey": null,
+          "Signature": null
+        }
+      ],
+      "Outputs": [
+        {
+          "Value": 9.4,
+          "PublicKey": "02ffffffff..."
+        }
+      ],
+      "Fee": 0.2,
+      "Size": 364
+    }
+  ],
+  "MerkleRoot": "022f77d2dcf1720707643956ad453caea48a1b71c495b7ab353e7ab842ae81df"
+}

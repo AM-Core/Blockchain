@@ -1,6 +1,6 @@
-namespace ConsoleAppTests;
+﻿namespace IntegrationTest;
 
-public class Tests
+public class NUnitTestItem1
 {
     [SetUp]
     public void Setup()

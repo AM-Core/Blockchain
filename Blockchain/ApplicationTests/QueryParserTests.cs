@@ -19,7 +19,7 @@ public class QueryParserTests
     public void Parse_SetDifficultyCommand_ReturnsCorrectCommand()
     {
         // Arrange
-        var query = "SETDIFFICULTY(5)";
+        var query = "SETDIFFICULTY 5";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -33,7 +33,7 @@ public class QueryParserTests
     public void Parse_AddTransactionToMempoolCommand_ReturnsCorrectCommand()
     {
         // Arrange
-        var query = "ADDTRANSACTIONTOMEMPOOL(tx123.json)";
+        var query = "ADDTRANSACTIONTOMEMPOOL tx123.json";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -47,7 +47,7 @@ public class QueryParserTests
     public void Parse_EvictMempoolCommand_ReturnsCorrectCommand()
     {
         // Arrange
-        var query = "EVICTMEMPOOL(10)";
+        var query = "EVICTMEMPOOL 10";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -89,7 +89,7 @@ public class QueryParserTests
     public void Parse_CommandWithArgument_ReturnsCommandWithArgument()
     {
         // Arrange
-        var query = "SETDIFFICULTY(3)";
+        var query = "SETDIFFICULTY 3";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -103,7 +103,7 @@ public class QueryParserTests
     public void Parse_LowercaseCommand_ReturnsCorrectCommand()
     {
         // Arrange
-        var query = "mine_block";
+        var query = "mineblock";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -116,7 +116,7 @@ public class QueryParserTests
     public void Parse_MixedCaseCommand_ReturnsCorrectCommand()
     {
         // Arrange
-        var query = "Mine_Block";
+        var query = "MineBlock";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -142,7 +142,7 @@ public class QueryParserTests
     public void Parse_CommandWithNumericArgument_ParsesCorrectly()
     {
         // Arrange
-        var query = "SETDIFFICULTY(42)";
+        var query = "SETDIFFICULTY 42";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -155,7 +155,7 @@ public class QueryParserTests
     public void Parse_CommandWithStringArgument_ParsesCorrectly()
     {
         // Arrange
-        var query = "ADDTRANSACTIONTOMEMPOOL(transaction.json)";
+        var query = "ADDTRANSACTIONTOMEMPOOL transaction.json";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -168,7 +168,7 @@ public class QueryParserTests
     public void Parse_CommandWithPathArgument_ParsesCorrectly()
     {
         // Arrange
-        var query = "ADDTRANSACTIONTOMEMPOOL(./data/tx.json)";
+        var query = "ADDTRANSACTIONTOMEMPOOL ./data/tx.json";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -181,7 +181,7 @@ public class QueryParserTests
     public void Parse_CommandWithComplexArgument_ParsesCorrectly()
     {
         // Arrange
-        var query = "ADDTRANSACTIONTOMEMPOOL(C:\\Users\\data\\transaction123.json)";
+        var query = "ADDTRANSACTIONTOMEMPOOL C:\\Users\\data\\transaction123.json";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -214,7 +214,7 @@ public class QueryParserTests
     public void Parse_InvalidCommandWithArgument_ThrowsInvalidCommandException()
     {
         // Arrange
-        var query = "INVALID_COMMAND(arg)";
+        var query = "INVALID_COMMAND arg";
 
         // Act & Assert
         Assert.Throws<InvalidCommandException>(() => _queryParser.Parse(query));
@@ -234,7 +234,7 @@ public class QueryParserTests
     public void Parse_CommandWithEmptyParentheses_ReturnsEmptyArgument()
     {
         // Arrange
-        var query = "MINEBLOCK()";
+        var query = "MINEBLOCK";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -248,20 +248,20 @@ public class QueryParserTests
     public void Parse_CommandWithWhitespaceInArgument_PreservesWhitespace()
     {
         // Arrange
-        var query = "ADDTRANSACTIONTOMEMPOOL(my transaction.json)";
+        var query = "ADDTRANSACTIONTOMEMPOOL my_transaction.json";
 
         // Act
         var result = _queryParser.Parse(query);
 
         // Assert
-        Assert.That(result.Argument, Is.EqualTo("my transaction.json"));
+        Assert.That(result.Argument, Is.EqualTo("my_transaction.json"));
     }
 
     [Test]
     public void Parse_CommandWithSpecialCharactersInArgument_ParsesCorrectly()
     {
         // Arrange
-        var query = "ADDTRANSACTIONTOMEMPOOL(tx-123_v2.json)";
+        var query = "ADDTRANSACTIONTOMEMPOOL tx-123_v2.json";
 
         // Act
         var result = _queryParser.Parse(query);
@@ -270,9 +270,9 @@ public class QueryParserTests
         Assert.That(result.Argument, Is.EqualTo("tx-123_v2.json"));
     }
 
-    [TestCase("SETDIFFICULTY(1)", CommandType.SETDIFFICULTY, "1")]
-    [TestCase("ADDTRANSACTIONTOMEMPOOL(tx.json)", CommandType.ADDTRANSACTIONTOMEMPOOL, "tx.json")]
-    [TestCase("EVICTMEMPOOL(5)", CommandType.EVICTMEMPOOL, "5")]
+    [TestCase("SETDIFFICULTY 1", CommandType.SETDIFFICULTY, "1")]
+    [TestCase("ADDTRANSACTIONTOMEMPOOL tx.json", CommandType.ADDTRANSACTIONTOMEMPOOL, "tx.json")]
+    [TestCase("EVICTMEMPOOL 5", CommandType.EVICTMEMPOOL, "5")]
     [TestCase("MINEBLOCK", CommandType.MINEBLOCK, "")]
     public void Parse_AllCommandTypes_ReturnsCorrectCommand(string query, CommandType expectedType, string expectedArg)
     {
@@ -288,7 +288,7 @@ public class QueryParserTests
     public void Parse_MultipleCallsWithSameInput_ReturnsSameResult()
     {
         // Arrange
-        var query = "SETDIFFICULTY(5)";
+        var query = "SETDIFFICULTY 5";
 
         // Act
         var result1 = _queryParser.Parse(query);
@@ -303,7 +303,7 @@ public class QueryParserTests
     public void Parse_MultipleCallsWithDifferentInputs_ReturnsCorrectResults()
     {
         // Arrange
-        var query1 = "SETDIFFICULTY(5)";
+        var query1 = "SETDIFFICULTY 5";
         var query2 = "MINEBLOCK";
 
         // Act

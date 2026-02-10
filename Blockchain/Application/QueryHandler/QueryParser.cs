@@ -11,10 +11,10 @@ public class QueryParser : IQueryParser
 
         var type = query;
         var arg = "";
-        if (query.Contains('('))
+        if (query.Contains(' '))
         {
-            type = query.Substring(0, query.IndexOf('('));
-            arg = query.Substring(query.IndexOf('(') + 1, query.IndexOf(')') - query.IndexOf('(') - 1);
+            type = query.Substring(0, query.IndexOf(' '));
+            arg = query.Substring(query.IndexOf(' ') + 1, query.Length - query.IndexOf(' ') - 1);
         }
 
         if (Enum.TryParse(type.ToUpper(), out CommandType commandType))

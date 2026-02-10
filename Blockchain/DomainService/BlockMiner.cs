@@ -27,6 +27,12 @@ public class BlockMiner
 
     public bool ValidateBlock(Block block)
     {
-        throw new NotImplementedException();
+        string merkleRoot = _hashingHandler.ComputeMerkleRoot(block.Transactions);
+        if (merkleRoot == block.MerkleRoot)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

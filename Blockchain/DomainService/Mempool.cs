@@ -9,7 +9,7 @@ public class Mempool
     private readonly AVL<string, TransactionEntry> _evictionTree;
     private readonly object _lock = new();
     private readonly HashMap<string, TransactionEntry> _map;
-    private readonly ParentFeeRateCalculator _parentFeeRateCalculator;
+    private readonly FeeRateCalculator _FeeRateCalculator;
     private readonly AVL<string, TransactionEntry> _priorityTree;
 
     public Mempool()
@@ -18,30 +18,35 @@ public class Mempool
         _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
-        _parentFeeRateCalculator = new ParentFeeRateCalculator();
+        _FeeRateCalculator = new FeeRateCalculator();
     }
 
     public bool AddTransaction(TransactionEntry transaction)
     {
         lock (_lock)
         {
-            if (Exist(transaction.Id))
-                return false;
+            if (IsValid(transaction))
+            {
+                if (Exist(transaction.Id))
+                    return false;
 
-            _map.Put(transaction.Id, transaction);
-            _dag.AddNode(transaction);
-            AddDependencies(transaction);
-            _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
+                _map.Put(transaction.Id, transaction);
+                _dag.AddNode(transaction);
+                AddDependencies(transaction);
 
-            var effectiveFee = transaction.Fee + transaction.ParentFee;
-            var effectiveSize = transaction.Size + transaction.ParentSize;
-            var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
-            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
-            _priorityTree.InsertOne(priorityKey, transaction);
-            _evictionTree.InsertOne(evictionKey, transaction);
-            return true;
+                _FeeRateCalculator.CalculateFee(transaction, _map);
+                var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
+                var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
+                _priorityTree.InsertOne(priorityKey, transaction);
+                _evictionTree.InsertOne(priorityKey, transaction);
+                return true;
+            }
+            else
+            {
+                throw new InvalidValueException("Invalid Value for Outputs !");
+            }
         }
+            
     }
 
     public bool RemoveTransaction(string transactionId)
@@ -52,23 +57,33 @@ public class Mempool
             if (transaction == null)
                 return false;
 
-            _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
-            
-            var effectiveFee = transaction.Fee + transaction.ParentFee;
-            var effectiveSize = transaction.Size + transaction.ParentSize;
-            var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
-            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
+            var dependenciesToRemove = _dag.GetDependencies(transaction);
 
-            _map.Remove(transactionId);
-            _dag.RemoveNode(transaction);
-            _priorityTree.DeleteOne(priorityKey, transaction);
-            _evictionTree.DeleteOne(evictionKey, transaction);
+            foreach (var dependentTx in dependenciesToRemove)
+            {
+                if (dependentTx.Id == transactionId)
+                    continue;
+
+                RemoveTransactionInternal(dependentTx);
+            }
+
+            RemoveTransactionInternal(transaction);
 
             return true;
         }
     }
+    private void RemoveTransactionInternal(TransactionEntry transaction)
+    {
+        _FeeRateCalculator.CalculateFee(transaction, _map);
+        var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
+        var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+        var evictionKey = $"{feeRate:D10}_{transaction.Id}";
 
+        _map.Remove(transaction.Id);
+        _dag.RemoveNode(transaction);
+        _priorityTree.DeleteOne(priorityKey, transaction);
+        _evictionTree.DeleteOne(evictionKey, transaction);
+    }
     public bool Exist(string transactionId)
     {
         return _map.TryGet(transactionId) != null;
@@ -150,5 +165,19 @@ public class Mempool
                     return;
                 }
         }
+    }
+
+    private bool IsValid(TransactionEntry transaction)
+    {
+        foreach (var output in transaction.Outputs)
+        {
+            if (output.Value == Double.PositiveInfinity || output.Value < 0)
+            {
+                return false;
+            }
+            
+        }
+
+        return true;
     }
 }

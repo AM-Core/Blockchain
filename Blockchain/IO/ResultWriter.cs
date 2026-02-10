@@ -9,11 +9,18 @@ namespace IO;
 public class ResultWriter : IResultWriter
 {
     private readonly Mempool _mempool;
-    private readonly string _resultDir = @"C:\Projects\C#\Blockchain\Blockchain\IntegrationTests\Results";
+    private readonly string _resultDir;
 
     public ResultWriter(Mempool mempool)
     {
         _mempool = mempool;
+        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
+
+        if (solutionRoot == null)
+            throw new InvalidOperationException("Could not determine solution root directory");
+
+        _resultDir = Path.Combine(solutionRoot, "Results");
         Directory.CreateDirectory(_resultDir);
     }
 

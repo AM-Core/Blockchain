@@ -544,13 +544,11 @@ public class MempoolTests
     [Test]
     public void Mempool_TransactionWithParentFee_CalculatesEffectiveFeeRate()
     {
-        // Arrange - Transaction with parent fee
+        // Arrange - Transaction
         var transaction = new TransactionEntry("tx1")
         {
             Fee = 1.0,
-            Size = 250,
-            ParentFee = 0.5,
-            ParentSize = 100
+            Size = 250
         };
         transaction.Inputs.Add(new Input("prevTx", 0, "pubKey", "signature"));
         transaction.Outputs.Add(new Output(10.0, "pubKey"));
