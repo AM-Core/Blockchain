@@ -1,6 +1,6 @@
 # 🚀 AM-Core Blockchain
 
-**Developed by: Amir & Moein Hosseini** 🤝🔥
+**Developed by: AmirHossein Karimi & Moein Hosseini** 🤝🔥
 
 Welcome to our joint project! We built this Blockchain simulation from scratch using **C#** and **.NET 8**. It's not just a simple script; we designed it with a clean architecture (Domain, Application, ConsoleApp) to make it robust and cool! 😎🏗️
 
