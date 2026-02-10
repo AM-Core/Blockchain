@@ -11,7 +11,6 @@ public class Block
         PrevBlockHash = new string('0', 64);
     }
 
-    private const int LimitSize = 20;
     public string BlockHash { get; set; }
     public string PrevBlockHash { get; private set; }
     public long Difficulty { get; private set; }
