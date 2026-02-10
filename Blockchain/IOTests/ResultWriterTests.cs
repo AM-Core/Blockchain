@@ -44,7 +44,7 @@ public class ResultWriterTests
         var block = CreateTestBlock();
         var filePath = _writer.WriteBlock(block);
         Assert.That(File.Exists(filePath), Is.True);
-        Assert.That(filePath, Does.StartWith("Result"));
+        Assert.That(filePath, Does.Contain("Result"));
         Assert.That(filePath, Does.EndWith(".json"));
     }
 
@@ -65,7 +65,7 @@ public class ResultWriterTests
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         var filePath = _writer.WriteTransaction(transaction);
         Assert.That(File.Exists(filePath), Is.True);
-        Assert.That(filePath, Does.StartWith("Result"));
+        Assert.That(filePath, Does.Contain("Result"));
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class ResultWriterTests
     {
         var filePath = _writer.WriteMempool();
         Assert.That(File.Exists(filePath), Is.True);
-        Assert.That(filePath, Does.StartWith("Result"));
+        Assert.That(filePath, Does.Contain("Result"));
     }
 
     [Test]

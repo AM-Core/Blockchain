@@ -4,9 +4,9 @@ public class CommandAutoCompletion : IAutoCompleteHandler
 {
     private readonly string[] _commands =
     {
-        "SetDifficulty(",
-        "AddTransactionToMempool(",
-        "EvictMempool(",
+        "SetDifficulty ",
+        "AddTransactionToMempool ",
+        "EvictMempool ",
         "MineBlock",
         "Help",
         "exit"

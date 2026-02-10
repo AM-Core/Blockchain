@@ -35,8 +35,11 @@ public class DAG<TKey>
         while (queue.Count != 0)
         {
             newNode = queue.Dequeue();
-            dependencyList.Add(newNode);
-
+            if (!dependencyList.Contains(newNode))
+            {
+                dependencyList.Add(newNode);
+            }
+            
             foreach (var n in _adj[newNode])
                 queue.Enqueue(n);
         }
