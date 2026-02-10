@@ -17,7 +17,7 @@ public class BlockMiner
 
     public Block MineBlock(MiningConfig miningConfig)
     {
-        var transactions = _mempool.GetTransactionsByPriority();
+        var transactions = _mempool.GetTransactionsSortedToCreateBlock();
         var block = new Block(miningConfig.Difficulty, transactions);
         block.Nonce = _nonceRunner.FindValidNonce(block);
         block.BlockHash = _hashingHandler.ComputeBlockHash(block);
