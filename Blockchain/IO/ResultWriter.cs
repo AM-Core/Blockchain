@@ -9,7 +9,7 @@ namespace IO;
 public class ResultWriter : IResultWriter
 {
     private readonly Mempool _mempool;
-    private readonly string _resultDir = "Result";
+    private readonly string _resultDir = @"C:\Projects\C#\Blockchain\Blockchain\IntegrationTests\Results";
 
     public ResultWriter(Mempool mempool)
     {
@@ -39,7 +39,7 @@ public class ResultWriter : IResultWriter
     {
         var mempoolResult = new MempoolResult(_mempool.GetAllTransactions(ascending));
         var json = JsonSerializer.Serialize(mempoolResult, new JsonSerializerOptions { WriteIndented = true });
-        var filePath = Path.Combine(_resultDir, $"mempool_{(ascending ? "asc" : "desc")}.json");
+        var filePath = Path.Combine(_resultDir, $"mempool_{(ascending ? "asc" : "desc")}_{DateTime.Now.ToFileTime()}.json");
         File.WriteAllText(filePath, json);
 
         return filePath;

@@ -1,0 +1,8 @@
+﻿{
+  "txid": "Dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "inputs": [
+    { "prevTxId": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "prevOutIndex": 0 },
+    { "prevTxId": "Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "prevOutIndex": 0 }
+  ],
+  "outputs": [{ "value": 9.4, "publicKey": "02ffffffff..." }]
+}

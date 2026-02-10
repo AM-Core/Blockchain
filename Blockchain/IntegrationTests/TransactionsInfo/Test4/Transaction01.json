@@ -1,0 +1,9 @@
+{
+  "txid": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "inputs": [
+    { "prevTxId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "prevOutIndex": 0 }
+  ],
+  "outputs": [
+    { "value": 10.0, "publicKey": "02bbbb..." }
+  ]
+}

@@ -1,0 +1,5 @@
+﻿{
+  "txid": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "inputs": [{ "prevTxId": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "prevOutIndex": 0 }],
+  "outputs": [{ "value": 5.8, "publicKey": "02dddd..." }]
+}

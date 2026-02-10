@@ -1,0 +1,14 @@
+﻿{
+  "txid": "33dbab22222222222222222222222222222222222222222222222222222",
+  "inputs": [
+    {
+      "prevTxId": "ac474c11111111111111111111111111111111111111111111111111111",
+      "prevOutIndex": 0,
+      "publicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "signature": "30440220bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "outputs": [
+    { "value": 29.8, "publicKey": "02dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" }
+  ]
+}

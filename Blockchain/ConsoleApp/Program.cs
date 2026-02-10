@@ -1,17 +1,10 @@
 ﻿using Application.MiningApplication;
 using ConsoleApp.Bootstrap;
+using ConsoleApp.ConsoleHandler;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ConsoleApp;
+var provider = DependencyBootstrapper.ConfigureServices();
+var application = provider.GetRequiredService<ApplicationHandler>();
+var consoleHandler = new ConsoleHandler();
 
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        var provider = DependencyBootstrapper.ConfigureServices();
-        var application = provider.GetRequiredService<ApplicationHandler>();
-        var consoleHandler = new ConsoleHandler.ConsoleHandler();
-
-        consoleHandler.Run(application);
-    }
-}
+consoleHandler.Run(application);

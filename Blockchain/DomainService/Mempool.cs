@@ -52,6 +52,8 @@ public class Mempool
             if (transaction == null)
                 return false;
 
+            _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
+            
             var effectiveFee = transaction.Fee + transaction.ParentFee;
             var effectiveSize = transaction.Size + transaction.ParentSize;
             var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
