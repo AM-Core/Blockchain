@@ -1,9 +1,9 @@
 ﻿{
-  "txid": "standalonecccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-  "inputs": [
-    { "prevTxId": "9999999999999999999999999999999999999999999999999999999999999999", "prevOutIndex": 0 }
+  "Id": "standalonecccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "Inputs": [
+    { "PrevTxId": "9999999999999999999999999999999999999999999999999999999999999999", "PrevOutIndex": 0 }
   ],
-  "outputs": [
-    { "value": 5.0, "publicKey": "02dddd..." }
+  "Outputs": [
+    { "Value": 5.0, "PublicKey": "02dddd..." }
   ]
 }

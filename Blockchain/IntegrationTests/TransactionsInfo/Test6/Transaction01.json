@@ -1,8 +1,8 @@
 {
-  "txid": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "inputs": [{ "prevTxId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "prevOutIndex": 0 }],
-  "outputs": [
-    { "value": 6.0, "publicKey": "02bbbb..." },
-    { "value": 4.0, "publicKey": "02cccc..." }
+  "Id": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "Inputs": [{ "PrevTxId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "PrevOutIndex": 0 }],
+  "Outputs": [
+    { "Value": 6.0, "PublicKey": "02bbbb..." },
+    { "Value": 4.0, "PublicKey": "02cccc..." }
   ]
 }

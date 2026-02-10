@@ -1,5 +1,5 @@
 {
-  "txid": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "inputs": [{ "prevTxId": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "prevOutIndex": 0 }],
-  "outputs": [{ "value": 10.0, "publicKey": "02bbbb..." }]
+  "Id": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "Inputs": [{ "PrevTxId": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "PrevOutIndex": 0 }],
+  "Outputs": [{ "Value": 10.0, "PublicKey": "02bbbb..." }]
 }

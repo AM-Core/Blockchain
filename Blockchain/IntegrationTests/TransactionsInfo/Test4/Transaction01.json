@@ -1,9 +1,9 @@
 {
-  "txid": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "inputs": [
-    { "prevTxId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "prevOutIndex": 0 }
+  "Id": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "Inputs": [
+    { "PrevTxId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "PrevOutIndex": 0 }
   ],
-  "outputs": [
-    { "value": 10.0, "publicKey": "02bbbb..." }
+  "Outputs": [
+    { "Value": 10.0, "PublicKey": "02bbbb..." }
   ]
 }

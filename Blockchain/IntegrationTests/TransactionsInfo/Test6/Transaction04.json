@@ -1,8 +1,8 @@
 ﻿{
-  "txid": "Dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
-  "inputs": [
-    { "prevTxId": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "prevOutIndex": 0 },
-    { "prevTxId": "Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "prevOutIndex": 0 }
+  "Id": "Dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "Inputs": [
+    { "PrevTxId": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "PrevOutIndex": 0 },
+    { "PrevTxId": "Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc", "PrevOutIndex": 0 }
   ],
-  "outputs": [{ "value": 9.4, "publicKey": "02ffffffff..." }]
+  "Outputs": [{ "Value": 9.4, "PublicKey": "02ffffffff..." }]
 }

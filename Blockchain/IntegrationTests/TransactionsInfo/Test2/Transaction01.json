@@ -1,7 +1,7 @@
 {
-  "txid": "1111111111111111111111111111111111111111111111111111111111111111",
-  "inputs": [
-    { "prevTxId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "prevOutIndex": 0 }
+  "Id": "1111111111111111111111111111111111111111111111111111111111111111",
+  "Inputs": [
+    { "PrevTxId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "PrevOutIndex": 0 }
   ],
-  "outputs": [{ "value": 10.0, "publicKey": "02cccc..." }]
+  "Outputs": [{ "Value": 10.0, "PublicKey": "02cccc..." }]
 }

@@ -1,14 +1,14 @@
 ﻿{
-  "txid": "33dbab22222222222222222222222222222222222222222222222222222",
-  "inputs": [
+  "Id": "33dbab22222222222222222222222222222222222222222222222222222",
+  "Inputs": [
     {
-      "prevTxId": "ac474c11111111111111111111111111111111111111111111111111111",
-      "prevOutIndex": 0,
-      "publicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-      "signature": "30440220bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      "PrevTxId": "ac474c11111111111111111111111111111111111111111111111111111",
+      "PrevOutIndex": 0,
+      "PublicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "Signature": "30440220bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     }
   ],
-  "outputs": [
-    { "value": 29.8, "publicKey": "02dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" }
+  "Outputs": [
+    { "Value": 29.8, "PublicKey": "02dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" }
   ]
 }

@@ -247,7 +247,7 @@ public class TransactionReaderTests
             Size = 5000
         };
 
-        // Add many inputs and outputs
+        // Add many Inputs and Outputs
         for (var i = 0; i < 50; i++) transaction.Inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
 
         for (var i = 0; i < 50; i++) transaction.Outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));

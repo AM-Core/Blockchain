@@ -1,5 +1,5 @@
 ﻿{
-  "txid": "child2bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
-  "inputs": [{ "prevTxId": "parent555555555555555555555555555555555555555555555555555555", "prevOutIndex": 1 }],
-  "outputs": [{ "value": 3.8, "publicKey": "02eeee..." }]
+  "Id": "child2bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "Inputs": [{ "PrevTxId": "parent555555555555555555555555555555555555555555555555555555", "PrevOutIndex": 1 }],
+  "Outputs": [{ "Value": 3.8, "PublicKey": "02eeee..." }]
 }
