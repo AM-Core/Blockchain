@@ -6,12 +6,14 @@
   <Folder Name="/Frameworks/">
     <Project Path="DataStructures/DataStructures.csproj" />
     <Project Path="Hash\Hash.csproj" Type="Classic C#" />
-    <File Path="DomainService/Fnv1aHash.cs" />
   </Folder>
   <Folder Name="/Infrastructure/">
     <Project Path="IO/IO.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/Tests/">
+    <Project Path="IntegrationTests\IntegrationTests.csproj" Type="Classic C#" />
+  </Folder>
+  <Folder Name="/Infrastructure/Tests/NUnitTests/">
     <Project Path="ApplicationTests/ApplicationTests.csproj" />
     <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" />
     <Project Path="DataStructuresTests/DataStructuresTests.csproj" />

@@ -1,8 +1,5 @@
 ﻿namespace DataStructures;
 
-using System;
-using System.Collections.Generic;
-
 public class HashMap<TKey, TValue>
 {
     private readonly List<KeyValuePair<TKey, TValue>>[] _buckets;
@@ -12,7 +9,7 @@ public class HashMap<TKey, TValue>
     {
         _capacity = capacity;
         _buckets = new List<KeyValuePair<TKey, TValue>>[_capacity];
-        for (int i = 0; i < _capacity; i++)
+        for (var i = 0; i < _capacity; i++)
             _buckets[i] = new List<KeyValuePair<TKey, TValue>>();
     }
 
@@ -25,43 +22,37 @@ public class HashMap<TKey, TValue>
     {
         var index = GetIndex(key);
 
-        for (int i = 0; i < _buckets[index].Count; i++)
-        {
+        for (var i = 0; i < _buckets[index].Count; i++)
             if (EqualityComparer<TKey>.Default.Equals(_buckets[index][i].Key, key))
             {
                 _buckets[index][i] = new KeyValuePair<TKey, TValue>(key, value);
                 return;
             }
-        }
 
         _buckets[index].Add(new KeyValuePair<TKey, TValue>(key, value));
     }
 
-    public TValue TryGet(TKey key)
+    public TValue? TryGet(TKey key)
     {
         var index = GetIndex(key);
 
         foreach (var pair in _buckets[index])
-        {
             if (EqualityComparer<TKey>.Default.Equals(pair.Key, key))
                 return pair.Value;
-        }
 
-        return default!;
+        return default;
     }
 
     public bool Remove(TKey key)
     {
         var index = GetIndex(key);
 
-        for (int i = 0; i < _buckets[index].Count; i++)
-        {
+        for (var i = 0; i < _buckets[index].Count; i++)
             if (EqualityComparer<TKey>.Default.Equals(_buckets[index][i].Key, key))
             {
                 _buckets[index].RemoveAt(i);
                 return true;
             }
-        }
 
         return false;
     }
@@ -70,12 +61,9 @@ public class HashMap<TKey, TValue>
     {
         var values = new List<TValue>();
         foreach (var bucket in _buckets)
-        {
-            foreach (var pair in bucket)
-            {
-                values.Add(pair.Value);
-            }
-        }
+        foreach (var pair in bucket)
+            values.Add(pair.Value);
+
         return values;
     }
 }

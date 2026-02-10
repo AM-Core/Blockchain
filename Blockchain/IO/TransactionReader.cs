@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Domain.Interfaces;
 using Domain.Transaction;
 
@@ -9,7 +8,7 @@ public class TransactionReader : ITransactionReader
 {
     public TransactionEntry ReadTransaction(string filePath)
     {
-        string json = File.ReadAllText(filePath);
+        var json = File.ReadAllText(filePath);
 
         var transaction = JsonSerializer.Deserialize<TransactionEntry>(json);
 

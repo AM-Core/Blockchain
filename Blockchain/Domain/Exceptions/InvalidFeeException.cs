@@ -8,6 +8,5 @@ public class InvalidFeeException : Exception
 
     public InvalidFeeException() : base("Invalid transaction fee.")
     {
-        
     }
 }

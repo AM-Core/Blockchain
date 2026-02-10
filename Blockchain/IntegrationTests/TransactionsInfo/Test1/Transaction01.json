@@ -1,0 +1,15 @@
+﻿{
+  "Id": "ac474c11111111111111111111111111111111111111111111111111111",
+  "Inputs": [
+    {
+      "PrevTxId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "PrevOutIndex": 0,
+      "PublicKey": "02aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "Signature": "30440220aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "Outputs": [
+    { "Value": 30.0, "PublicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
+    { "Value": 19.9, "PublicKey": "02cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" }
+  ]
+}

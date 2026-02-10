@@ -6,12 +6,13 @@ public class Fnv1AHash
     {
         const uint fnvPrime = 16777619;
         const uint offsetBasis = 2166136261;
-        uint hash = offsetBasis;
-        foreach (byte b in data)
+        var hash = offsetBasis;
+        foreach (var b in data)
         {
             hash ^= b;
             hash *= fnvPrime;
         }
+
         return BitConverter.GetBytes(hash);
     }
 }

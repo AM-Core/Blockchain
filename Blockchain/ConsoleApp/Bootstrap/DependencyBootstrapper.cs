@@ -1,5 +1,4 @@
-﻿using Application;
-using Application.MiningApplication;
+﻿using Application.MiningApplication;
 using Application.QueryHandler;
 using Domain.Interfaces;
 using DomainService;
@@ -17,8 +16,9 @@ public static class DependencyBootstrapper
         services.AddTransient<IResultWriter, ResultWriter>();
         services.AddTransient<ITransactionReader, TransactionReader>();
         services.AddTransient<IQueryParser, QueryParser>();
-        services.AddSingleton<Handler>();
+        services.AddSingleton<ApplicationHandler>();
         services.AddSingleton<Mempool>();
+        services.AddSingleton<BlockMiner>();
         return services.BuildServiceProvider();
     }
 }

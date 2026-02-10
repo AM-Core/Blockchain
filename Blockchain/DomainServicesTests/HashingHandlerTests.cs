@@ -1,30 +1,28 @@
-using DomainService;
 using Domain;
 using Domain.Transaction;
+using DomainService;
 
 namespace DomainServicesTests;
 
 [TestFixture]
 public class HashingHandlerTests
 {
-    private HashingHandler _hashingHandler;
-
     [SetUp]
     public void Setup()
     {
         _hashingHandler = new HashingHandler();
     }
 
-    #region ComputeHash Tests
+    private HashingHandler _hashingHandler;
 
     [Test]
     public void ComputeHash_WithValidString_ReturnsHexString()
     {
         // Arrange
-        string data = "test data";
+        var data = "test data";
 
         // Act
-        string hash = _hashingHandler.ComputeHash(data);
+        var hash = _hashingHandler.ComputeHash(data);
 
         // Assert
         Assert.That(hash, Is.Not.Null);
@@ -36,10 +34,10 @@ public class HashingHandlerTests
     public void ComputeHash_WithEmptyString_ReturnsValidHash()
     {
         // Arrange
-        string data = string.Empty;
+        var data = string.Empty;
 
         // Act
-        string hash = _hashingHandler.ComputeHash(data);
+        var hash = _hashingHandler.ComputeHash(data);
 
         // Assert
         Assert.That(hash, Is.Not.Null);
@@ -50,11 +48,11 @@ public class HashingHandlerTests
     public void ComputeHash_WithSameInput_ReturnsSameHash()
     {
         // Arrange
-        string data = "consistent data";
+        var data = "consistent data";
 
         // Act
-        string hash1 = _hashingHandler.ComputeHash(data);
-        string hash2 = _hashingHandler.ComputeHash(data);
+        var hash1 = _hashingHandler.ComputeHash(data);
+        var hash2 = _hashingHandler.ComputeHash(data);
 
         // Assert
         Assert.That(hash1, Is.EqualTo(hash2));
@@ -64,12 +62,12 @@ public class HashingHandlerTests
     public void ComputeHash_WithDifferentInputs_ReturnsDifferentHashes()
     {
         // Arrange
-        string data1 = "data one";
-        string data2 = "data two";
+        var data1 = "data one";
+        var data2 = "data two";
 
         // Act
-        string hash1 = _hashingHandler.ComputeHash(data1);
-        string hash2 = _hashingHandler.ComputeHash(data2);
+        var hash1 = _hashingHandler.ComputeHash(data1);
+        var hash2 = _hashingHandler.ComputeHash(data2);
 
         // Assert
         Assert.That(hash1, Is.Not.EqualTo(hash2));
@@ -79,29 +77,25 @@ public class HashingHandlerTests
     public void ComputeHash_WithUnicodeCharacters_ReturnsValidHash()
     {
         // Arrange
-        string data = "Hello ?? ??";
+        var data = "Hello ?? ??";
 
         // Act
-        string hash = _hashingHandler.ComputeHash(data);
+        var hash = _hashingHandler.ComputeHash(data);
 
         // Assert
         Assert.That(hash, Is.Not.Null);
         Assert.That(hash, Has.Length.EqualTo(8));
     }
 
-    #endregion
-
-    #region VerifyHash Tests
-
     [Test]
     public void VerifyHash_WithMatchingHash_ReturnsTrue()
     {
         // Arrange
-        string data = "verify this";
-        string hash = _hashingHandler.ComputeHash(data);
+        var data = "verify this";
+        var hash = _hashingHandler.ComputeHash(data);
 
         // Act
-        bool result = _hashingHandler.VerifyHash(data, hash);
+        var result = _hashingHandler.VerifyHash(data, hash);
 
         // Assert
         Assert.That(result, Is.True);
@@ -111,11 +105,11 @@ public class HashingHandlerTests
     public void VerifyHash_WithNonMatchingHash_ReturnsFalse()
     {
         // Arrange
-        string data = "original data";
-        string wrongHash = "12345678";
+        var data = "original data";
+        var wrongHash = "12345678";
 
         // Act
-        bool result = _hashingHandler.VerifyHash(data, wrongHash);
+        var result = _hashingHandler.VerifyHash(data, wrongHash);
 
         // Assert
         Assert.That(result, Is.False);
@@ -125,12 +119,12 @@ public class HashingHandlerTests
     public void VerifyHash_IsCaseInsensitive()
     {
         // Arrange
-        string data = "case test";
-        string hash = _hashingHandler.ComputeHash(data);
-        string upperHash = hash.ToUpper();
+        var data = "case test";
+        var hash = _hashingHandler.ComputeHash(data);
+        var upperHash = hash.ToUpper();
 
         // Act
-        bool result = _hashingHandler.VerifyHash(data, upperHash);
+        var result = _hashingHandler.VerifyHash(data, upperHash);
 
         // Assert
         Assert.That(result, Is.True);
@@ -140,19 +134,15 @@ public class HashingHandlerTests
     public void VerifyHash_WithEmptyData_WorksCorrectly()
     {
         // Arrange
-        string data = string.Empty;
-        string hash = _hashingHandler.ComputeHash(data);
+        var data = string.Empty;
+        var hash = _hashingHandler.ComputeHash(data);
 
         // Act
-        bool result = _hashingHandler.VerifyHash(data, hash);
+        var result = _hashingHandler.VerifyHash(data, hash);
 
         // Assert
         Assert.That(result, Is.True);
     }
-
-    #endregion
-
-    #region ComputeTransactionHash Tests
 
     [Test]
     public void ComputeTransactionHash_WithValidTransaction_ReturnsHash()
@@ -161,7 +151,7 @@ public class HashingHandlerTests
         var transaction = CreateTestTransaction("tx1", 1.5, 0.001, 250);
 
         // Act
-        string hash = _hashingHandler.ComputeTransactionHash(transaction);
+        var hash = _hashingHandler.ComputeTransactionHash(transaction);
 
         // Assert
         Assert.That(hash, Is.Not.Null);
@@ -175,8 +165,8 @@ public class HashingHandlerTests
         var transaction = CreateTestTransaction("tx1", 1.5, 0.001, 250);
 
         // Act
-        string hash1 = _hashingHandler.ComputeTransactionHash(transaction);
-        string hash2 = _hashingHandler.ComputeTransactionHash(transaction);
+        var hash1 = _hashingHandler.ComputeTransactionHash(transaction);
+        var hash2 = _hashingHandler.ComputeTransactionHash(transaction);
 
         // Assert
         Assert.That(hash1, Is.EqualTo(hash2));
@@ -190,8 +180,8 @@ public class HashingHandlerTests
         var transaction2 = CreateTestTransaction("tx2", 2.5, 0.002, 300);
 
         // Act
-        string hash1 = _hashingHandler.ComputeTransactionHash(transaction1);
-        string hash2 = _hashingHandler.ComputeTransactionHash(transaction2);
+        var hash1 = _hashingHandler.ComputeTransactionHash(transaction1);
+        var hash2 = _hashingHandler.ComputeTransactionHash(transaction2);
 
         // Assert
         Assert.That(hash1, Is.Not.EqualTo(hash2));
@@ -208,16 +198,12 @@ public class HashingHandlerTests
         };
 
         // Act
-        string hash = _hashingHandler.ComputeTransactionHash(transaction);
+        var hash = _hashingHandler.ComputeTransactionHash(transaction);
 
         // Assert
         Assert.That(hash, Is.Not.Null);
         Assert.That(hash, Has.Length.EqualTo(8));
     }
-
-    #endregion
-
-    #region ComputeBlockHash Tests
 
     [Test]
     public void ComputeBlockHash_WithValidBlock_ReturnsHash()
@@ -226,7 +212,7 @@ public class HashingHandlerTests
         var block = CreateTestBlock(4, 12345);
 
         // Act
-        string hash = _hashingHandler.ComputeBlockHash(block);
+        var hash = _hashingHandler.ComputeBlockHash(block);
 
         // Assert
         Assert.That(hash, Is.Not.Null);
@@ -240,8 +226,8 @@ public class HashingHandlerTests
         var block = CreateTestBlock(4, 12345);
 
         // Act
-        string hash1 = _hashingHandler.ComputeBlockHash(block);
-        string hash2 = _hashingHandler.ComputeBlockHash(block);
+        var hash1 = _hashingHandler.ComputeBlockHash(block);
+        var hash2 = _hashingHandler.ComputeBlockHash(block);
 
         // Assert
         Assert.That(hash1, Is.EqualTo(hash2));
@@ -255,8 +241,8 @@ public class HashingHandlerTests
         var block2 = CreateTestBlock(4, 67890);
 
         // Act
-        string hash1 = _hashingHandler.ComputeBlockHash(block1);
-        string hash2 = _hashingHandler.ComputeBlockHash(block2);
+        var hash1 = _hashingHandler.ComputeBlockHash(block1);
+        var hash2 = _hashingHandler.ComputeBlockHash(block2);
 
         // Assert
         Assert.That(hash1, Is.Not.EqualTo(hash2));
@@ -270,22 +256,18 @@ public class HashingHandlerTests
         var block2 = CreateTestBlock(5, 12345);
 
         // Act
-        string hash1 = _hashingHandler.ComputeBlockHash(block1);
-        string hash2 = _hashingHandler.ComputeBlockHash(block2);
+        var hash1 = _hashingHandler.ComputeBlockHash(block1);
+        var hash2 = _hashingHandler.ComputeBlockHash(block2);
 
         // Assert
         Assert.That(hash1, Is.Not.EqualTo(hash2));
     }
 
-    #endregion
-
-    #region ComputeMerkleRoot Tests
-
     [Test]
     public void ComputeMerkleRoot_WithNullTransactions_ReturnsHashOfEmptyString()
     {
         // Act
-        string merkleRoot = _hashingHandler.ComputeMerkleRoot(null);
+        var merkleRoot = _hashingHandler.ComputeMerkleRoot(null);
 
         // Assert
         Assert.That(merkleRoot, Is.Not.Null);
@@ -299,7 +281,7 @@ public class HashingHandlerTests
         var transactions = new List<TransactionEntry>();
 
         // Act
-        string merkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
+        var merkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
 
         // Assert
         Assert.That(merkleRoot, Is.Not.Null);
@@ -316,7 +298,7 @@ public class HashingHandlerTests
         };
 
         // Act
-        string merkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
+        var merkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
 
         // Assert
         Assert.That(merkleRoot, Is.Not.Null);
@@ -335,7 +317,7 @@ public class HashingHandlerTests
         };
 
         // Act
-        string merkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
+        var merkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
 
         // Assert
         Assert.That(merkleRoot, Is.Not.Null);
@@ -353,8 +335,8 @@ public class HashingHandlerTests
         };
 
         // Act
-        string root1 = _hashingHandler.ComputeMerkleRoot(transactions);
-        string root2 = _hashingHandler.ComputeMerkleRoot(transactions);
+        var root1 = _hashingHandler.ComputeMerkleRoot(transactions);
+        var root2 = _hashingHandler.ComputeMerkleRoot(transactions);
 
         // Assert
         Assert.That(root1, Is.EqualTo(root2));
@@ -377,16 +359,12 @@ public class HashingHandlerTests
         };
 
         // Act
-        string root1 = _hashingHandler.ComputeMerkleRoot(transactions1);
-        string root2 = _hashingHandler.ComputeMerkleRoot(transactions2);
+        var root1 = _hashingHandler.ComputeMerkleRoot(transactions1);
+        var root2 = _hashingHandler.ComputeMerkleRoot(transactions2);
 
         // Assert
         Assert.That(root1, Is.Not.EqualTo(root2));
     }
-
-    #endregion
-
-    #region Helper Methods
 
     private TransactionEntry CreateTestTransaction(string id, double value, double fee, int size)
     {
@@ -420,6 +398,4 @@ public class HashingHandlerTests
 
         return block;
     }
-
-    #endregion
 }

@@ -1,0 +1,7 @@
+﻿AddTransactionToMempool(C:\Projects\C#\Blockchain\Blockchain\IntegrationTests\TransactionsInfo\Test6\Transaction01.json)
+AddTransactionToMempool(C:\Projects\C#\Blockchain\Blockchain\IntegrationTests\TransactionsInfo\Test6\Transaction02.json)
+AddTransactionToMempool(C:\Projects\C#\Blockchain\Blockchain\IntegrationTests\TransactionsInfo\Test6\Transaction03.json)
+AddTransactionToMempool(C:\Projects\C#\Blockchain\Blockchain\IntegrationTests\TransactionsInfo\Test6\Transaction04.json)
+
+SetDifficulty 5
+MineBlock

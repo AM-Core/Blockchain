@@ -1,20 +1,18 @@
-﻿using DomainService;
-using Domain.Transaction;
+﻿using Domain.Transaction;
+using DomainService;
 
 namespace DomainServicesTests;
 
 [TestFixture]
 public class MempoolTests
 {
-    private Mempool _mempool;
-
     [SetUp]
     public void Setup()
     {
         _mempool = new Mempool();
     }
 
-    #region AddTransaction Tests
+    private Mempool _mempool;
 
     [Test]
     public void AddTransaction_ValidTransaction_ReturnsTrue()
@@ -23,7 +21,7 @@ public class MempoolTests
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
 
         // Act
-        bool result = _mempool.AddTransaction(transaction);
+        var result = _mempool.AddTransaction(transaction);
 
         // Assert
         Assert.That(result, Is.True);
@@ -39,7 +37,7 @@ public class MempoolTests
 
         // Act
         _mempool.AddTransaction(transaction1);
-        bool result = _mempool.AddTransaction(transaction2);
+        var result = _mempool.AddTransaction(transaction2);
 
         // Assert
         Assert.That(result, Is.False);
@@ -53,8 +51,8 @@ public class MempoolTests
         var transaction2 = CreateTestTransaction("tx2", 1.0, 250);
 
         // Act
-        bool result1 = _mempool.AddTransaction(transaction1);
-        bool result2 = _mempool.AddTransaction(transaction2);
+        var result1 = _mempool.AddTransaction(transaction1);
+        var result2 = _mempool.AddTransaction(transaction2);
 
         // Assert
         Assert.That(result1, Is.True);
@@ -70,7 +68,7 @@ public class MempoolTests
         var transaction = CreateTestTransaction("tx1", 0.0, 250);
 
         // Act
-        bool result = _mempool.AddTransaction(transaction);
+        var result = _mempool.AddTransaction(transaction);
 
         // Assert
         Assert.That(result, Is.True);
@@ -84,7 +82,7 @@ public class MempoolTests
         var transaction = CreateTestTransaction("tx1", 100.0, 250);
 
         // Act
-        bool result = _mempool.AddTransaction(transaction);
+        var result = _mempool.AddTransaction(transaction);
 
         // Assert
         Assert.That(result, Is.True);
@@ -109,10 +107,6 @@ public class MempoolTests
         Assert.That(_mempool.Exist("tx3"), Is.True);
     }
 
-    #endregion
-
-    #region RemoveTransaction Tests
-
     [Test]
     public void RemoveTransaction_ExistingTransaction_ReturnsTrue()
     {
@@ -121,7 +115,7 @@ public class MempoolTests
         _mempool.AddTransaction(transaction);
 
         // Act
-        bool result = _mempool.RemoveTransaction("tx1");
+        var result = _mempool.RemoveTransaction("tx1");
 
         // Assert
         Assert.That(result, Is.True);
@@ -132,7 +126,7 @@ public class MempoolTests
     public void RemoveTransaction_NonExistingTransaction_ReturnsFalse()
     {
         // Act
-        bool result = _mempool.RemoveTransaction("nonexistent");
+        var result = _mempool.RemoveTransaction("nonexistent");
 
         // Assert
         Assert.That(result, Is.False);
@@ -148,7 +142,7 @@ public class MempoolTests
         // Act
         _mempool.AddTransaction(transaction1);
         _mempool.RemoveTransaction("tx1");
-        bool result = _mempool.AddTransaction(transaction2);
+        var result = _mempool.AddTransaction(transaction2);
 
         // Assert
         Assert.That(result, Is.True);
@@ -172,10 +166,6 @@ public class MempoolTests
         Assert.That(priorityList, Does.Not.Contain(transaction));
     }
 
-    #endregion
-
-    #region Exist Tests
-
     [Test]
     public void Exist_ExistingTransaction_ReturnsTrue()
     {
@@ -184,7 +174,7 @@ public class MempoolTests
         _mempool.AddTransaction(transaction);
 
         // Act
-        bool exists = _mempool.Exist("tx1");
+        var exists = _mempool.Exist("tx1");
 
         // Assert
         Assert.That(exists, Is.True);
@@ -194,7 +184,7 @@ public class MempoolTests
     public void Exist_NonExistingTransaction_ReturnsFalse()
     {
         // Act
-        bool exists = _mempool.Exist("nonexistent");
+        var exists = _mempool.Exist("nonexistent");
 
         // Assert
         Assert.That(exists, Is.False);
@@ -204,15 +194,11 @@ public class MempoolTests
     public void Exist_EmptyMempool_ReturnsFalse()
     {
         // Act
-        bool exists = _mempool.Exist("tx1");
+        var exists = _mempool.Exist("tx1");
 
         // Assert
         Assert.That(exists, Is.False);
     }
-
-    #endregion
-
-    #region GetTransaction Tests
 
     [Test]
     public void GetTransaction_ExistingTransaction_ReturnsTransaction()
@@ -239,10 +225,6 @@ public class MempoolTests
         // Assert
         Assert.That(result, Is.Null);
     }
-
-    #endregion
-
-    #region GetTransactionsByPriority Tests
 
     [Test]
     public void GetTransactionsByPriority_EmptyMempool_ReturnsEmptyList()
@@ -292,10 +274,6 @@ public class MempoolTests
         Assert.That(result.Select(t => t.Id), Contains.Item("tx3"));
     }
 
-    #endregion
-
-    #region GetMaxPriorityTransaction Tests
-
     [Test]
     public void GetMaxPriorityTransaction_EmptyMempool_ReturnsNull()
     {
@@ -340,10 +318,6 @@ public class MempoolTests
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Id, Is.EqualTo("tx2"));
     }
-
-    #endregion
-
-    #region EvictHighestPriorityTransaction Tests
 
     [Test]
     public void EvictHighestPriorityTransaction_ZeroCount_DoesNothing()
@@ -419,7 +393,7 @@ public class MempoolTests
         // Assert
         Assert.That(_mempool.Exist("tx1"), Is.False); // Lowest
         Assert.That(_mempool.Exist("tx2"), Is.False); // Second lowest
-        Assert.That(_mempool.Exist("tx3"), Is.True);  // Highest remains
+        Assert.That(_mempool.Exist("tx3"), Is.True); // Highest remains
     }
 
     [Test]
@@ -439,10 +413,6 @@ public class MempoolTests
         Assert.That(_mempool.Exist("tx1"), Is.False);
         Assert.That(_mempool.Exist("tx2"), Is.False);
     }
-
-    #endregion
-
-    #region GetTransactionsSortedToCreateBlock Tests
 
     [Test]
     public void GetTransactionsSortedToCreateBlock_EmptyMempool_ReturnsEmptyList()
@@ -484,8 +454,8 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(2));
-        int tx1Index = result.FindIndex(t => t.Id == "tx1");
-        int tx2Index = result.FindIndex(t => t.Id == "tx2");
+        var tx1Index = result.FindIndex(t => t.Id == "tx1");
+        var tx2Index = result.FindIndex(t => t.Id == "tx2");
         Assert.That(tx1Index, Is.LessThan(tx2Index)); // tx1 must come before tx2
     }
 
@@ -511,21 +481,17 @@ public class MempoolTests
         Assert.That(result.Select(t => t.Id), Contains.Item("tx3"));
     }
 
-    #endregion
-
-    #region Thread Safety Tests
-
     [Test]
     public void Mempool_ConcurrentAdds_AllTransactionsAdded()
     {
         // Arrange
-        int transactionCount = 100;
+        var transactionCount = 100;
         var tasks = new List<Task>();
 
         // Act
-        for (int i = 0; i < transactionCount; i++)
+        for (var i = 0; i < transactionCount; i++)
         {
-            int index = i;
+            var index = i;
             tasks.Add(Task.Run(() =>
             {
                 var tx = CreateTestTransaction($"tx{index}", 1.0 + index, 250);
@@ -536,10 +502,7 @@ public class MempoolTests
         Task.WaitAll(tasks.ToArray());
 
         // Assert
-        for (int i = 0; i < transactionCount; i++)
-        {
-            Assert.That(_mempool.Exist($"tx{i}"), Is.True);
-        }
+        for (var i = 0; i < transactionCount; i++) Assert.That(_mempool.Exist($"tx{i}"), Is.True);
     }
 
     [Test]
@@ -549,9 +512,9 @@ public class MempoolTests
         var tasks = new List<Task>();
 
         // Add transactions
-        for (int i = 0; i < 50; i++)
+        for (var i = 0; i < 50; i++)
         {
-            int index = i;
+            var index = i;
             tasks.Add(Task.Run(() =>
             {
                 var tx = CreateTestTransaction($"tx{index}", 1.0, 250);
@@ -560,9 +523,9 @@ public class MempoolTests
         }
 
         // Remove some transactions
-        for (int i = 0; i < 25; i++)
+        for (var i = 0; i < 25; i++)
         {
-            int index = i;
+            var index = i;
             tasks.Add(Task.Run(() =>
             {
                 Thread.Sleep(10); // Small delay to ensure add happens first
@@ -577,10 +540,6 @@ public class MempoolTests
         var allTransactions = _mempool.GetTransactionsByPriority();
         Assert.That(allTransactions, Is.Not.Null);
     }
-
-    #endregion
-
-    #region Edge Cases
 
     [Test]
     public void Mempool_TransactionWithParentFee_CalculatesEffectiveFeeRate()
@@ -597,7 +556,7 @@ public class MempoolTests
         transaction.Outputs.Add(new Output(10.0, "pubKey"));
 
         // Act
-        bool result = _mempool.AddTransaction(transaction);
+        var result = _mempool.AddTransaction(transaction);
 
         // Assert
         Assert.That(result, Is.True);
@@ -608,9 +567,9 @@ public class MempoolTests
     public void Mempool_LargeNumberOfTransactions_PerformsWell()
     {
         // Arrange & Act
-        for (int i = 0; i < 1000; i++)
+        for (var i = 0; i < 1000; i++)
         {
-            var tx = CreateTestTransaction($"tx{i}", 1.0 + (i * 0.001), 250);
+            var tx = CreateTestTransaction($"tx{i}", 1.0 + i * 0.001, 250);
             _mempool.AddTransaction(tx);
         }
 
@@ -618,10 +577,6 @@ public class MempoolTests
         var allTransactions = _mempool.GetTransactionsByPriority();
         Assert.That(allTransactions, Has.Count.EqualTo(1000));
     }
-
-    #endregion
-
-    #region Helper Methods
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)
     {
@@ -657,6 +612,4 @@ public class MempoolTests
 
         return transaction;
     }
-
-    #endregion
 }

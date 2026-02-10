@@ -5,12 +5,13 @@ namespace DomainService;
 
 public class Mempool
 {
-    private readonly HashMap<string, TransactionEntry> _map;
     private readonly DAG<TransactionEntry> _dag;
-    private readonly AVL<string, TransactionEntry> _priorityTree;
     private readonly AVL<string, TransactionEntry> _evictionTree;
-    private readonly ParentFeeRateCalculator _parentFeeRateCalculator;
     private readonly object _lock = new();
+    private readonly HashMap<string, TransactionEntry> _map;
+    private readonly ParentFeeRateCalculator _parentFeeRateCalculator;
+    private readonly AVL<string, TransactionEntry> _priorityTree;
+
     public Mempool()
     {
         _map = new HashMap<string, TransactionEntry>();
@@ -24,24 +25,23 @@ public class Mempool
     {
         lock (_lock)
         {
-            if (!Exist(transaction.Id))
+            if (Exist(transaction.Id))
                 return false;
 
             _map.Put(transaction.Id, transaction);
             _dag.AddNode(transaction);
             AddDependencies(transaction);
             _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
-            
-            double effectiveFee = transaction.Fee + transaction.ParentFee;
-            int effectiveSize = transaction.Size + transaction.ParentSize;
-            int feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
-            string priorityKey = $"{feeRate:D10}_{transaction.Id}";
-            string evictionKey = $"{-feeRate:D10}_{transaction.Id}";
+
+            var effectiveFee = transaction.Fee + transaction.ParentFee;
+            var effectiveSize = transaction.Size + transaction.ParentSize;
+            var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
+            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
             _priorityTree.InsertOne(priorityKey, transaction);
             _evictionTree.InsertOne(evictionKey, transaction);
             return true;
         }
-        
     }
 
     public bool RemoveTransaction(string transactionId)
@@ -52,11 +52,13 @@ public class Mempool
             if (transaction == null)
                 return false;
 
-            double effectiveFee = transaction.Fee + transaction.ParentFee;
-            int effectiveSize = transaction.Size + transaction.ParentSize;
-            int feeRate = effectiveSize > 0 ? (int)((effectiveFee / effectiveSize) * 1_000_000) : 0;
-            string priorityKey = $"{feeRate:D10}_{transaction.Id}";
-            string evictionKey = $"{-feeRate:D10}_{transaction.Id}";
+            _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
+            
+            var effectiveFee = transaction.Fee + transaction.ParentFee;
+            var effectiveSize = transaction.Size + transaction.ParentSize;
+            var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
+            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
 
             _map.Remove(transactionId);
             _dag.RemoveNode(transaction);
@@ -65,7 +67,6 @@ public class Mempool
 
             return true;
         }
-        
     }
 
     public bool Exist(string transactionId)
@@ -98,8 +99,9 @@ public class Mempool
     public List<TransactionEntry> GetAllTransactions(bool ascending = false)
     {
         var transactions = _map.GetValues();
-        return ascending ? transactions.OrderBy
-            (tx => tx.Fee).ToList()
+        return ascending
+            ? transactions.OrderBy
+                (tx => tx.Fee).ToList()
             : transactions.OrderByDescending(tx => tx.Fee).ToList();
     }
 
@@ -108,7 +110,7 @@ public class Mempool
         if (count <= 0)
             return;
 
-        for (int i = 0; i < count; i++)
+        for (var i = 0; i < count; i++)
         {
             var transaction = _evictionTree.GetMin();
             if (transaction == null)
@@ -117,6 +119,7 @@ public class Mempool
             RemoveTransaction(transaction.Id);
         }
     }
+
     public TransactionEntry? GetMaxPriorityTransaction()
     {
         return _priorityTree.GetMax();
@@ -131,9 +134,11 @@ public class Mempool
     {
         foreach (var input in transaction.Inputs)
         {
+            if (input.PrevId == null)
+                continue;
+            
             var parentTx = _map.TryGet(input.PrevId);
             if (parentTx != null)
-            {
                 try
                 {
                     _dag.AddEdge(parentTx, transaction);
@@ -144,7 +149,6 @@ public class Mempool
                     _map.Remove(transaction.Id);
                     return;
                 }
-            }
         }
     }
 }

@@ -1,0 +1,5 @@
+﻿{
+  "Id": "childbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "Inputs": [{ "PrevTxId": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "PrevOutIndex": 0 }],
+  "Outputs": [{ "Value": 8.0, "PublicKey": "02cccc..." }]
+}

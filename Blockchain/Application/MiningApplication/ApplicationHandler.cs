@@ -6,29 +6,29 @@ using DomainService;
 
 namespace Application.MiningApplication;
 
-public class Handler
+public class ApplicationHandler
 {
-    private readonly IResultWriter _resultWriter;
-    private readonly ITransactionReader _transactionReader;
-    private readonly IQueryParser _queryParser;
-    private readonly MiningConfig _miningConfig;
     private readonly BlockMiner _blockMiner;
     private readonly Mempool _mempool;
+    private readonly MiningConfig _miningConfig;
+    private readonly IQueryParser _queryParser;
+    private readonly IResultWriter _resultWriter;
+    private readonly ITransactionReader _transactionReader;
 
-    public Handler(IResultWriter resultWriter,
-        ITransactionReader transactionReader,IQueryParser queryParser)
+    public ApplicationHandler(IResultWriter resultWriter,
+        ITransactionReader transactionReader, IQueryParser queryParser, Mempool mempool, BlockMiner blockMiner)
     {
         _resultWriter = resultWriter;
         _transactionReader = transactionReader;
         _queryParser = queryParser;
+        _mempool = mempool;
+        _blockMiner = blockMiner;
         _miningConfig = new MiningConfig();
-        _blockMiner = new BlockMiner();
-        _mempool = new Mempool();
     }
 
     public void Handle(string query)
     {
-        Command command = _queryParser.Parse(query);
+        var command = _queryParser.Parse(query);
         switch (command.Type)
         {
             case CommandType.ADDTRANSACTIONTOMEMPOOL:
@@ -57,6 +57,7 @@ public class Handler
                 break;
         }
     }
+
     private void ShowHelp()
     {
         Console.WriteLine("\n=== Blockchain CLI Commands ===\n");
