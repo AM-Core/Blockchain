@@ -12,7 +12,6 @@
   </Folder>
   <Folder Name="/Infrastructure/Tests/">
     <Project Path="IntegrationTest/IntegrationTest.csproj" Id="7d577fb7-8a43-4475-9f0d-969b8d57833c" />
-    <Project Path="IntegrationTests\IntegrationTests.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/Tests/NUnitTests/">
     <Project Path="ApplicationTests/ApplicationTests.csproj" />
