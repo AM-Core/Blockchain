@@ -2,16 +2,16 @@
 
 public class TransactionEntry
 {
-    public TransactionEntry(string id)
+    public TransactionEntry(string txid)
     {
-        Id = id;
-        Inputs = new List<Input>();
-        Outputs = new List<Output>();
+        this.txid = txid;
+        inputs = new List<Input>();
+        outputs = new List<Output>();
     }
 
-    public string Id { get; private set; }
-    public List<Input> Inputs { get; set; }
-    public List<Output> Outputs { get; set; }
+    public string txid { get; private set; }
+    public List<Input> inputs { get; set; }
+    public List<Output> outputs { get; set; }
     public double ParentFee { get; set; } = 0;
     public int ParentSize { get; set; } = 0;
     public double Fee { get; set; } = 0;

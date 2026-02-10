@@ -37,11 +37,11 @@ public class HashingHandler
     public string ComputeTransactionHash(TransactionEntry transactionEntry)
     {
         var txData = new StringBuilder();
-        txData.Append(transactionEntry.Id);
+        txData.Append(transactionEntry.txid);
 
-        foreach (var input in transactionEntry.Inputs) txData.Append(input);
+        foreach (var input in transactionEntry.inputs) txData.Append(input);
 
-        foreach (var output in transactionEntry.Outputs) txData.Append(output);
+        foreach (var output in transactionEntry.outputs) txData.Append(output);
 
         txData.Append(transactionEntry.Fee.ToString("F8"));
         txData.Append(transactionEntry.Size.ToString());

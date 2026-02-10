@@ -44,7 +44,7 @@ public class TransactionReaderTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Id, Is.EqualTo("tx1"));
+        Assert.That(result.txid, Is.EqualTo("tx1"));
         Assert.That(result.Fee, Is.EqualTo(1.5));
         Assert.That(result.Size, Is.EqualTo(300));
     }
@@ -62,10 +62,10 @@ public class TransactionReaderTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Inputs.Count, Is.EqualTo(1));
-        Assert.That(result.Inputs[0].PrevId, Is.EqualTo("prevTx1"));
-        Assert.That(result.Outputs.Count, Is.EqualTo(1));
-        Assert.That(result.Outputs[0].Value, Is.EqualTo(10.0));
+        Assert.That(result.inputs.Count, Is.EqualTo(1));
+        Assert.That(result.inputs[0].PrevId, Is.EqualTo("prevTx1"));
+        Assert.That(result.outputs.Count, Is.EqualTo(1));
+        Assert.That(result.outputs[0].Value, Is.EqualTo(10.0));
     }
 
     [Test]
@@ -95,8 +95,8 @@ public class TransactionReaderTests
             ParentFee = 0.5,
             ParentSize = 100
         };
-        transaction.Inputs.Add(new Input("prevTx", 0, "pubKey", "sig"));
-        transaction.Outputs.Add(new Output(10.0, "pubKeyOut"));
+        transaction.inputs.Add(new Input("prevTx", 0, "pubKey", "sig"));
+        transaction.outputs.Add(new Output(10.0, "pubKeyOut"));
 
         var filePath = Path.Combine(_testDirectory, "parent_fee_transaction.json");
         WriteTransactionToFile(transaction, filePath);
@@ -176,9 +176,9 @@ public class TransactionReaderTests
         var result3 = _reader.ReadTransaction(filePath3);
 
         // Assert
-        Assert.That(result1.Id, Is.EqualTo("tx1"));
-        Assert.That(result2.Id, Is.EqualTo("tx2"));
-        Assert.That(result3.Id, Is.EqualTo("tx3"));
+        Assert.That(result1.txid, Is.EqualTo("tx1"));
+        Assert.That(result2.txid, Is.EqualTo("tx2"));
+        Assert.That(result3.txid, Is.EqualTo("tx3"));
     }
 
     [Test]
@@ -190,10 +190,10 @@ public class TransactionReaderTests
             Fee = 1.0,
             Size = 250
         };
-        transaction.Inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
-        transaction.Inputs.Add(new Input("prevTx2", 1, "pubKey2", "sig2"));
-        transaction.Inputs.Add(new Input("prevTx3", 0, "pubKey3", "sig3"));
-        transaction.Outputs.Add(new Output(10.0, "pubKeyOut"));
+        transaction.inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
+        transaction.inputs.Add(new Input("prevTx2", 1, "pubKey2", "sig2"));
+        transaction.inputs.Add(new Input("prevTx3", 0, "pubKey3", "sig3"));
+        transaction.outputs.Add(new Output(10.0, "pubKeyOut"));
 
         var filePath = Path.Combine(_testDirectory, "multiple_inputs.json");
         WriteTransactionToFile(transaction, filePath);
@@ -203,10 +203,10 @@ public class TransactionReaderTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Inputs.Count, Is.EqualTo(3));
-        Assert.That(result.Inputs[0].PrevId, Is.EqualTo("prevTx1"));
-        Assert.That(result.Inputs[1].PrevId, Is.EqualTo("prevTx2"));
-        Assert.That(result.Inputs[2].PrevId, Is.EqualTo("prevTx3"));
+        Assert.That(result.inputs.Count, Is.EqualTo(3));
+        Assert.That(result.inputs[0].PrevId, Is.EqualTo("prevTx1"));
+        Assert.That(result.inputs[1].PrevId, Is.EqualTo("prevTx2"));
+        Assert.That(result.inputs[2].PrevId, Is.EqualTo("prevTx3"));
     }
 
     [Test]
@@ -218,10 +218,10 @@ public class TransactionReaderTests
             Fee = 1.0,
             Size = 250
         };
-        transaction.Inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
-        transaction.Outputs.Add(new Output(5.0, "pubKeyOut1"));
-        transaction.Outputs.Add(new Output(3.0, "pubKeyOut2"));
-        transaction.Outputs.Add(new Output(2.0, "pubKeyOut3"));
+        transaction.inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
+        transaction.outputs.Add(new Output(5.0, "pubKeyOut1"));
+        transaction.outputs.Add(new Output(3.0, "pubKeyOut2"));
+        transaction.outputs.Add(new Output(2.0, "pubKeyOut3"));
 
         var filePath = Path.Combine(_testDirectory, "multiple_outputs.json");
         WriteTransactionToFile(transaction, filePath);
@@ -231,10 +231,10 @@ public class TransactionReaderTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Outputs.Count, Is.EqualTo(3));
-        Assert.That(result.Outputs[0].Value, Is.EqualTo(5.0));
-        Assert.That(result.Outputs[1].Value, Is.EqualTo(3.0));
-        Assert.That(result.Outputs[2].Value, Is.EqualTo(2.0));
+        Assert.That(result.outputs.Count, Is.EqualTo(3));
+        Assert.That(result.outputs[0].Value, Is.EqualTo(5.0));
+        Assert.That(result.outputs[1].Value, Is.EqualTo(3.0));
+        Assert.That(result.outputs[2].Value, Is.EqualTo(2.0));
     }
 
     [Test]
@@ -248,9 +248,9 @@ public class TransactionReaderTests
         };
 
         // Add many inputs and outputs
-        for (var i = 0; i < 50; i++) transaction.Inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
+        for (var i = 0; i < 50; i++) transaction.inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
 
-        for (var i = 0; i < 50; i++) transaction.Outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));
+        for (var i = 0; i < 50; i++) transaction.outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));
 
         var filePath = Path.Combine(_testDirectory, "large_transaction.json");
         WriteTransactionToFile(transaction, filePath);
@@ -260,8 +260,8 @@ public class TransactionReaderTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Inputs.Count, Is.EqualTo(50));
-        Assert.That(result.Outputs.Count, Is.EqualTo(50));
+        Assert.That(result.inputs.Count, Is.EqualTo(50));
+        Assert.That(result.outputs.Count, Is.EqualTo(50));
     }
 
     [Test]
@@ -276,13 +276,13 @@ public class TransactionReaderTests
         var readTransaction = _reader.ReadTransaction(filePath);
 
         // Assert
-        Assert.That(readTransaction.Id, Is.EqualTo(originalTransaction.Id));
+        Assert.That(readTransaction.txid, Is.EqualTo(originalTransaction.txid));
         Assert.That(readTransaction.Fee, Is.EqualTo(originalTransaction.Fee));
         Assert.That(readTransaction.Size, Is.EqualTo(originalTransaction.Size));
         Assert.That(readTransaction.ParentFee, Is.EqualTo(originalTransaction.ParentFee));
         Assert.That(readTransaction.ParentSize, Is.EqualTo(originalTransaction.ParentSize));
-        Assert.That(readTransaction.Inputs.Count, Is.EqualTo(originalTransaction.Inputs.Count));
-        Assert.That(readTransaction.Outputs.Count, Is.EqualTo(originalTransaction.Outputs.Count));
+        Assert.That(readTransaction.inputs.Count, Is.EqualTo(originalTransaction.inputs.Count));
+        Assert.That(readTransaction.outputs.Count, Is.EqualTo(originalTransaction.outputs.Count));
     }
 
     [Test]
@@ -298,7 +298,7 @@ public class TransactionReaderTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.Id, Is.EqualTo("tx_special-123!@#"));
+        Assert.That(result.txid, Is.EqualTo("tx_special-123!@#"));
     }
 
     [Test]
@@ -312,8 +312,8 @@ public class TransactionReaderTests
             ParentFee = 888888.888888,
             ParentSize = int.MaxValue - 1
         };
-        transaction.Inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
-        transaction.Outputs.Add(new Output(double.MaxValue / 2, "pubKeyOut1"));
+        transaction.inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
+        transaction.outputs.Add(new Output(double.MaxValue / 2, "pubKeyOut1"));
 
         var filePath = Path.Combine(_testDirectory, "large_values.json");
         WriteTransactionToFile(transaction, filePath);
@@ -336,10 +336,10 @@ public class TransactionReaderTests
         };
 
         var input = new Input("prevTx1", 0, "pubKey1", "signature1");
-        transaction.Inputs.Add(input);
+        transaction.inputs.Add(input);
 
         var output = new Output(10.0, "pubKeyOut1");
-        transaction.Outputs.Add(output);
+        transaction.outputs.Add(output);
 
         return transaction;
     }
