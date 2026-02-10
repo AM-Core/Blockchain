@@ -16,22 +16,17 @@ public class BlockMiner
         _mempool = new Mempool();
     }
 
-    public Block MineBlock(Block block)
+    public Block MineBlock(MiningConfig miningConfig)
     {
-        throw new NotImplementedException();
+        var transactions = _mempool.GetTransactionsByPriority();
+        var block = new Block(miningConfig.Difficulty, transactions);
+        block.Nonce = _nonceRunner.FindValidNonce(block);
+        block.BlockHash = _hashingHandler.ComputeBlockHash(block);
+        block.MerkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
+        return block;
     }
 
     public bool ValidateBlock(Block block)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Block> MineBlockAsync(Block block)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Block> MineBlockAsync(MiningConfig miningConfig)
     {
         throw new NotImplementedException();
     }

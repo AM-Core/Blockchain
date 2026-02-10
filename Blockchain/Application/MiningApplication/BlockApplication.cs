@@ -10,8 +10,7 @@ public sealed class BlockApplication
         MiningConfig miningConfig, BlockMiner blockMiner, Mempool mempool)
     {
         var transactions = mempool.GetTransactionsSortedToCreateBlock();
-        var block = new Block(miningConfig.Difficulty, transactions);
-        block = blockMiner.MineBlock(block);
+        var block = blockMiner.MineBlock(miningConfig);
         resultWriter.WriteBlock(block);
     }
 }
