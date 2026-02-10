@@ -5,13 +5,14 @@
   </Folder>
   <Folder Name="/Frameworks/">
     <Project Path="DataStructures/DataStructures.csproj" />
-    <Project Path="Hash\Hash.csproj" Type="Classic C#" />
+    <Project Path="Hash\Hash.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/">
     <Project Path="IO/IO.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/Tests/">
-    <Project Path="IntegrationTests\IntegrationTests.csproj" Type="Classic C#" />
+    <Project Path="IntegrationTest/IntegrationTest.csproj" Id="7d577fb7-8a43-4475-9f0d-969b8d57833c" />
+    <Project Path="IntegrationTests\IntegrationTests.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/Tests/NUnitTests/">
     <Project Path="ApplicationTests/ApplicationTests.csproj" />

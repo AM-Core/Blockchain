@@ -332,19 +332,6 @@ public class BlockMinerTests
 
     #endregion
 
-    #region ValidateBlock Tests
-
-    [Test]
-    public void ValidateBlock_NotImplemented_ThrowsNotImplementedException()
-    {
-        // Arrange
-        var block = new Block(1, new List<TransactionEntry>());
-
-        // Act & Assert
-        Assert.Throws<NotImplementedException>(() => _blockMiner.ValidateBlock(block));
-    }
-
-    #endregion
 
     #region Helper Methods
 

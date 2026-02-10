@@ -33,11 +33,10 @@ public class Mempool
             AddDependencies(transaction);
 
             _FeeRateCalculator.CalculateFee(transaction, _map);
-            var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 1_000_000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
-            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
+            var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
+            var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
             _priorityTree.InsertOne(priorityKey, transaction);
-            _evictionTree.InsertOne(evictionKey, transaction);
+            _evictionTree.InsertOne(priorityKey, transaction);
             return true;
         }
     }
@@ -49,20 +48,34 @@ public class Mempool
             var transaction = _map.TryGet(transactionId);
             if (transaction == null)
                 return false;
-            _FeeRateCalculator.CalculateFee(transaction, _map);
-            var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 1_000_000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
-            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
 
-            _map.Remove(transactionId);
-            _dag.RemoveNode(transaction);
-            _priorityTree.DeleteOne(priorityKey, transaction);
-            _evictionTree.DeleteOne(evictionKey, transaction);
+            var dependenciesToRemove = _dag.GetDependencies(transaction);
+
+            foreach (var dependentTx in dependenciesToRemove)
+            {
+                if (dependentTx.Id == transactionId)
+                    continue;
+
+                RemoveTransactionInternal(dependentTx);
+            }
+
+            RemoveTransactionInternal(transaction);
 
             return true;
         }
     }
+    private void RemoveTransactionInternal(TransactionEntry transaction)
+    {
+        _FeeRateCalculator.CalculateFee(transaction, _map);
+        var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
+        var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+        var evictionKey = $"{feeRate:D10}_{transaction.Id}";
 
+        _map.Remove(transaction.Id);
+        _dag.RemoveNode(transaction);
+        _priorityTree.DeleteOne(priorityKey, transaction);
+        _evictionTree.DeleteOne(evictionKey, transaction);
+    }
     public bool Exist(string transactionId)
     {
         return _map.TryGet(transactionId) != null;
@@ -106,7 +119,7 @@ public class Mempool
 
         for (var i = 0; i < count; i++)
         {
-            var transaction = _evictionTree.GetMax();
+            var transaction = _evictionTree.GetMin();
             if (transaction == null)
                 break;
 

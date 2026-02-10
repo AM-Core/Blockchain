@@ -6,24 +6,7 @@ namespace DomainService;
 
 public class FeeRateCalculator
 {
-    
-    //public void CalculateParentFee(TransactionEntry transaction, DAG<TransactionEntry> dag)
-    //{
-    //    double parentFee = 0;
-    //    var parentSize = 0;
-
-    //    var dependencyList = dag.GetDependencies(transaction);
-    //    foreach (var transactionEntry in dependencyList)
-    //    {
-    //        parentFee += transactionEntry.Fee;
-    //        parentSize += transactionEntry.Size;
-    //    }
-
-    //    transaction.ParentFee = Math.Round(parentFee - transaction.Fee, 2);
-    //    transaction.ParentSize = parentSize - transaction.Size;
-    //}
-
-    public void CalculateFee(TransactionEntry transaction,HashMap<String,TransactionEntry> map)
+    public void CalculateFee(TransactionEntry transaction, HashMap<string, TransactionEntry> map)
     {
         double inputTotal = 0;
         double outputTotal = 0;
@@ -56,9 +39,14 @@ public class FeeRateCalculator
         }
 
         double calculatedFee = inputTotal - outputTotal;
-        if (calculatedFee < 0)
+        if (inputTotal > 0 && calculatedFee < 0)
         {
-            throw new InvalidFeeException($"Transaction {transaction.Id} has negative fee: {calculatedFee:F2}. Outputs exceed inputs.");
+            throw new InvalidFeeException($"{transaction.Id}negative fee exception");
+        }
+        else if (inputTotal == 0 && calculatedFee < 0)
+        {
+            transaction.Fee = 0;
+            return;
         }
 
         transaction.Fee = Math.Round(calculatedFee, 2);
