@@ -17,6 +17,7 @@ public class Mempool
     {
         _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
+        _config = new MiningConfig();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
         _FeeRateCalculator = new FeeRateCalculator();

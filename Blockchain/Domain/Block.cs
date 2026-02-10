@@ -15,6 +15,7 @@ public class Block
     public string PrevBlockHash { get; private set; }
     public long Difficulty { get; private set; }
     public long Nonce { get; set; }
-    public List<TransactionEntry> Transactions { get; private set; }
     public string MerkleRoot { get; set; }
+    public List<TransactionEntry> Transactions { get; private set; }
+    
 }

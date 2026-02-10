@@ -9,7 +9,6 @@ public class TransactionReader : ITransactionReader
 {
     public TransactionEntry ReadTransaction(string filePath)
     {
-        // Resolve path relative to project root if not absolute
         var resolvedPath = ResolveFilePath(filePath);
         
         if (!File.Exists(resolvedPath))
@@ -27,18 +26,15 @@ public class TransactionReader : ITransactionReader
 
     private string ResolveFilePath(string filePath)
     {
-        // If absolute path, return as is
         if (Path.IsPathRooted(filePath))
             return filePath;
 
-        // Navigate from bin/Debug/net8.0 to solution root (4 levels up)
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
 
         if (solutionRoot == null)
             throw new InvalidOperationException("Could not determine solution root directory");
 
-        // Combine solution root with relative path
         return Path.Combine(solutionRoot, filePath);
     }
 
