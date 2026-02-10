@@ -76,13 +76,11 @@ public class Mempool
     {
         _FeeRateCalculator.CalculateFee(transaction, _map);
         var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
-        var priorityKey = $"{feeRate:D10}_{transaction.Id}";
-        var evictionKey = $"{feeRate:D10}_{transaction.Id}";
-
+        var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
         _map.Remove(transaction.Id);
         _dag.RemoveNode(transaction);
         _priorityTree.DeleteOne(priorityKey, transaction);
-        _evictionTree.DeleteOne(evictionKey, transaction);
+        _evictionTree.DeleteOne(priorityKey, transaction);
     }
     public bool Exist(string transactionId)
     {
