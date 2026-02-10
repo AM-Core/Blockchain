@@ -1,7 +1,7 @@
 ﻿{
   "Id": "standalonecccccccccccccccccccccccccccccccccccccccccccccccccccccc",
   "Inputs": [
-    { "PrevTxId": "9999999999999999999999999999999999999999999999999999999999999999", "PrevOutIndex": 0 }
+    { "PrevId": "9999999999999999999999999999999999999999999999999999999999999999", "PrevIndex": 0 }
   ],
   "Outputs": [
     { "Value": 5.0, "PublicKey": "02dddd..." }

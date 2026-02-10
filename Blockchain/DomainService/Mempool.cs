@@ -9,7 +9,7 @@ public class Mempool
     private readonly AVL<string, TransactionEntry> _evictionTree;
     private readonly object _lock = new();
     private readonly HashMap<string, TransactionEntry> _map;
-    private readonly ParentFeeRateCalculator _parentFeeRateCalculator;
+    private readonly FeeRateCalculator _FeeRateCalculator;
     private readonly AVL<string, TransactionEntry> _priorityTree;
 
     public Mempool()
@@ -18,7 +18,7 @@ public class Mempool
         _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
-        _parentFeeRateCalculator = new ParentFeeRateCalculator();
+        _FeeRateCalculator = new FeeRateCalculator();
     }
 
     public bool AddTransaction(TransactionEntry transaction)
@@ -31,11 +31,9 @@ public class Mempool
             _map.Put(transaction.Id, transaction);
             _dag.AddNode(transaction);
             AddDependencies(transaction);
-            _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
 
-            var effectiveFee = transaction.Fee + transaction.ParentFee;
-            var effectiveSize = transaction.Size + transaction.ParentSize;
-            var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
+            _FeeRateCalculator.CalculateFee(transaction, _map);
+            var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 1_000_000) : 0;
             var priorityKey = $"{feeRate:D10}_{transaction.Id}";
             var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
             _priorityTree.InsertOne(priorityKey, transaction);
@@ -51,12 +49,8 @@ public class Mempool
             var transaction = _map.TryGet(transactionId);
             if (transaction == null)
                 return false;
-
-            _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
-            
-            var effectiveFee = transaction.Fee + transaction.ParentFee;
-            var effectiveSize = transaction.Size + transaction.ParentSize;
-            var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
+            _FeeRateCalculator.CalculateFee(transaction, _map);
+            var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 1_000_000) : 0;
             var priorityKey = $"{feeRate:D10}_{transaction.Id}";
             var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
 
@@ -112,7 +106,7 @@ public class Mempool
 
         for (var i = 0; i < count; i++)
         {
-            var transaction = _evictionTree.GetMin();
+            var transaction = _evictionTree.GetMax();
             if (transaction == null)
                 break;
 

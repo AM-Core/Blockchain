@@ -1,6 +1,6 @@
 {
   "Id": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "Inputs": [{ "PrevTxId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "PrevOutIndex": 0 }],
+  "Inputs": [{ "PrevId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "PrevIndex": 0 }],
   "Outputs": [
     { "Value": 6.0, "PublicKey": "02bbbb..." },
     { "Value": 4.0, "PublicKey": "02cccc..." }

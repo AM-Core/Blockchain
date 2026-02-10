@@ -1,5 +1,5 @@
 {
   "Id": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "Inputs": [{ "PrevTxId": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "PrevOutIndex": 0 }],
+  "Inputs": [{ "PrevId": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd", "PrevIndex": 0 }],
   "Outputs": [{ "Value": 10.0, "PublicKey": "02bbbb..." }]
 }
