@@ -34,13 +34,13 @@ public class Handler
             case CommandType.ADDTRANSACTIONTOMEMPOOL:
                 var transactionApplication = new TransactionApplication();
                 transactionApplication
-                    .AddTransactionToMempool(command.Argument, _transactionReader, _mempool);
+                    .AddTransactionToMempool(command.Argument, _transactionReader, _mempool, _resultWriter);
 
                 break;
 
             case CommandType.EVICTMEMPOOL:
                 var evictApplication = new EvictApplication();
-                evictApplication.EvictMempool(Convert.ToInt32(command.Argument), _mempool);
+                evictApplication.EvictMempool(Convert.ToInt32(command.Argument), _mempool, _resultWriter);
                 break;
 
             case CommandType.MINEBLOCK:

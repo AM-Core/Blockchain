@@ -1,8 +1,4 @@
-﻿using Application;
-using Application.MiningApplication;
-using ConsoleApp.Bootstrap;
-using Application;
-using Application.MiningApplication;
+﻿using Application.MiningApplication;
 using ConsoleApp.Bootstrap;
 using Microsoft.Extensions.DependencyInjection;
 

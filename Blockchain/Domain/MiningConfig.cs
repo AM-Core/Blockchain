@@ -2,6 +2,6 @@
 
 public class MiningConfig
 {
-    public int Difficulty { get; set; }
-    public int Size { get; } = 10000;
+    public long Difficulty { get; set; }
+    public long Size { get; } = 10000;
 }
