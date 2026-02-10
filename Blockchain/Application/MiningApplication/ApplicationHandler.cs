@@ -16,14 +16,14 @@ public class ApplicationHandler
     private readonly ITransactionReader _transactionReader;
 
     public ApplicationHandler(IResultWriter resultWriter,
-        ITransactionReader transactionReader, IQueryParser queryParser)
+        ITransactionReader transactionReader, IQueryParser queryParser, Mempool mempool, BlockMiner blockMiner)
     {
         _resultWriter = resultWriter;
         _transactionReader = transactionReader;
         _queryParser = queryParser;
+        _mempool = mempool;
+        _blockMiner = blockMiner;
         _miningConfig = new MiningConfig();
-        _blockMiner = new BlockMiner();
-        _mempool = new Mempool();
     }
 
     public void Handle(string query)

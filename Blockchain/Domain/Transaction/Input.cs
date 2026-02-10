@@ -10,7 +10,7 @@ public class Input
         Signature = signature;
     }
 
-    public string PrevId { get; private set; }
+    public string? PrevId { get; private set; }
     public int PrevIndex { get; private set; }
     public string PublicKey { get; private set; }
     public string Signature { get; private set; }

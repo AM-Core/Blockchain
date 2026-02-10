@@ -18,6 +18,7 @@ public static class DependencyBootstrapper
         services.AddTransient<IQueryParser, QueryParser>();
         services.AddSingleton<ApplicationHandler>();
         services.AddSingleton<Mempool>();
+        services.AddSingleton<BlockMiner>();
         return services.BuildServiceProvider();
     }
 }

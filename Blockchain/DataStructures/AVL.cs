@@ -213,7 +213,7 @@ public class AVL<TKey, TValue>
         return current.Value;
     }
 
-    public TValue GetMin()
+    public TValue? GetMin()
     {
         if (_root == null)
             return default;

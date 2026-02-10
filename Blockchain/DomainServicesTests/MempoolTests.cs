@@ -212,7 +212,7 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.txid, Is.EqualTo("tx1"));
+        Assert.That(result.Id, Is.EqualTo("tx1"));
         Assert.That(result.Fee, Is.EqualTo(1.0));
     }
 
@@ -248,7 +248,7 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(1));
-        Assert.That(result[0].txid, Is.EqualTo("tx1"));
+        Assert.That(result[0].Id, Is.EqualTo("tx1"));
     }
 
     [Test]
@@ -269,9 +269,9 @@ public class MempoolTests
         // Assert - Should be sorted in ascending order (in-order traversal)
         Assert.That(result, Has.Count.EqualTo(3));
         // Verify all transactions are present
-        Assert.That(result.Select(t => t.txid), Contains.Item("tx1"));
-        Assert.That(result.Select(t => t.txid), Contains.Item("tx2"));
-        Assert.That(result.Select(t => t.txid), Contains.Item("tx3"));
+        Assert.That(result.Select(t => t.Id), Contains.Item("tx1"));
+        Assert.That(result.Select(t => t.Id), Contains.Item("tx2"));
+        Assert.That(result.Select(t => t.Id), Contains.Item("tx3"));
     }
 
     [Test]
@@ -296,7 +296,7 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.txid, Is.EqualTo("tx1"));
+        Assert.That(result.Id, Is.EqualTo("tx1"));
     }
 
     [Test]
@@ -316,7 +316,7 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.txid, Is.EqualTo("tx2"));
+        Assert.That(result.Id, Is.EqualTo("tx2"));
     }
 
     [Test]
@@ -436,7 +436,7 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(1));
-        Assert.That(result[0].txid, Is.EqualTo("tx1"));
+        Assert.That(result[0].Id, Is.EqualTo("tx1"));
     }
 
     [Test]
@@ -454,8 +454,8 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(2));
-        var tx1Index = result.FindIndex(t => t.txid == "tx1");
-        var tx2Index = result.FindIndex(t => t.txid == "tx2");
+        var tx1Index = result.FindIndex(t => t.Id == "tx1");
+        var tx2Index = result.FindIndex(t => t.Id == "tx2");
         Assert.That(tx1Index, Is.LessThan(tx2Index)); // tx1 must come before tx2
     }
 
@@ -476,9 +476,9 @@ public class MempoolTests
 
         // Assert
         Assert.That(result, Has.Count.EqualTo(3));
-        Assert.That(result.Select(t => t.txid), Contains.Item("tx1"));
-        Assert.That(result.Select(t => t.txid), Contains.Item("tx2"));
-        Assert.That(result.Select(t => t.txid), Contains.Item("tx3"));
+        Assert.That(result.Select(t => t.Id), Contains.Item("tx1"));
+        Assert.That(result.Select(t => t.Id), Contains.Item("tx2"));
+        Assert.That(result.Select(t => t.Id), Contains.Item("tx3"));
     }
 
     [Test]
@@ -552,8 +552,8 @@ public class MempoolTests
             ParentFee = 0.5,
             ParentSize = 100
         };
-        transaction.inputs.Add(new Input("prevTx", 0, "pubKey", "signature"));
-        transaction.outputs.Add(new Output(10.0, "pubKey"));
+        transaction.Inputs.Add(new Input("prevTx", 0, "pubKey", "signature"));
+        transaction.Outputs.Add(new Output(10.0, "pubKey"));
 
         // Act
         var result = _mempool.AddTransaction(transaction);
@@ -587,10 +587,10 @@ public class MempoolTests
         };
 
         var input = new Input("prevTx1", 0, "pubKey1", "signature1");
-        transaction.inputs.Add(input);
+        transaction.Inputs.Add(input);
 
         var output = new Output(10.0, "pubKeyOut1");
-        transaction.outputs.Add(output);
+        transaction.Outputs.Add(output);
 
         return transaction;
     }
@@ -605,10 +605,10 @@ public class MempoolTests
 
         // This transaction depends on parentId
         var input = new Input(parentId, 0, "pubKey1", "signature1");
-        transaction.inputs.Add(input);
+        transaction.Inputs.Add(input);
 
         var output = new Output(10.0, "pubKeyOut1");
-        transaction.outputs.Add(output);
+        transaction.Outputs.Add(output);
 
         return transaction;
     }

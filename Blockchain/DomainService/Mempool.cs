@@ -25,10 +25,10 @@ public class Mempool
     {
         lock (_lock)
         {
-            if (!Exist(transaction.txid))
+            if (Exist(transaction.Id))
                 return false;
 
-            _map.Put(transaction.txid, transaction);
+            _map.Put(transaction.Id, transaction);
             _dag.AddNode(transaction);
             AddDependencies(transaction);
             _parentFeeRateCalculator.CalculateParentFee(transaction, _dag);
@@ -36,8 +36,8 @@ public class Mempool
             var effectiveFee = transaction.Fee + transaction.ParentFee;
             var effectiveSize = transaction.Size + transaction.ParentSize;
             var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.txid}";
-            var evictionKey = $"{-feeRate:D10}_{transaction.txid}";
+            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
             _priorityTree.InsertOne(priorityKey, transaction);
             _evictionTree.InsertOne(evictionKey, transaction);
             return true;
@@ -57,8 +57,8 @@ public class Mempool
             var effectiveFee = transaction.Fee + transaction.ParentFee;
             var effectiveSize = transaction.Size + transaction.ParentSize;
             var feeRate = effectiveSize > 0 ? (int)(effectiveFee / effectiveSize * 1_000_000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.txid}";
-            var evictionKey = $"{-feeRate:D10}_{transaction.txid}";
+            var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+            var evictionKey = $"{-feeRate:D10}_{transaction.Id}";
 
             _map.Remove(transactionId);
             _dag.RemoveNode(transaction);
@@ -116,7 +116,7 @@ public class Mempool
             if (transaction == null)
                 break;
 
-            RemoveTransaction(transaction.txid);
+            RemoveTransaction(transaction.Id);
         }
     }
 
@@ -132,8 +132,11 @@ public class Mempool
 
     private void AddDependencies(TransactionEntry transaction)
     {
-        foreach (var input in transaction.inputs)
+        foreach (var input in transaction.Inputs)
         {
+            if (input.PrevId == null)
+                continue;
+            
             var parentTx = _map.TryGet(input.PrevId);
             if (parentTx != null)
                 try
@@ -143,7 +146,7 @@ public class Mempool
                 catch (InvalidOperationException)
                 {
                     _dag.RemoveNode(transaction);
-                    _map.Remove(transaction.txid);
+                    _map.Remove(transaction.Id);
                     return;
                 }
         }

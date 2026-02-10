@@ -12,7 +12,7 @@ public class TransactionReader : ITransactionReader
 
         var transaction = JsonSerializer.Deserialize<TransactionEntry>(json);
 
-        if (transaction == null || transaction.txid == null)
+        if (transaction == null || transaction.Id == null)
             throw new InvalidDataException("Failed to deserialize TransactionEntry from file.");
 
         return transaction;

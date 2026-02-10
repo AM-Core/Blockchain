@@ -75,7 +75,7 @@ public class ResultWriterTests
         var filePath = _writer.WriteTransaction(transaction);
         var json = File.ReadAllText(filePath);
         var deserialized = JsonSerializer.Deserialize<TransactionEntry>(json);
-        Assert.That(deserialized.txid, Is.EqualTo("tx1"));
+        Assert.That(deserialized.Id, Is.EqualTo("tx1"));
     }
 
     [Test]
@@ -110,8 +110,8 @@ public class ResultWriterTests
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)
     {
         var transaction = new TransactionEntry(id) { Fee = fee, Size = size };
-        transaction.inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
-        transaction.outputs.Add(new Output(10.0, "pubKeyOut1"));
+        transaction.Inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
+        transaction.Outputs.Add(new Output(10.0, "pubKeyOut1"));
         return transaction;
     }
 }

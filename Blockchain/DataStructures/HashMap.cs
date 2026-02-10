@@ -32,7 +32,7 @@ public class HashMap<TKey, TValue>
         _buckets[index].Add(new KeyValuePair<TKey, TValue>(key, value));
     }
 
-    public TValue TryGet(TKey key)
+    public TValue? TryGet(TKey key)
     {
         var index = GetIndex(key);
 
@@ -40,7 +40,7 @@ public class HashMap<TKey, TValue>
             if (EqualityComparer<TKey>.Default.Equals(pair.Key, key))
                 return pair.Value;
 
-        return default!;
+        return default;
     }
 
     public bool Remove(TKey key)
