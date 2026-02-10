@@ -1,0 +1,14 @@
+﻿{
+  "Id": "33dbab22222222222222222222222222222222222222222222222222222",
+  "Inputs": [
+    {
+      "PrevId": "ac474c11111111111111111111111111111111111111111111111111111",
+      "PrevIndex": 0,
+      "PublicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "Signature": "30440220bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "Outputs": [
+    { "Value": 29.8, "PublicKey": "02dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" }
+  ]
+}

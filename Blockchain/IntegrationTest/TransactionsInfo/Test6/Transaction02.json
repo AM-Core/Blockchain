@@ -1,0 +1,5 @@
+﻿{
+  "Id": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "Inputs": [{ "PrevId": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "PrevIndex": 0 }],
+  "Outputs": [{ "Value": 5.8, "PublicKey": "02dddd..." }]
+}

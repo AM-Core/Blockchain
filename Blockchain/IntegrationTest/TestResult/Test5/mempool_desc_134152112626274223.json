@@ -1,0 +1,27 @@
+{
+  "TransactionEntries": [
+    {
+      "Id": "parent555555555555555555555555555555555555555555555555555555",
+      "Inputs": [
+        {
+          "PrevId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "PrevIndex": 0,
+          "PublicKey": null,
+          "Signature": null
+        }
+      ],
+      "Outputs": [
+        {
+          "Value": 6,
+          "PublicKey": "02bbbb..."
+        },
+        {
+          "Value": 4,
+          "PublicKey": "02cccc..."
+        }
+      ],
+      "Fee": 0,
+      "Size": 308
+    }
+  ]
+}

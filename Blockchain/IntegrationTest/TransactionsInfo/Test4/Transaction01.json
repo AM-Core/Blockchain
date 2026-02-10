@@ -1,0 +1,9 @@
+{
+  "Id": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "Inputs": [
+    { "PrevId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff", "PrevIndex": 0 }
+  ],
+  "Outputs": [
+    { "Value": 10.0, "PublicKey": "02bbbb..." }
+  ]
+}
