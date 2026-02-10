@@ -1,6 +1,6 @@
-﻿AddTransactionToMempool E:\Amir\git hub repository work\Blockchain\Blockchain\IntegrationTest\TransactionsInfo\Test3\Transaction01.json
-AddTransactionToMempool E:\Amir\git hub repository work\Blockchain\Blockchain\IntegrationTest\TransactionsInfo\Test3\Transaction02.json
-AddTransactionToMempool E:\Amir\git hub repository work\Blockchain\Blockchain\IntegrationTest\TransactionsInfo\Test3\Transaction03.json
+﻿AddTransactionToMempool IntegrationTest\TransactionsInfo\Test3\Transaction01.json
+AddTransactionToMempool IntegrationTest\TransactionsInfo\Test3\Transaction02.json
+AddTransactionToMempool IntegrationTest\TransactionsInfo\Test3\Transaction03.json
 
 SetDifficulty 5
 MineBlock

@@ -25,20 +25,28 @@ public class Mempool
     {
         lock (_lock)
         {
-            if (Exist(transaction.Id))
-                return false;
+            if (IsValid(transaction))
+            {
+                if (Exist(transaction.Id))
+                    return false;
 
-            _map.Put(transaction.Id, transaction);
-            _dag.AddNode(transaction);
-            AddDependencies(transaction);
+                _map.Put(transaction.Id, transaction);
+                _dag.AddNode(transaction);
+                AddDependencies(transaction);
 
-            _FeeRateCalculator.CalculateFee(transaction, _map);
-            var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
-            var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
-            _priorityTree.InsertOne(priorityKey, transaction);
-            _evictionTree.InsertOne(priorityKey, transaction);
-            return true;
+                _FeeRateCalculator.CalculateFee(transaction, _map);
+                var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
+                var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
+                _priorityTree.InsertOne(priorityKey, transaction);
+                _evictionTree.InsertOne(priorityKey, transaction);
+                return true;
+            }
+            else
+            {
+                throw new InvalidValueException("Invalid Value for Outputs !");
+            }
         }
+            
     }
 
     public bool RemoveTransaction(string transactionId)
@@ -157,5 +165,19 @@ public class Mempool
                     return;
                 }
         }
+    }
+
+    private bool IsValid(TransactionEntry transaction)
+    {
+        foreach (var output in transaction.Outputs)
+        {
+            if (output.Value == Double.PositiveInfinity || output.Value < 0)
+            {
+                return false;
+            }
+            
+        }
+
+        return true;
     }
 }
