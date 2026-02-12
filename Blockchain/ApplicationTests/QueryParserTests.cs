@@ -1,6 +1,6 @@
 ﻿using Application.Exceptions;
 using Application.QueryHandler;
-using Domain.Command;
+using Application.QueryHandler.Command;
 
 namespace ApplicationTests;
 

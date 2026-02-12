@@ -1,6 +1,6 @@
 ﻿using Application.QueryHandler;
+using Application.QueryHandler.Command;
 using Domain;
-using Domain.Command;
 using Domain.Interfaces;
 using DomainService;
 
@@ -55,6 +55,4 @@ public class ApplicationHandler
                 break;
         }
     }
-
-    
 }

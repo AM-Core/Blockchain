@@ -5,15 +5,13 @@ namespace DataStructuresTests;
 [TestFixture]
 public class HashMapTests
 {
-    private HashMap<string, int> _hashMap;
-
     [SetUp]
     public void Setup()
     {
         _hashMap = new HashMap<string, int>();
     }
 
-    #region Constructor Tests
+    private HashMap<string, int> _hashMap;
 
     [Test]
     public void Constructor_DefaultCapacity_CreatesHashMap()
@@ -44,10 +42,6 @@ public class HashMapTests
         // Assert
         Assert.That(map, Is.Not.Null);
     }
-
-    #endregion
-
-    #region Put Tests
 
     [Test]
     public void Put_SingleItem_StoresSuccessfully()
@@ -145,21 +139,11 @@ public class HashMapTests
     public void Put_ManyItems_HandlesCollisions()
     {
         // Arrange & Act
-        for (int i = 0; i < 100; i++)
-        {
-            _hashMap.Put($"key{i}", i);
-        }
+        for (var i = 0; i < 100; i++) _hashMap.Put($"key{i}", i);
 
         // Assert
-        for (int i = 0; i < 100; i++)
-        {
-            Assert.That(_hashMap.TryGet($"key{i}"), Is.EqualTo(i));
-        }
+        for (var i = 0; i < 100; i++) Assert.That(_hashMap.TryGet($"key{i}"), Is.EqualTo(i));
     }
-
-    #endregion
-
-    #region TryGet Tests
 
     [Test]
     public void TryGet_ExistingKey_ReturnsValue()
@@ -241,10 +225,6 @@ public class HashMapTests
         // Assert
         Assert.That(value, Is.Null);
     }
-
-    #endregion
-
-    #region Remove Tests
 
     [Test]
     public void Remove_ExistingKey_ReturnsTrue()
@@ -350,10 +330,6 @@ public class HashMapTests
         Assert.That(map.TryGet(obj2), Is.EqualTo(200));
     }
 
-    #endregion
-
-    #region GetValues Tests
-
     [Test]
     public void GetValues_EmptyHashMap_ReturnsEmptyList()
     {
@@ -449,25 +425,15 @@ public class HashMapTests
     public void GetValues_LargeHashMap_ReturnsAllValues()
     {
         // Arrange
-        for (int i = 0; i < 100; i++)
-        {
-            _hashMap.Put($"key{i}", i);
-        }
+        for (var i = 0; i < 100; i++) _hashMap.Put($"key{i}", i);
 
         // Act
         var values = _hashMap.GetValues();
 
         // Assert
         Assert.That(values, Has.Count.EqualTo(100));
-        for (int i = 0; i < 100; i++)
-        {
-            Assert.That(values, Contains.Item(i));
-        }
+        for (var i = 0; i < 100; i++) Assert.That(values, Contains.Item(i));
     }
-
-    #endregion
-
-    #region Integration Tests
 
     [Test]
     public void HashMap_PutGetRemoveSequence_WorksCorrectly()
@@ -524,16 +490,10 @@ public class HashMapTests
     public void HashMap_StressTest_Handles1000Items()
     {
         // Arrange & Act
-        for (int i = 0; i < 1000; i++)
-        {
-            _hashMap.Put($"key{i}", i);
-        }
+        for (var i = 0; i < 1000; i++) _hashMap.Put($"key{i}", i);
 
         // Assert
-        for (int i = 0; i < 1000; i++)
-        {
-            Assert.That(_hashMap.TryGet($"key{i}"), Is.EqualTo(i));
-        }
+        for (var i = 0; i < 1000; i++) Assert.That(_hashMap.TryGet($"key{i}"), Is.EqualTo(i));
 
         var values = _hashMap.GetValues();
         Assert.That(values, Has.Count.EqualTo(1000));
@@ -546,16 +506,10 @@ public class HashMapTests
         var map = new HashMap<string, int>(4); // Very small capacity
 
         // Act
-        for (int i = 0; i < 20; i++)
-        {
-            map.Put($"key{i}", i);
-        }
+        for (var i = 0; i < 20; i++) map.Put($"key{i}", i);
 
         // Assert
-        for (int i = 0; i < 20; i++)
-        {
-            Assert.That(map.TryGet($"key{i}"), Is.EqualTo(i));
-        }
+        for (var i = 0; i < 20; i++) Assert.That(map.TryGet($"key{i}"), Is.EqualTo(i));
     }
 
     [Test]
@@ -565,15 +519,15 @@ public class HashMapTests
         _hashMap.Put("A", 1);
         _hashMap.Put("B", 2);
         _hashMap.Put("C", 3);
-        
+
         Assert.That(_hashMap.GetValues().Count, Is.EqualTo(3));
-        
+
         _hashMap.Remove("B");
         Assert.That(_hashMap.GetValues().Count, Is.EqualTo(2));
-        
+
         _hashMap.Put("D", 4);
         _hashMap.Put("A", 10); // Update
-        
+
         // Assert
         Assert.That(_hashMap.TryGet("A"), Is.EqualTo(10));
         Assert.That(_hashMap.TryGet("B"), Is.EqualTo(default(int)));
@@ -581,10 +535,6 @@ public class HashMapTests
         Assert.That(_hashMap.TryGet("D"), Is.EqualTo(4));
         Assert.That(_hashMap.GetValues().Count, Is.EqualTo(3));
     }
-
-    #endregion
-
-    #region Helper Classes
 
     private class SameHashObject
     {
@@ -610,14 +560,14 @@ public class HashMapTests
 
     private class CustomKey
     {
-        public int Id { get; }
-        public string Name { get; }
-
         public CustomKey(int id, string name)
         {
             Id = id;
             Name = name;
         }
+
+        public int Id { get; }
+        public string Name { get; }
 
         public override int GetHashCode()
         {
@@ -631,6 +581,4 @@ public class HashMapTests
             return false;
         }
     }
-
-    #endregion
 }

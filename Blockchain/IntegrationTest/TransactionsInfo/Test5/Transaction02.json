@@ -1,5 +1,15 @@
 ﻿{
   "Id": "child1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-  "Inputs": [{ "PrevId": "parent555555555555555555555555555555555555555555555555555555", "PrevIndex": 0 }],
-  "Outputs": [{ "Value": 5.8, "PublicKey": "02dddd..." }]
+  "Inputs": [
+    {
+      "PrevId": "parent555555555555555555555555555555555555555555555555555555",
+      "PrevIndex": 0
+    }
+  ],
+  "Outputs": [
+    {
+      "Value": 5.8,
+      "PublicKey": "02dddd..."
+    }
+  ]
 }

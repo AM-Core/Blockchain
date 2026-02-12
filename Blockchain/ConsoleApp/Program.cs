@@ -1,7 +1,6 @@
 ﻿using Application.MiningApplication;
 using ConsoleApp.Bootstrap;
 using ConsoleApp.ConsoleHandler;
-using Domain;
 using Microsoft.Extensions.DependencyInjection;
 
 var provider = DependencyBootstrapper.ConfigureServices();

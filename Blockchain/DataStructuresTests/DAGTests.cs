@@ -5,15 +5,13 @@ namespace DataStructuresTests;
 [TestFixture]
 public class DAGTests
 {
-    private DAG<string> _dag;
-
     [SetUp]
     public void Setup()
     {
         _dag = new DAG<string>();
     }
 
-    #region AddNode Tests
+    private DAG<string> _dag;
 
     [Test]
     public void AddNode_SingleNode_AddsSuccessfully()
@@ -65,10 +63,6 @@ public class DAGTests
         Assert.That(sorted, Is.Empty);
     }
 
-    #endregion
-
-    #region AddEdge Tests
-
     [Test]
     public void AddEdge_ValidEdge_AddsSuccessfully()
     {
@@ -96,7 +90,7 @@ public class DAGTests
         var indexA = sorted.IndexOf("A");
         var indexB = sorted.IndexOf("B");
         var indexC = sorted.IndexOf("C");
-        
+
         Assert.That(indexA, Is.LessThan(indexB));
         Assert.That(indexB, Is.LessThan(indexC));
     }
@@ -121,7 +115,7 @@ public class DAGTests
         var indexB = sorted.IndexOf("B");
         var indexC = sorted.IndexOf("C");
         var indexD = sorted.IndexOf("D");
-        
+
         Assert.That(indexA, Is.LessThan(indexB));
         Assert.That(indexA, Is.LessThan(indexC));
         Assert.That(indexB, Is.LessThan(indexD));
@@ -194,23 +188,19 @@ public class DAGTests
         // Assert
         var sorted = _dag.TopologicalSort();
         Assert.That(sorted, Has.Count.EqualTo(5));
-        
+
         var indexA = sorted.IndexOf("A");
         var indexB = sorted.IndexOf("B");
         var indexC = sorted.IndexOf("C");
         var indexD = sorted.IndexOf("D");
         var indexE = sorted.IndexOf("E");
-        
+
         Assert.That(indexA, Is.LessThan(indexB));
         Assert.That(indexA, Is.LessThan(indexC));
         Assert.That(indexB, Is.LessThan(indexD));
         Assert.That(indexC, Is.LessThan(indexD));
         Assert.That(indexC, Is.LessThan(indexE));
     }
-
-    #endregion
-
-    #region RemoveNode Tests
 
     [Test]
     public void RemoveNode_ExistingNode_ReturnsTrue()
@@ -311,10 +301,6 @@ public class DAGTests
         Assert.That(sorted, Is.Empty);
     }
 
-    #endregion
-
-    #region HasCycle Tests
-
     [Test]
     public void HasCycle_EmptyGraph_ReturnsFalse()
     {
@@ -367,10 +353,6 @@ public class DAGTests
         // Assert
         Assert.That(hasCycle, Is.False);
     }
-
-    #endregion
-
-    #region TopologicalSort Tests
 
     [Test]
     public void TopologicalSort_EmptyGraph_ReturnsEmptyList()
@@ -448,15 +430,11 @@ public class DAGTests
         var indexB = sorted.IndexOf("B");
         var indexC = sorted.IndexOf("C");
         var indexD = sorted.IndexOf("D");
-        
+
         Assert.That(indexA, Is.LessThan(indexC));
         Assert.That(indexB, Is.LessThan(indexC));
         Assert.That(indexC, Is.LessThan(indexD));
     }
-
-    #endregion
-
-    #region GetDependencies Tests
 
     [Test]
     public void GetDependencies_NodeWithNoDependencies_ReturnsOnlyNode()
@@ -541,24 +519,14 @@ public class DAGTests
         Assert.That(dependencies[0], Is.EqualTo("C"));
     }
 
-    #endregion
-
-    #region Integration Tests
-
     [Test]
     public void DAG_LargeGraph_HandlesCorrectly()
     {
         // Arrange
-        for (int i = 0; i < 100; i++)
-        {
-            _dag.AddNode($"Node{i}");
-        }
+        for (var i = 0; i < 100; i++) _dag.AddNode($"Node{i}");
 
         // Create some edges
-        for (int i = 0; i < 50; i++)
-        {
-            _dag.AddEdge($"Node{i}", $"Node{i + 50}");
-        }
+        for (var i = 0; i < 50; i++) _dag.AddEdge($"Node{i}", $"Node{i + 50}");
 
         // Act
         var sorted = _dag.TopologicalSort();
@@ -606,7 +574,7 @@ public class DAGTests
         var obj1 = new TestObject { Id = 1 };
         var obj2 = new TestObject { Id = 2 };
         var obj3 = new TestObject { Id = 3 };
-        
+
         var objDag = new DAG<TestObject>();
         objDag.AddEdge(obj1, obj2);
         objDag.AddEdge(obj2, obj3);
@@ -621,14 +589,8 @@ public class DAGTests
         Assert.That(sorted[2], Is.SameAs(obj3));
     }
 
-    #endregion
-
-    #region Helper Classes
-
     private class TestObject
     {
         public int Id { get; set; }
     }
-
-    #endregion
 }

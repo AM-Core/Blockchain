@@ -1,4 +1,4 @@
-﻿namespace Domain.Command;
+﻿namespace Application.QueryHandler.Command;
 
 public enum CommandType
 {

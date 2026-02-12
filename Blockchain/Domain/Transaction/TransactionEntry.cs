@@ -4,7 +4,7 @@ public class TransactionEntry
 {
     public TransactionEntry(string id)
     {
-        this.Id = id;
+        Id = id;
         Inputs = new List<Input>();
         Outputs = new List<Output>();
     }

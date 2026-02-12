@@ -17,12 +17,14 @@ public class ConsoleHandler
                 command = ReadLine.Read(">> ");
                 continue;
             }
-            if(command.ToUpper().StartsWith("HELP"))
+
+            if (command.ToUpper().StartsWith("HELP"))
             {
                 ShowHelp();
                 command = ReadLine.Read(">> ");
                 continue;
             }
+
             try
             {
                 ReadLine.AddHistory(command);
@@ -52,6 +54,7 @@ public class ConsoleHandler
         ReadLine.HistoryEnabled = true;
         ReadLine.AutoCompletionHandler = new CommandAutoCompletion();
     }
+
     private void ShowHelp()
     {
         Console.WriteLine("\n=== Blockchain CLI Commands ===\n");

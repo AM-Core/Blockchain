@@ -17,12 +17,12 @@ public static class DependencyBootstrapper
         services.AddTransient<IResultWriter, ResultWriter>();
         services.AddTransient<ITransactionReader, TransactionReader>();
         services.AddTransient<IQueryParser, QueryParser>();
-        
+
         services.AddSingleton<ApplicationHandler>();
         services.AddSingleton<Mempool>();
         services.AddSingleton<BlockMiner>();
         services.AddSingleton<MiningConfig>();
-        
+
         return services.BuildServiceProvider();
     }
 }

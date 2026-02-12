@@ -1,14 +1,10 @@
 ﻿using DataStructures;
-using System.Collections.Generic;
-using NUnit.Framework;
 
 namespace DataStructuresTests;
 
 [TestFixture]
 public class MerkleTreeTests
 {
-    #region Constructor Tests
-
     [Test]
     public void Constructor_NullDataBlocks_CreatesTreeWithHashOfEmptyString()
     {
@@ -81,10 +77,6 @@ public class MerkleTreeTests
         Assert.That(tree.Root, Has.Length.EqualTo(64));
     }
 
-    #endregion
-
-    #region Root Property Tests
-
     [Test]
     public void Root_AfterConstruction_IsNotNull()
     {
@@ -136,10 +128,6 @@ public class MerkleTreeTests
         // Assert
         Assert.That(tree.Root, Does.Match("^[0-9a-f]{64}$"));
     }
-
-    #endregion
-
-    #region Determinism Tests
 
     [Test]
     public void Constructor_SameDataBlocks_ProducesSameRoot()
@@ -201,10 +189,6 @@ public class MerkleTreeTests
         Assert.That(tree1.Root, Is.Not.EqualTo(tree2.Root));
     }
 
-    #endregion
-
-    #region Edge Cases Tests
-
     [Test]
     public void Constructor_OddNumberOfBlocks_HandlesDuplication()
     {
@@ -241,10 +225,7 @@ public class MerkleTreeTests
     {
         // Arrange
         var dataBlocks = new List<string>();
-        for (int i = 0; i < 1000; i++)
-        {
-            dataBlocks.Add($"data{i}");
-        }
+        for (var i = 0; i < 1000; i++) dataBlocks.Add($"data{i}");
 
         // Act
         var tree = new MerkleTree(dataBlocks);
@@ -316,10 +297,6 @@ public class MerkleTreeTests
         Assert.That(tree.Root, Has.Length.EqualTo(64));
     }
 
-    #endregion
-
-    #region Tree Structure Tests
-
     [Test]
     public void Constructor_PowerOfTwo_BuildsBalancedTree()
     {
@@ -381,10 +358,6 @@ public class MerkleTreeTests
         Assert.That(tree.Root, Has.Length.EqualTo(64));
     }
 
-    #endregion
-
-    #region Comparison Tests
-
     [Test]
     public void Constructor_IdenticalData_ProducesIdenticalRoots()
     {
@@ -431,10 +404,6 @@ public class MerkleTreeTests
         Assert.That(uniqueTree.Root, Is.Not.EqualTo(duplicateTree.Root));
     }
 
-    #endregion
-
-    #region Integrity Tests
-
     [Test]
     public void Constructor_ChangingOneBlock_DetectableThroughRoot()
     {
@@ -480,19 +449,12 @@ public class MerkleTreeTests
         Assert.That(originalTree.Root, Is.Not.EqualTo(removedTree.Root));
     }
 
-    #endregion
-
-    #region Performance Tests
-
     [Test]
     public void Constructor_100Blocks_CompletesQuickly()
     {
         // Arrange
         var dataBlocks = new List<string>();
-        for (int i = 0; i < 100; i++)
-        {
-            dataBlocks.Add($"block{i}");
-        }
+        for (var i = 0; i < 100; i++) dataBlocks.Add($"block{i}");
 
         // Act
         var tree = new MerkleTree(dataBlocks);
@@ -507,10 +469,7 @@ public class MerkleTreeTests
     {
         // Arrange
         var dataBlocks = new List<string>();
-        for (int i = 0; i < 1000; i++)
-        {
-            dataBlocks.Add($"transaction_{i}");
-        }
+        for (var i = 0; i < 1000; i++) dataBlocks.Add($"transaction_{i}");
 
         // Act
         var tree = new MerkleTree(dataBlocks);
@@ -519,10 +478,6 @@ public class MerkleTreeTests
         Assert.That(tree, Is.Not.Null);
         Assert.That(tree.Root, Has.Length.EqualTo(64));
     }
-
-    #endregion
-
-    #region Blockchain Use Case Tests
 
     [Test]
     public void Constructor_TransactionHashes_CreatesValidMerkleRoot()
@@ -572,6 +527,4 @@ public class MerkleTreeTests
         Assert.That(tree.Root, Is.Not.Null);
         Assert.That(tree.Root, Has.Length.EqualTo(64));
     }
-
-    #endregion
 }
