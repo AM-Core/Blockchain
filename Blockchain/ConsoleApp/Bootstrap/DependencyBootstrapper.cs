@@ -1,6 +1,5 @@
 ﻿using Application.MiningApplication;
 using Application.QueryHandler;
-using Domain;
 using Domain.Interfaces;
 using DomainService;
 using IO;

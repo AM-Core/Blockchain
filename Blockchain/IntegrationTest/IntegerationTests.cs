@@ -1,9 +1,6 @@
 ﻿using System.Text.Json;
-using Application;
 using Application.MiningApplication;
-using ConsoleApp;
 using ConsoleApp.Bootstrap;
-using Domain;
 using Domain.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,21 +9,15 @@ namespace IntegrationTest;
 [TestFixture]
 public class IntegrationTests
 {
-    private ApplicationHandler _handler;
-    private string _testDataPath;
-    private string _resultPath;
-
     [OneTimeSetUp]
     public void cleanupfirst()
     {
         var based = AppDomain.CurrentDomain.BaseDirectory;
         var solution = Directory.GetParent(based)?.Parent?.Parent?.Parent?.Parent?.FullName;
         var result = Path.Combine(solution, "Results");
-        foreach (var file in Directory.GetFiles(result))
-        {
-            File.Delete(file);
-        }
+        foreach (var file in Directory.GetFiles(result)) File.Delete(file);
     }
+
     [SetUp]
     public void Setup()
     {
@@ -37,23 +28,36 @@ public class IntegrationTests
         _testDataPath = Path.Combine(solutionRoot, "IntegrationTest");
     }
 
+    [TearDown]
+    public void Cleanup()
+    {
+        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
+        var resultDir = Path.Combine(solutionRoot, "Results");
+        foreach (var file in Directory.GetFiles(resultDir)) File.Delete(file);
+    }
+
+    private ApplicationHandler _handler;
+    private string _testDataPath;
+    private string _resultPath;
+
     [Test]
     public void Test1()
     {
-        BlockCompareMainTest("Test1.txt","Test1", "block_0000002a.json");
+        BlockCompareMainTest("Test1.txt", "Test1", "block_0000002a.json");
     }
 
 
     [Test]
     public void Test2()
     {
-        BlockCompareMainTest("Test2.txt","Test2", "block_0000002a.json");
+        BlockCompareMainTest("Test2.txt", "Test2", "block_0000002a.json");
     }
 
     [Test]
     public void Test3()
     {
-        BlockCompareMainTest("Test3.txt","Test3","block_0000002a.json");
+        BlockCompareMainTest("Test3.txt", "Test3", "block_0000002a.json");
     }
 
     [Test]
@@ -65,14 +69,13 @@ public class IntegrationTests
     [Test]
     public void Test5()
     {
-        
-        BlockCompareMainTest("Test5.txt","Test5", "block_0000002a.json");
+        BlockCompareMainTest("Test5.txt", "Test5", "block_0000002a.json");
     }
 
     [Test]
     public void Test6()
     {
-        BlockCompareMainTest("Test6.txt","Test6", "block_0000002a.json");
+        BlockCompareMainTest("Test6.txt", "Test6", "block_0000002a.json");
     }
 
     private string GetLatestBlockFile()
@@ -99,7 +102,7 @@ public class IntegrationTests
             .FirstOrDefault();
     }
 
-    private void BlockCompareMainTest(string testCommandFile, string testResultFolder,string testResultFile)
+    private void BlockCompareMainTest(string testCommandFile, string testResultFolder, string testResultFile)
     {
         _resultPath = Path.Combine(_testDataPath, "TestResult", testResultFolder);
         var commandFile = Path.Combine(_testDataPath, "TestCommands", testCommandFile);
@@ -108,10 +111,7 @@ public class IntegrationTests
         string actualBlockPath = null;
         foreach (var cmd in commands)
         {
-            if (cmd.StartsWith("MineBlock"))
-            {
-                actualBlockPath = GetLatestBlockFile();
-            }
+            if (cmd.StartsWith("MineBlock")) actualBlockPath = GetLatestBlockFile();
 
             try
             {
@@ -123,21 +123,22 @@ public class IntegrationTests
         }
 
         actualBlockPath ??= GetLatestBlockFile();
-        
+
         Assert.That(File.Exists(actualBlockPath), Is.True, "Block file not created");
 
         var expectedBlock = JsonSerializer.Deserialize<BlockDto>(File.ReadAllText(expectedBlockFile));
         var actualBlock = JsonSerializer.Deserialize<BlockDto>(File.ReadAllText(actualBlockPath));
 
-        Assert.That(actualBlock.Header.Difficulty, Is.EqualTo(expectedBlock.Header.Difficulty), "Block difficulty does not match");
-        Assert.That(actualBlock.Header.BlockHash, Is.EqualTo(expectedBlock.Header.BlockHash), "Block hash does not match");
-        Assert.That(actualBlock.Transactions.Count, Is.EqualTo(expectedBlock.Transactions.Count), "Transaction count does not match");
+        Assert.That(actualBlock.Header.Difficulty, Is.EqualTo(expectedBlock.Header.Difficulty),
+            "Block difficulty does not match");
+        Assert.That(actualBlock.Header.BlockHash, Is.EqualTo(expectedBlock.Header.BlockHash),
+            "Block hash does not match");
+        Assert.That(actualBlock.Transactions.Count, Is.EqualTo(expectedBlock.Transactions.Count),
+            "Transaction count does not match");
 
-        for (int i = 0; i < expectedBlock.Transactions.Count; i++)
-        {
+        for (var i = 0; i < expectedBlock.Transactions.Count; i++)
             Assert.That(actualBlock.Transactions[i].TxId, Is.EqualTo(expectedBlock.Transactions[i].TxId),
                 $"Transaction at index {i} does not match");
-        }
     }
 
     private void MempoolCompareMainTest(string testCommandFile, string testResultFolder, string testResultFile)
@@ -149,7 +150,6 @@ public class IntegrationTests
         string actualBlockPath = null;
 
         foreach (var cmd in commands)
-        {
             try
             {
                 _handler.Handle(cmd.Trim());
@@ -157,7 +157,6 @@ public class IntegrationTests
             catch (Exception e)
             {
             }
-        }
 
         actualBlockPath = GetLatestMempoolFile();
 
@@ -165,25 +164,11 @@ public class IntegrationTests
 
         var expectedBlock = JsonSerializer.Deserialize<MempoolDto>(File.ReadAllText(expectedBlockFile));
         var actualBlock = JsonSerializer.Deserialize<MempoolDto>(File.ReadAllText(actualBlockPath));
-        Assert.That(actualBlock.Transactions.Count, Is.EqualTo(expectedBlock.Transactions.Count), "Transaction count does not match");
-        
-        for (int i = 0; i < expectedBlock.Transactions.Count; i++)
-        {
+        Assert.That(actualBlock.Transactions.Count, Is.EqualTo(expectedBlock.Transactions.Count),
+            "Transaction count does not match");
+
+        for (var i = 0; i < expectedBlock.Transactions.Count; i++)
             Assert.That(actualBlock.Transactions[i].TxId, Is.EqualTo(expectedBlock.Transactions[i].TxId),
                 $"Transaction at index {i} does not match");
-        }
-    }
-
-    [TearDown]
-
-    public void Cleanup()
-    {
-        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
-        var resultDir = Path.Combine(solutionRoot, "Results");
-        foreach (var file in Directory.GetFiles(resultDir))
-        {
-            File.Delete(file);
-        }
     }
 }

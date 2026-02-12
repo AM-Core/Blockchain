@@ -1,7 +1,6 @@
 ﻿using DataStructures;
 using Domain;
 using Domain.Exceptions;
-using Domain.Contracts;
 using Domain.Transaction;
 
 namespace DomainService;

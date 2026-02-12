@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Domain;
 using Domain.Contracts;
 using Domain.Transaction;
@@ -66,12 +65,11 @@ public class ResultWriterTests
     public void WriteMempool_EmptyMempool_CreatesJsonFile()
     {
         var mempoolDto = new MempoolDto(_mempool.GetAllTransactions()); // Create an empty MempoolDto
-        var filePath = _writer.WriteMempool(mempoolDto, false);
+        var filePath = _writer.WriteMempool(mempoolDto);
         Assert.That(File.Exists(filePath), Is.True);
         Assert.That(filePath, Does.Contain("Result"));
     }
 
-    
 
     private Block CreateTestBlock()
     {

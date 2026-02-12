@@ -2,11 +2,11 @@
 using Application.QueryHandler;
 using Application.QueryHandler.Command;
 using Domain;
+using Domain.Contracts;
 using Domain.Interfaces;
 using Domain.Transaction;
 using DomainService;
 using Moq;
-using Domain.Contracts;
 
 namespace ApplicationTests;
 

@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.Transaction;
+﻿using Domain.Transaction;
 using DomainService;
 
 namespace DomainServicesTests;

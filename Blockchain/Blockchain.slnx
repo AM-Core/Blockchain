@@ -1,25 +1,25 @@
 <Solution>
     <Folder Name="/Domain/">
-        <Project Path="Domain/Domain.csproj"/>
-        <Project Path="DomainService/DomainService.csproj"/>
+        <Project Path="Domain/Domain.csproj" />
+        <Project Path="DomainService/DomainService.csproj" />
     </Folder>
     <Folder Name="/Frameworks/">
-        <Project Path="DataStructures/DataStructures.csproj"/>
-        <Project Path="Hash\Hash.csproj"/>
+        <Project Path="DataStructures/DataStructures.csproj" />
+        <Project Path="Hash\Hash.csproj" />
     </Folder>
     <Folder Name="/Infrastructure/">
-        <Project Path="IO/IO.csproj"/>
+        <Project Path="IO/IO.csproj" />
     </Folder>
     <Folder Name="/Infrastructure/Tests/">
-        <Project Path="IntegrationTest/IntegrationTest.csproj" Id="7d577fb7-8a43-4475-9f0d-969b8d57833c"/>
+        <Project Path="IntegrationTest/IntegrationTests.csproj" Id="7d577fb7-8a43-4475-9f0d-969b8d57833c" />
     </Folder>
     <Folder Name="/Infrastructure/Tests/NUnitTests/">
-        <Project Path="ApplicationTests/ApplicationTests.csproj"/>
-        <Project Path="ConsoleAppTests/ConsoleAppTests.csproj"/>
-        <Project Path="DataStructuresTests/DataStructuresTests.csproj"/>
-        <Project Path="DomainServicesTests/DomainServicesTests.csproj"/>
-        <Project Path="IOTests/IOTests.csproj"/>
+        <Project Path="ApplicationTests/ApplicationTests.csproj" />
+        <Project Path="ConsoleAppTests/ConsoleAppTests.csproj" />
+        <Project Path="DataStructuresTests/DataStructuresTests.csproj" />
+        <Project Path="DomainServicesTests/DomainServicesTests.csproj" />
+        <Project Path="IOTests/IOTests.csproj" />
     </Folder>
-    <Project Path="Application/Application.csproj"/>
-    <Project Path="ConsoleApp/ConsoleApp.csproj"/>
+    <Project Path="Application/Application.csproj" />
+    <Project Path="ConsoleApp/ConsoleApp.csproj" />
 </Solution>

@@ -1,12 +1,7 @@
-﻿using System.Transactions;
-
-namespace Domain.Contracts;
+﻿namespace Domain.Contracts;
 
 public class BlockDto
 {
-    public HeaderDto Header { get; set; }
-
-    public List<TransactionDto> Transactions { get; set; }
     public BlockDto()
     {
         Header = new HeaderDto();
@@ -19,4 +14,8 @@ public class BlockDto
         Header = new HeaderDto(block.BlockHash, block.PrevBlockHash, block.Difficulty, block.Nonce);
         Transactions = block.Transactions.Select(x => new TransactionDto(x.Id)).ToList();
     }
+
+    public HeaderDto Header { get; set; }
+
+    public List<TransactionDto> Transactions { get; set; }
 }
