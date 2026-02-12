@@ -6,6 +6,7 @@ using Domain.Interfaces;
 using Domain.Transaction;
 using DomainService;
 using Moq;
+using Domain.Contracts;
 
 namespace ApplicationTests;
 
@@ -116,7 +117,7 @@ public class ApplicationHandlerTests
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx.json")).Returns(transaction);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("path");
 
         // Act
         _handler.Handle(query);
@@ -138,7 +139,7 @@ public class ApplicationHandlerTests
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockTransactionReader.Setup(r => r.ReadTransaction(filePath)).Returns(transaction);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("path");
 
         // Act
         _handler.Handle(query);
@@ -158,13 +159,13 @@ public class ApplicationHandlerTests
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx.json")).Returns(transaction);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("result.json");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("result.json");
 
         // Act
         _handler.Handle(query);
 
         // Assert
-        _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<bool>()), Times.Once);
+        _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>()), Times.Once);
     }
 
     [Test]
@@ -178,14 +179,14 @@ public class ApplicationHandlerTests
         for (var i = 0; i < 15; i++) _mempool.AddTransaction(CreateTestTransaction($"tx{i}", 1.0 + i, 250));
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("path");
 
         // Act
         _handler.Handle(query);
 
         // Assert
         _mockQueryParser.Verify(p => p.Parse(query), Times.Once);
-        _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<bool>()), Times.Once);
+        _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>()), Times.Once);
     }
 
     [Test]
@@ -198,14 +199,14 @@ public class ApplicationHandlerTests
         _mempool.AddTransaction(transaction);
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("path");
 
         // Act
         _handler.Handle(query);
 
         // Assert
         Assert.That(_mempool.Exist("tx1"), Is.True);
-        _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<bool>()), Times.Once);
+        _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>()), Times.Once);
     }
 
     [Test]
@@ -228,14 +229,14 @@ public class ApplicationHandlerTests
         var command = new Command(CommandType.MINEBLOCK, "");
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
-        _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<Block>())).Returns("block.json");
+        _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<BlockDto>())).Returns("block.json");
 
         // Act
         _handler.Handle(query);
 
         // Assert
         _mockQueryParser.Verify(p => p.Parse(query), Times.Once);
-        _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<Block>()), Times.Once);
+        _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<BlockDto>()), Times.Once);
     }
 
     [Test]
@@ -249,13 +250,13 @@ public class ApplicationHandlerTests
         _mempool.AddTransaction(CreateTestTransaction("tx1", 1.0, 250));
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
-        _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<Block>())).Returns("block_path.json");
+        _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<BlockDto>())).Returns("block_path.json");
 
         // Act
         _handler.Handle(query);
 
         // Assert
-        _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<Block>()), Times.Once);
+        _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<BlockDto>()), Times.Once);
     }
 
     [Test]
@@ -271,7 +272,7 @@ public class ApplicationHandlerTests
         _mockQueryParser.Setup(p => p.Parse("AddTransactionToMempool tx2.json")).Returns(command2);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx1.json")).Returns(tx1);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx2.json")).Returns(tx2);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("path");
 
         // Act
         _handler.Handle("AddTransactionToMempool tx1.json");
@@ -299,8 +300,8 @@ public class ApplicationHandlerTests
         _mockQueryParser.Setup(p => p.Parse("MineBlock")).Returns(mineCmd);
 
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx1.json")).Returns(tx1);
-        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("mempool.json");
-        _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<Block>())).Returns("block.json");
+        _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("mempool.json");
+        _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<BlockDto>())).Returns("block.json");
 
         // Act
         _handler.Handle("AddTransactionToMempool tx1.json");
@@ -309,7 +310,7 @@ public class ApplicationHandlerTests
 
         // Assert
         _mockTransactionReader.Verify(r => r.ReadTransaction(It.IsAny<string>()), Times.Once);
-        _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<Block>()), Times.Once);
+        _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<BlockDto>()), Times.Once);
         Assert.That(_mempool.Exist("tx1"), Is.True);
     }
 

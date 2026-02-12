@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces;
+﻿using Domain.Contracts;
+using Domain.Interfaces;
 using DomainService;
 
 namespace Application.MiningApplication;
@@ -10,6 +11,6 @@ public class TransactionApplication
     {
         var transactionEntry = transactionReader.ReadTransaction(filePath);
         mempool.AddTransaction(transactionEntry);
-        resultWriter.WriteMempool();
+        resultWriter.WriteMempool(new MempoolDto(mempool.GetAllTransactions()));
     }
 }

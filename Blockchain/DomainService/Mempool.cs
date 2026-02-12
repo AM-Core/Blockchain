@@ -1,6 +1,7 @@
 ﻿using DataStructures;
 using Domain;
 using Domain.Exceptions;
+using Domain.Contracts;
 using Domain.Transaction;
 
 namespace DomainService;
@@ -131,13 +132,12 @@ public class Mempool
         return _evictionTree.GetValues();
     }
 
-    public List<TransactionEntry> GetAllTransactions(bool ascending = false)
+    public List<string> GetAllTransactions(bool ascending = false)
     {
-        var transactions = _map.GetValues();
-        return ascending
-            ? transactions.OrderBy
-                (tx => tx.Fee).ToList()
-            : transactions.OrderByDescending(tx => tx.Fee).ToList();
+        return _map.GetValues()
+            .OrderBy(tx => ascending ? tx.Fee : -tx.Fee)
+            .Select(tx => tx.Id)
+            .ToList();
     }
 
     public void EvictHighestPriorityTransaction(int count)
