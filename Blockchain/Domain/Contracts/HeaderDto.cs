@@ -7,6 +7,10 @@ public class HeaderDto
     public long Difficulty { get; set; }
     public long Nonce { get; set; }
 
+    public HeaderDto()
+    {
+    }
+
     public HeaderDto(string blockHash, string prevBlockHash, long difficulty, long nonce)
     {
         BlockHash = blockHash;

@@ -11,6 +11,11 @@ namespace Domain.Contracts
     {
         public string TxId { get; set; }
 
+
+        public TransactionDto()
+        {
+        }
+
         public TransactionDto(string transactionId)
         {
             TxId = transactionId;

@@ -7,6 +7,11 @@ public class BlockDto
     public HeaderDto Header { get; set; }
 
     public List<TransactionDto> Transactions { get; set; }
+    public BlockDto()
+    {
+        Header = new HeaderDto();
+        Transactions = new List<TransactionDto>();
+    }
 
     public BlockDto(Block block)
     {
