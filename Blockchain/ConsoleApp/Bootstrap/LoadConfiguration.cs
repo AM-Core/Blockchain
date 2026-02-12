@@ -5,13 +5,13 @@ namespace ConsoleApp.Bootstrap;
 
 public class LoadConfiguration
 {
-    private string _configFilePath = "config.json";
+    private string _configFilePath = "ConsoleApp/config.json";
     private MiningConfig _miningConfig = MiningConfig.Instance;
     public bool LoadConfigs()
     {
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
-        _configFilePath = Path.Combine(solutionRoot,"ConsoleApp",_configFilePath);
+        _configFilePath = Path.Combine(solutionRoot,_configFilePath);
         var jsonString = File.ReadAllText(_configFilePath);
         var readedConfig = JsonSerializer.Deserialize<MiningConfigDto>(jsonString);
         _miningConfig.Difficulty = readedConfig.Difficulty;
