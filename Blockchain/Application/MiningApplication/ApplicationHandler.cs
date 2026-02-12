@@ -1,6 +1,6 @@
 ﻿using Application.QueryHandler;
+using Application.QueryHandler.Command;
 using Domain;
-using Domain.Command;
 using Domain.Interfaces;
 using DomainService;
 
@@ -16,14 +16,15 @@ public class ApplicationHandler
     private readonly ITransactionReader _transactionReader;
 
     public ApplicationHandler(IResultWriter resultWriter,
-        ITransactionReader transactionReader, IQueryParser queryParser, Mempool mempool, BlockMiner blockMiner)
+        ITransactionReader transactionReader, IQueryParser queryParser, Mempool mempool,
+        BlockMiner blockMiner, MiningConfig miningConfig)
     {
         _resultWriter = resultWriter;
         _transactionReader = transactionReader;
         _queryParser = queryParser;
         _mempool = mempool;
         _blockMiner = blockMiner;
-        _miningConfig = new MiningConfig();
+        _miningConfig = miningConfig;
     }
 
     public void Handle(string query)
@@ -54,6 +55,4 @@ public class ApplicationHandler
                 break;
         }
     }
-
-    
 }

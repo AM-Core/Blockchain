@@ -7,17 +7,15 @@ namespace DomainServicesTests;
 [TestFixture]
 public class BlockMinerTests
 {
-    private Mempool _mempool;
-    private BlockMiner _blockMiner;
-
     [SetUp]
     public void Setup()
     {
-        _mempool = new Mempool();
+        _mempool = new Mempool(new MiningConfig());
         _blockMiner = new BlockMiner(_mempool);
     }
 
-    #region MineBlock Tests
+    private Mempool _mempool;
+    private BlockMiner _blockMiner;
 
     [Test]
     public void MineBlock_EmptyMempool_CreatesBlockWithNoTransactions()
@@ -63,11 +61,11 @@ public class BlockMinerTests
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
         var tx2 = CreateTestTransaction("tx2", 2.0, 300);
         var tx3 = CreateTestTransaction("tx3", 0.5, 200);
-        
+
         _mempool.AddTransaction(tx1);
         _mempool.AddTransaction(tx2);
         _mempool.AddTransaction(tx3);
-        
+
         var miningConfig = new MiningConfig { Difficulty = 1 };
 
         // Act
@@ -135,10 +133,10 @@ public class BlockMinerTests
         // Arrange - tx2 depends on tx1
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
         var tx2 = CreateTestTransactionWithParent("tx2", 2.0, 300, "tx1");
-        
+
         _mempool.AddTransaction(tx1);
         _mempool.AddTransaction(tx2);
-        
+
         var miningConfig = new MiningConfig { Difficulty = 1 };
 
         // Act
@@ -206,7 +204,7 @@ public class BlockMinerTests
         _mempool.AddTransaction(tx1);
         var miningConfig = new MiningConfig { Difficulty = 1 };
         var block1 = _blockMiner.MineBlock(miningConfig);
-        
+
         // Reset mempool for second block
         _mempool.RemoveTransaction("tx1");
         var tx2 = CreateTestTransaction("tx2", 2.0, 300);
@@ -255,7 +253,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        
+
         var easyConfig = new MiningConfig { Difficulty = 1 };
         var hardConfig = new MiningConfig { Difficulty = 3 };
 
@@ -267,7 +265,7 @@ public class BlockMinerTests
         // Assert
         var easyZeros = GetLeadingZeroCount(easyBlock.BlockHash);
         var hardZeros = GetLeadingZeroCount(hardBlock.BlockHash);
-        
+
         Assert.That(easyZeros, Is.GreaterThan(1));
         Assert.That(hardZeros, Is.GreaterThan(3));
         Assert.That(hardZeros, Is.GreaterThanOrEqualTo(easyZeros));
@@ -283,7 +281,7 @@ public class BlockMinerTests
         // Act
         _mempool.AddTransaction(tx1);
         var block1 = _blockMiner.MineBlock(miningConfig);
-        
+
         _mempool.AddTransaction(tx1);
         var block2 = _blockMiner.MineBlock(miningConfig);
 
@@ -296,11 +294,12 @@ public class BlockMinerTests
     public void MineBlock_LargeNumberOfTransactions_HandlesCorrectly()
     {
         // Arrange
-        for (int i = 0; i < 100; i++)
+        for (var i = 0; i < 100; i++)
         {
             var tx = CreateTestTransaction($"tx{i}", 1.0 + i * 0.01, 250);
             _mempool.AddTransaction(tx);
         }
+
         var miningConfig = new MiningConfig { Difficulty = 1 };
 
         // Act
@@ -329,11 +328,6 @@ public class BlockMinerTests
         Assert.That(block.Difficulty, Is.EqualTo(0));
         Assert.That(block.BlockHash, Is.Not.Null);
     }
-
-    #endregion
-
-
-    #region Helper Methods
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)
     {
@@ -374,6 +368,4 @@ public class BlockMinerTests
     {
         return value.TakeWhile(c => c == '0').Count();
     }
-
-    #endregion
 }

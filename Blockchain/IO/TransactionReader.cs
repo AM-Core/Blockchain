@@ -1,7 +1,7 @@
-﻿using Domain.Interfaces;
+﻿using System.Text.Json;
+using Domain.Interfaces;
 using Domain.Transaction;
-using System.Text;
-using System.Text.Json;
+using DomainService;
 
 namespace IO;
 
@@ -10,17 +10,19 @@ public class TransactionReader : ITransactionReader
     public TransactionEntry ReadTransaction(string filePath)
     {
         var resolvedPath = ResolveFilePath(filePath);
-        
+
         if (!File.Exists(resolvedPath))
             throw new FileNotFoundException($"Transaction file not found: {resolvedPath}");
 
         var json = File.ReadAllText(resolvedPath);
         var transaction = JsonSerializer.Deserialize<TransactionEntry>(json);
-        
+
         if (transaction == null || transaction.Id == null)
             throw new InvalidDataException("Failed to deserialize TransactionEntry from file.");
-        
-        transaction.Size = CalculateSize(json);
+
+        var sizeCalculator = new TransactionSizeCalculator();
+
+        transaction.Size = sizeCalculator.Calculate(json);
         return transaction;
     }
 
@@ -36,11 +38,5 @@ public class TransactionReader : ITransactionReader
             throw new InvalidOperationException("Could not determine solution root directory");
 
         return Path.Combine(solutionRoot, filePath);
-    }
-
-    private int CalculateSize(string json)
-    {
-        var bytes = Encoding.UTF8.GetBytes(json);
-        return bytes.Length;
     }
 }

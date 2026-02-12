@@ -1,7 +1,7 @@
 ﻿using Application.MiningApplication;
 using Application.QueryHandler;
+using Application.QueryHandler.Command;
 using Domain;
-using Domain.Command;
 using Domain.Interfaces;
 using Domain.Transaction;
 using DomainService;
@@ -12,34 +12,35 @@ namespace ApplicationTests;
 [TestFixture]
 public class ApplicationHandlerTests
 {
-    private Mock<IResultWriter> _mockResultWriter;
-    private Mock<ITransactionReader> _mockTransactionReader;
-    private Mock<IQueryParser> _mockQueryParser;
-    private Mempool _mempool;
-    private BlockMiner _blockMiner;
-    private ApplicationHandler _handler;
-
     [SetUp]
     public void Setup()
     {
         _mockResultWriter = new Mock<IResultWriter>();
         _mockTransactionReader = new Mock<ITransactionReader>();
         _mockQueryParser = new Mock<IQueryParser>();
-        
+        _miningConfig = new MiningConfig();
+
         // Use real instances instead of mocks
-        _mempool = new Mempool();
+        _mempool = new Mempool(_miningConfig);
         _blockMiner = new BlockMiner(_mempool);
-        
+
         _handler = new ApplicationHandler(
             _mockResultWriter.Object,
             _mockTransactionReader.Object,
             _mockQueryParser.Object,
             _mempool,
-            _blockMiner
+            _blockMiner,
+            _miningConfig
         );
     }
 
-    #region Constructor Tests
+    private Mock<IResultWriter> _mockResultWriter;
+    private Mock<ITransactionReader> _mockTransactionReader;
+    private Mock<IQueryParser> _mockQueryParser;
+    private Mempool _mempool;
+    private BlockMiner _blockMiner;
+    private ApplicationHandler _handler;
+    private MiningConfig _miningConfig;
 
     [Test]
     public void Constructor_WithValidDependencies_CreatesInstance()
@@ -47,10 +48,6 @@ public class ApplicationHandlerTests
         // Assert
         Assert.That(_handler, Is.Not.Null);
     }
-
-    #endregion
-
-    #region Handle - SetDifficulty Tests
 
     [Test]
     public void Handle_SetDifficultyCommand_ParsesAndExecutes()
@@ -109,10 +106,6 @@ public class ApplicationHandlerTests
         Assert.Throws<FormatException>(() => _handler.Handle(query));
     }
 
-    #endregion
-
-    #region Handle - AddTransactionToMempool Tests
-
     [Test]
     public void Handle_AddTransactionToMempoolCommand_ParsesAndExecutes()
     {
@@ -120,7 +113,7 @@ public class ApplicationHandlerTests
         var query = "AddTransactionToMempool tx.json";
         var command = new Command(CommandType.ADDTRANSACTIONTOMEMPOOL, "tx.json");
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
-        
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx.json")).Returns(transaction);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
@@ -142,7 +135,7 @@ public class ApplicationHandlerTests
         var query = $"AddTransactionToMempool {filePath}";
         var command = new Command(CommandType.ADDTRANSACTIONTOMEMPOOL, filePath);
         var transaction = CreateTestTransaction("tx123", 2.5, 300);
-        
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockTransactionReader.Setup(r => r.ReadTransaction(filePath)).Returns(transaction);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
@@ -162,7 +155,7 @@ public class ApplicationHandlerTests
         var query = "AddTransactionToMempool tx.json";
         var command = new Command(CommandType.ADDTRANSACTIONTOMEMPOOL, "tx.json");
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
-        
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx.json")).Returns(transaction);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("result.json");
@@ -174,23 +167,16 @@ public class ApplicationHandlerTests
         _mockResultWriter.Verify(w => w.WriteMempool(It.IsAny<bool>()), Times.Once);
     }
 
-    #endregion
-
-    #region Handle - EvictMempool Tests
-
     [Test]
     public void Handle_EvictMempoolCommand_ParsesAndExecutes()
     {
         // Arrange
         var query = "EvictMempool 10";
         var command = new Command(CommandType.EVICTMEMPOOL, "10");
-        
+
         // Add transactions to evict
-        for (int i = 0; i < 15; i++)
-        {
-            _mempool.AddTransaction(CreateTestTransaction($"tx{i}", 1.0 + i, 250));
-        }
-        
+        for (var i = 0; i < 15; i++) _mempool.AddTransaction(CreateTestTransaction($"tx{i}", 1.0 + i, 250));
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
 
@@ -210,7 +196,7 @@ public class ApplicationHandlerTests
         var command = new Command(CommandType.EVICTMEMPOOL, "0");
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("path");
 
@@ -234,17 +220,13 @@ public class ApplicationHandlerTests
         Assert.Throws<FormatException>(() => _handler.Handle(query));
     }
 
-    #endregion
-
-    #region Handle - MineBlock Tests
-
     [Test]
     public void Handle_MineBlockCommand_ParsesAndExecutes()
     {
         // Arrange
         var query = "MineBlock";
         var command = new Command(CommandType.MINEBLOCK, "");
-        
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<Block>())).Returns("block.json");
 
@@ -262,10 +244,10 @@ public class ApplicationHandlerTests
         // Arrange
         var query = "MineBlock";
         var command = new Command(CommandType.MINEBLOCK, "");
-        
+
         // Add a transaction to the mempool
         _mempool.AddTransaction(CreateTestTransaction("tx1", 1.0, 250));
-        
+
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<Block>())).Returns("block_path.json");
 
@@ -276,10 +258,6 @@ public class ApplicationHandlerTests
         _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<Block>()), Times.Once);
     }
 
-    #endregion
-
-    #region Multiple Commands Tests
-
     [Test]
     public void Handle_AddMultipleTransactions_AddsAll()
     {
@@ -288,7 +266,7 @@ public class ApplicationHandlerTests
         var command2 = new Command(CommandType.ADDTRANSACTIONTOMEMPOOL, "tx2.json");
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
         var tx2 = CreateTestTransaction("tx2", 2.0, 300);
-        
+
         _mockQueryParser.Setup(p => p.Parse("AddTransactionToMempool tx1.json")).Returns(command1);
         _mockQueryParser.Setup(p => p.Parse("AddTransactionToMempool tx2.json")).Returns(command2);
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx1.json")).Returns(tx1);
@@ -313,13 +291,13 @@ public class ApplicationHandlerTests
         var addCmd = new Command(CommandType.ADDTRANSACTIONTOMEMPOOL, "tx1.json");
         var setDiffCmd = new Command(CommandType.SETDIFFICULTY, "3");
         var mineCmd = new Command(CommandType.MINEBLOCK, "");
-        
+
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
-        
+
         _mockQueryParser.Setup(p => p.Parse("AddTransactionToMempool tx1.json")).Returns(addCmd);
         _mockQueryParser.Setup(p => p.Parse("SetDifficulty 3")).Returns(setDiffCmd);
         _mockQueryParser.Setup(p => p.Parse("MineBlock")).Returns(mineCmd);
-        
+
         _mockTransactionReader.Setup(r => r.ReadTransaction("tx1.json")).Returns(tx1);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<bool>())).Returns("mempool.json");
         _mockResultWriter.Setup(w => w.WriteBlock(It.IsAny<Block>())).Returns("block.json");
@@ -334,10 +312,6 @@ public class ApplicationHandlerTests
         _mockResultWriter.Verify(w => w.WriteBlock(It.IsAny<Block>()), Times.Once);
         Assert.That(_mempool.Exist("tx1"), Is.True);
     }
-
-    #endregion
-
-    #region Helper Methods
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)
     {
@@ -372,6 +346,4 @@ public class ApplicationHandlerTests
 
         return block;
     }
-
-    #endregion
 }

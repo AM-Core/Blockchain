@@ -1,8 +1,6 @@
-﻿using Domain.Command;
-
-namespace Application.QueryHandler;
+﻿namespace Application.QueryHandler;
 
 public interface IQueryParser
 {
-    Command Parse(string query);
+    Command.Command Parse(string query);
 }

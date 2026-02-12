@@ -1,5 +1,6 @@
 ﻿using DataStructures;
 using Domain;
+using Domain.Exceptions;
 using Domain.Transaction;
 
 namespace DomainService;
@@ -8,19 +9,20 @@ public class Mempool
 {
     private readonly DAG<TransactionEntry> _dag;
     private readonly AVL<string, TransactionEntry> _evictionTree;
+    private readonly FeeRateCalculator _feeRateCalculator;
     private readonly object _lock = new();
     private readonly HashMap<string, TransactionEntry> _map;
-    private readonly FeeRateCalculator _FeeRateCalculator;
+    private readonly MiningConfig _miningConfig;
     private readonly AVL<string, TransactionEntry> _priorityTree;
-    private readonly MiningConfig _config;
-    public Mempool()
+
+    public Mempool(MiningConfig miningConfig)
     {
         _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
-        _config = new MiningConfig();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
-        _FeeRateCalculator = new FeeRateCalculator();
+        _feeRateCalculator = new FeeRateCalculator();
+        _miningConfig = miningConfig;
     }
 
     public bool AddTransaction(TransactionEntry transaction)
@@ -36,19 +38,16 @@ public class Mempool
                 _dag.AddNode(transaction);
                 AddDependencies(transaction);
 
-                _FeeRateCalculator.CalculateFee(transaction, _map);
+                _feeRateCalculator.CalculateFee(transaction, _map);
                 var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
                 var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
                 _priorityTree.InsertOne(priorityKey, transaction);
                 _evictionTree.InsertOne(priorityKey, transaction);
                 return true;
             }
-            else
-            {
-                throw new InvalidValueException("Invalid Value for Outputs !");
-            }
+
+            throw new InvalidValueException("Invalid Value for Outputs !");
         }
-            
     }
 
     public bool RemoveTransaction(string transactionId)
@@ -74,16 +73,20 @@ public class Mempool
             return true;
         }
     }
+
     private void RemoveTransactionInternal(TransactionEntry transaction)
     {
-        _FeeRateCalculator.CalculateFee(transaction, _map);
+        _feeRateCalculator.CalculateFee(transaction, _map);
         var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
         var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
+        var evictionKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
+
         _map.Remove(transaction.Id);
         _dag.RemoveNode(transaction);
         _priorityTree.DeleteOne(priorityKey, transaction);
-        _evictionTree.DeleteOne(priorityKey, transaction);
+        _evictionTree.DeleteOne(evictionKey, transaction);
     }
+
     public bool Exist(string transactionId)
     {
         return _map.TryGet(transactionId) != null;
@@ -94,13 +97,12 @@ public class Mempool
         try
         {
             var allTransactions = _dag.TopologicalSort();
-            
+
             var selectedTransactions = new List<TransactionEntry>();
-            int totalSize = 0;
-            long maxBlockSize = _config.Size;
+            var totalSize = 0;
+            var maxBlockSize = _miningConfig.Size;
 
             foreach (var transaction in allTransactions)
-            {
                 if (totalSize + transaction.Size <= maxBlockSize)
                 {
                     selectedTransactions.Add(transaction);
@@ -110,7 +112,6 @@ public class Mempool
                 {
                     break;
                 }
-            }
 
             return selectedTransactions;
         }
@@ -170,7 +171,7 @@ public class Mempool
         {
             if (input.PrevId == null)
                 continue;
-            
+
             var parentTx = _map.TryGet(input.PrevId);
             if (parentTx != null)
                 try
@@ -189,13 +190,8 @@ public class Mempool
     private bool IsValid(TransactionEntry transaction)
     {
         foreach (var output in transaction.Outputs)
-        {
-            if (output.Value == Double.PositiveInfinity || output.Value < 0)
-            {
+            if (output.Value == double.PositiveInfinity || output.Value < 0)
                 return false;
-            }
-            
-        }
 
         return true;
     }

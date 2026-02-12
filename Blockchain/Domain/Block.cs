@@ -17,5 +17,4 @@ public class Block
     public long Nonce { get; set; }
     public string MerkleRoot { get; set; }
     public List<TransactionEntry> Transactions { get; private set; }
-    
 }

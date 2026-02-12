@@ -7,9 +7,6 @@ namespace DomainServicesTests;
 [TestFixture]
 public class NonceRunnerTests
 {
-    private HashingHandler _hashingHandler;
-    private NonceRunner _nonceRunner;
-
     [SetUp]
     public void Setup()
     {
@@ -17,7 +14,8 @@ public class NonceRunnerTests
         _nonceRunner = new NonceRunner(_hashingHandler);
     }
 
-    #region FindValidNonce Tests
+    private HashingHandler _hashingHandler;
+    private NonceRunner _nonceRunner;
 
     [Test]
     public void FindValidNonce_WithDifficulty0_ReturnsValidNonce()
@@ -182,7 +180,7 @@ public class NonceRunnerTests
         block2.Nonce = nonce2;
         var hash1 = _hashingHandler.ComputeBlockHash(block1);
         var hash2 = _hashingHandler.ComputeBlockHash(block2);
-        
+
         Assert.That(GetLeadingZeroCount(hash1), Is.GreaterThan(1));
         Assert.That(GetLeadingZeroCount(hash2), Is.GreaterThan(1));
     }
@@ -219,7 +217,7 @@ public class NonceRunnerTests
         block.Nonce = nonce;
         var hash = _hashingHandler.ComputeBlockHash(block);
         var leadingZeros = GetLeadingZeroCount(hash);
-        
+
         Assert.That(leadingZeros, Is.GreaterThan(difficulty));
     }
 
@@ -229,7 +227,7 @@ public class NonceRunnerTests
         // Arrange
         var block1 = CreateTestBlock(1);
         block1.MerkleRoot = "merkle_root_1";
-        
+
         var block2 = CreateTestBlock(1);
         block2.MerkleRoot = "merkle_root_2";
 
@@ -240,10 +238,10 @@ public class NonceRunnerTests
         // Assert
         block1.Nonce = nonce1;
         block2.Nonce = nonce2;
-        
+
         var hash1 = _hashingHandler.ComputeBlockHash(block1);
         var hash2 = _hashingHandler.ComputeBlockHash(block2);
-        
+
         Assert.That(GetLeadingZeroCount(hash1), Is.GreaterThan(1));
         Assert.That(GetLeadingZeroCount(hash2), Is.GreaterThan(1));
         Assert.That(hash1, Is.Not.EqualTo(hash2));
@@ -268,11 +266,8 @@ public class NonceRunnerTests
     {
         // Arrange
         var transactions = new List<TransactionEntry>();
-        for (int i = 0; i < 10; i++)
-        {
-            transactions.Add(CreateTestTransaction($"tx{i}", 1.0 + i, 250 + i * 10));
-        }
-        
+        for (var i = 0; i < 10; i++) transactions.Add(CreateTestTransaction($"tx{i}", 1.0 + i, 250 + i * 10));
+
         var block = new Block(2, transactions)
         {
             MerkleRoot = "complex_merkle_root"
@@ -301,10 +296,6 @@ public class NonceRunnerTests
         // Assert
         Assert.That(block.Nonce, Is.EqualTo(finalNonce));
     }
-
-    #endregion
-
-    #region Edge Cases and Performance Tests
 
     [Test]
     public void FindValidNonce_VeryLowDifficulty_FindsQuickly()
@@ -351,15 +342,11 @@ public class NonceRunnerTests
         block.Nonce = nonce;
         var hash = _hashingHandler.ComputeBlockHash(block);
         var leadingZeros = GetLeadingZeroCount(hash);
-        
+
         // Proof of work: leading zeros must be greater than difficulty
         Assert.That(leadingZeros, Is.GreaterThan(difficulty),
             $"Hash {hash} should have more than {difficulty} leading zeros");
     }
-
-    #endregion
-
-    #region Helper Methods
 
     private Block CreateTestBlock(long difficulty)
     {
@@ -374,11 +361,9 @@ public class NonceRunnerTests
     private Block CreateTestBlockWithTransactions(long difficulty, int transactionCount)
     {
         var transactions = new List<TransactionEntry>();
-        for (int i = 0; i < transactionCount; i++)
-        {
+        for (var i = 0; i < transactionCount; i++)
             transactions.Add(CreateTestTransaction($"tx{i}", 1.0 + i, 250 + i * 10));
-        }
-        
+
         var block = new Block(difficulty, transactions)
         {
             MerkleRoot = _hashingHandler.ComputeMerkleRoot(transactions)
@@ -407,6 +392,4 @@ public class NonceRunnerTests
     {
         return value.TakeWhile(c => c == '0').Count();
     }
-
-    #endregion
 }

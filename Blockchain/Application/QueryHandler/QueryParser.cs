@@ -1,11 +1,11 @@
 ﻿using Application.Exceptions;
-using Domain.Command;
+using Application.QueryHandler.Command;
 
 namespace Application.QueryHandler;
 
 public class QueryParser : IQueryParser
 {
-    public Command Parse(string query)
+    public Command.Command Parse(string query)
     {
         if (query == "") throw new InvalidCommandException();
 
@@ -18,7 +18,7 @@ public class QueryParser : IQueryParser
         }
 
         if (Enum.TryParse(type.ToUpper(), out CommandType commandType))
-            return new Command(commandType, arg);
+            return new Command.Command(commandType, arg);
 
         throw new InvalidCommandException();
     }

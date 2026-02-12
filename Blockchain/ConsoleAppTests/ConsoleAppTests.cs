@@ -1,15 +1,16 @@
-using ConsoleApp.Bootstrap;
-using Microsoft.Extensions.DependencyInjection;
 using Application.MiningApplication;
+using Application.QueryHandler;
+using ConsoleApp.Bootstrap;
 using ConsoleApp.ConsoleHandler;
+using Domain.Interfaces;
+using DomainService;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleAppTests;
 
 [TestFixture]
 public class Tests
 {
-    #region DependencyBootstrapper Tests
-
     [Test]
     public void ConfigureServices_ReturnsServiceProvider()
     {
@@ -55,7 +56,7 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var resultWriter = provider.GetService<Domain.Interfaces.IResultWriter>();
+        var resultWriter = provider.GetService<IResultWriter>();
 
         // Assert
         Assert.That(resultWriter, Is.Not.Null);
@@ -68,7 +69,7 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var transactionReader = provider.GetService<Domain.Interfaces.ITransactionReader>();
+        var transactionReader = provider.GetService<ITransactionReader>();
 
         // Assert
         Assert.That(transactionReader, Is.Not.Null);
@@ -81,7 +82,7 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var queryParser = provider.GetService<Application.QueryHandler.IQueryParser>();
+        var queryParser = provider.GetService<IQueryParser>();
 
         // Assert
         Assert.That(queryParser, Is.Not.Null);
@@ -94,7 +95,7 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var mempool = provider.GetService<DomainService.Mempool>();
+        var mempool = provider.GetService<Mempool>();
 
         // Assert
         Assert.That(mempool, Is.Not.Null);
@@ -107,8 +108,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var mempool1 = provider.GetService<DomainService.Mempool>();
-        var mempool2 = provider.GetService<DomainService.Mempool>();
+        var mempool1 = provider.GetService<Mempool>();
+        var mempool2 = provider.GetService<Mempool>();
 
         // Assert
         Assert.That(mempool1, Is.SameAs(mempool2));
@@ -121,7 +122,7 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var blockMiner = provider.GetService<DomainService.BlockMiner>();
+        var blockMiner = provider.GetService<BlockMiner>();
 
         // Assert
         Assert.That(blockMiner, Is.Not.Null);
@@ -134,8 +135,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var blockMiner1 = provider.GetService<DomainService.BlockMiner>();
-        var blockMiner2 = provider.GetService<DomainService.BlockMiner>();
+        var blockMiner1 = provider.GetService<BlockMiner>();
+        var blockMiner2 = provider.GetService<BlockMiner>();
 
         // Assert
         Assert.That(blockMiner1, Is.SameAs(blockMiner2));
@@ -151,17 +152,13 @@ public class Tests
         Assert.DoesNotThrow(() =>
         {
             var handler = provider.GetRequiredService<ApplicationHandler>();
-            var resultWriter = provider.GetRequiredService<Domain.Interfaces.IResultWriter>();
-            var transactionReader = provider.GetRequiredService<Domain.Interfaces.ITransactionReader>();
-            var queryParser = provider.GetRequiredService<Application.QueryHandler.IQueryParser>();
-            var mempool = provider.GetRequiredService<DomainService.Mempool>();
-            var blockMiner = provider.GetRequiredService<DomainService.BlockMiner>();
+            var resultWriter = provider.GetRequiredService<IResultWriter>();
+            var transactionReader = provider.GetRequiredService<ITransactionReader>();
+            var queryParser = provider.GetRequiredService<IQueryParser>();
+            var mempool = provider.GetRequiredService<Mempool>();
+            var blockMiner = provider.GetRequiredService<BlockMiner>();
         });
     }
-
-    #endregion
-
-    #region CommandAutoCompletion Tests
 
     [Test]
     public void CommandAutoCompletion_Constructor_CreatesSuggestions()
@@ -320,10 +317,6 @@ public class Tests
         Assert.That(autoComplete.Separators, Contains.Item('/'));
     }
 
-    #endregion
-
-    #region ConsoleHandler Tests
-
     [Test]
     public void ConsoleHandler_Constructor_CreatesInstance()
     {
@@ -348,10 +341,6 @@ public class Tests
         Assert.That(consoleHandler, Is.Not.Null);
     }
 
-    #endregion
-
-    #region Integration Tests
-
     [Test]
     public void Integration_FullDIChain_ResolvesSuccessfully()
     {
@@ -360,8 +349,8 @@ public class Tests
 
         // Act
         var handler = provider.GetRequiredService<ApplicationHandler>();
-        var mempool = provider.GetRequiredService<DomainService.Mempool>();
-        var blockMiner = provider.GetRequiredService<DomainService.BlockMiner>();
+        var mempool = provider.GetRequiredService<Mempool>();
+        var blockMiner = provider.GetRequiredService<BlockMiner>();
 
         // Assert
         Assert.That(handler, Is.Not.Null);
@@ -399,7 +388,8 @@ public class Tests
     {
         // Arrange
         var autoComplete = new CommandAutoCompletion();
-        var commands = new[] { "SetDifficulty", "AddTransactionToMempool", "EvictMempool", "MineBlock", "Help", "exit" };
+        var commands = new[]
+            { "SetDifficulty", "AddTransactionToMempool", "EvictMempool", "MineBlock", "Help", "exit" };
 
         // Act & Assert
         foreach (var cmd in commands)
@@ -423,10 +413,6 @@ public class Tests
         Assert.That(provider3, Is.Not.Null);
     }
 
-    #endregion
-
-    #region Service Lifetime Tests
-
     [Test]
     public void ServiceLifetime_Transient_ResultWriter_CreatesDifferentInstances()
     {
@@ -434,8 +420,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var resultWriter1 = provider.GetService<Domain.Interfaces.IResultWriter>();
-        var resultWriter2 = provider.GetService<Domain.Interfaces.IResultWriter>();
+        var resultWriter1 = provider.GetService<IResultWriter>();
+        var resultWriter2 = provider.GetService<IResultWriter>();
 
         // Assert
         Assert.That(resultWriter1, Is.Not.SameAs(resultWriter2));
@@ -448,8 +434,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var reader1 = provider.GetService<Domain.Interfaces.ITransactionReader>();
-        var reader2 = provider.GetService<Domain.Interfaces.ITransactionReader>();
+        var reader1 = provider.GetService<ITransactionReader>();
+        var reader2 = provider.GetService<ITransactionReader>();
 
         // Assert
         Assert.That(reader1, Is.Not.SameAs(reader2));
@@ -462,8 +448,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var parser1 = provider.GetService<Application.QueryHandler.IQueryParser>();
-        var parser2 = provider.GetService<Application.QueryHandler.IQueryParser>();
+        var parser1 = provider.GetService<IQueryParser>();
+        var parser2 = provider.GetService<IQueryParser>();
 
         // Assert
         Assert.That(parser1, Is.Not.SameAs(parser2));
@@ -476,8 +462,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var mempool1 = provider.GetService<DomainService.Mempool>();
-        var mempool2 = provider.GetService<DomainService.Mempool>();
+        var mempool1 = provider.GetService<Mempool>();
+        var mempool2 = provider.GetService<Mempool>();
 
         // Assert
         Assert.That(mempool1, Is.SameAs(mempool2));
@@ -490,8 +476,8 @@ public class Tests
         var provider = DependencyBootstrapper.ConfigureServices();
 
         // Act
-        var miner1 = provider.GetService<DomainService.BlockMiner>();
-        var miner2 = provider.GetService<DomainService.BlockMiner>();
+        var miner1 = provider.GetService<BlockMiner>();
+        var miner2 = provider.GetService<BlockMiner>();
 
         // Assert
         Assert.That(miner1, Is.SameAs(miner2));
@@ -510,6 +496,4 @@ public class Tests
         // Assert
         Assert.That(handler1, Is.SameAs(handler2));
     }
-
-    #endregion
 }

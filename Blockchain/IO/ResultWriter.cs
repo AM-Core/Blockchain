@@ -44,9 +44,10 @@ public class ResultWriter : IResultWriter
 
     public string WriteMempool(bool ascending = false)
     {
-        var mempoolResult = new MempoolResult(_mempool.GetAllTransactions(ascending));
+        var mempoolResult = _mempool.GetAllTransactions(ascending);
         var json = JsonSerializer.Serialize(mempoolResult, new JsonSerializerOptions { WriteIndented = true });
-        var filePath = Path.Combine(_resultDir, $"mempool_{(ascending ? "asc" : "desc")}_{DateTime.Now.ToFileTime()}.json");
+        var filePath = Path.Combine(_resultDir,
+            $"mempool_{(ascending ? "asc" : "desc")}_{DateTime.Now.ToFileTime()}.json");
         File.WriteAllText(filePath, json);
 
         return filePath;

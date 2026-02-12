@@ -8,9 +8,6 @@ namespace DomainServicesTests;
 [TestFixture]
 public class FeeRateCalculatorTests
 {
-    private FeeRateCalculator _calculator;
-    private HashMap<string, TransactionEntry> _map;
-
     [SetUp]
     public void Setup()
     {
@@ -18,7 +15,8 @@ public class FeeRateCalculatorTests
         _map = new HashMap<string, TransactionEntry>();
     }
 
-    #region CalculateFee Tests
+    private FeeRateCalculator _calculator;
+    private HashMap<string, TransactionEntry> _map;
 
     [Test]
     public void CalculateFee_ValidTransaction_CalculatesCorrectFee()
@@ -75,7 +73,7 @@ public class FeeRateCalculatorTests
         transaction.Inputs.Add(new Input("prevTx1", 0, "pubKey1", "sig1"));
         transaction.Inputs.Add(new Input("prevTx2", 1, "pubKey2", "sig2"));
         transaction.Inputs.Add(new Input("prevTx3", 0, "pubKey3", "sig3"));
-        
+
         // Outputs: 4 + 3 + 2.5 = 9.5 BTC (0.5 BTC fee)
         transaction.Outputs.Add(new Output(4.0, "pubKeyOut1"));
         transaction.Outputs.Add(new Output(3.0, "pubKeyOut2"));
@@ -293,10 +291,6 @@ public class FeeRateCalculatorTests
         Assert.That(transaction.Fee, Is.EqualTo(0.25));
     }
 
-    #endregion
-
-    #region Integration Example
-
     [Test]
     public void CalculateFee_RealWorldExample_WorksCorrectly()
     {
@@ -315,14 +309,14 @@ public class FeeRateCalculatorTests
         {
             Size = 250
         };
-        
+
         // Spending from 2 previous outputs
         transaction.Inputs.Add(new Input("prev_tx_1", 0, "sender_pubkey_1", "signature_1"));
         transaction.Inputs.Add(new Input("prev_tx_2", 1, "sender_pubkey_2", "signature_2"));
-        
+
         // Sending to 1 recipient, 1 change address
-        transaction.Outputs.Add(new Output(0.6, "recipient_pubkey"));      // Payment
-        transaction.Outputs.Add(new Output(0.19, "change_pubkey"));         // Change
+        transaction.Outputs.Add(new Output(0.6, "recipient_pubkey")); // Payment
+        transaction.Outputs.Add(new Output(0.19, "change_pubkey")); // Change
         // Fee: 0.5 + 0.3 - 0.6 - 0.19 = 0.01 BTC
 
         // Act
@@ -367,6 +361,4 @@ public class FeeRateCalculatorTests
         Assert.That(tx2.Fee, Is.EqualTo(0.5));
         Assert.That(tx3.Fee, Is.EqualTo(0.5));
     }
-
-    #endregion
 }

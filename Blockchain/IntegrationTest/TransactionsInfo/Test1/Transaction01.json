@@ -9,7 +9,13 @@
     }
   ],
   "Outputs": [
-    { "Value": 30.0, "PublicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
-    { "Value": 19.9, "PublicKey": "02cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" }
+    {
+      "Value": 30.0,
+      "PublicKey": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "Value": 19.9,
+      "PublicKey": "02cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
   ]
 }

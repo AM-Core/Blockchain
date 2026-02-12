@@ -24,15 +24,4 @@ public class BlockMiner
         block.MerkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
         return block;
     }
-
-    public bool ValidateBlock(Block block)
-    {
-        string merkleRoot = _hashingHandler.ComputeMerkleRoot(block.Transactions);
-        if (merkleRoot == block.MerkleRoot)
-        {
-            return true;
-        }
-
-        return false;
-    }
 }
