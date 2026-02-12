@@ -20,3 +20,5 @@
 *.DotSettings.user
 TestResults/
 /Blockchain/Results
+Release/Release.zip
+/Release
