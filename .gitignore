@@ -1,8 +1,4 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/.vs
+﻿/.vs
 /Blockchain/.vs/Blockchain.slnx/FileContentIndex
 /Blockchain/.vs
 /Blockchain/.vs/Blockchain.slnx
