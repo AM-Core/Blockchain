@@ -13,7 +13,7 @@ public class ResultWriterTests
     [SetUp]
     public void Setup()
     {
-        _mempool = new Mempool(new MiningConfig());
+        _mempool = new Mempool();
         _writer = new ResultWriter();
         _testDirectory = Path.Combine(Path.GetTempPath(), $"ResultWriterTests_{Guid.NewGuid()}");
         _resultDir = Path.Combine(_testDirectory, "result");

@@ -21,7 +21,6 @@ public static class DependencyBootstrapper
         services.AddSingleton<ApplicationHandler>();
         services.AddSingleton<Mempool>();
         services.AddSingleton<BlockMiner>();
-        services.AddSingleton<MiningConfig>();
 
         return services.BuildServiceProvider();
     }
