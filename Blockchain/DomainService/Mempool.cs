@@ -17,10 +17,10 @@ public class Mempool
     {
         _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
-        _config = new MiningConfig();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
         _FeeRateCalculator = new FeeRateCalculator();
+        _config = new MiningConfig();
     }
 
     public bool AddTransaction(TransactionEntry transaction)
@@ -78,11 +78,13 @@ public class Mempool
     {
         _FeeRateCalculator.CalculateFee(transaction, _map);
         var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
-        var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
+        var priorityKey = $"{feeRate:D10}_{transaction.Id}";
+        var evictionKey = $"{feeRate:D10}_{transaction.Id}";
+
         _map.Remove(transaction.Id);
         _dag.RemoveNode(transaction);
         _priorityTree.DeleteOne(priorityKey, transaction);
-        _evictionTree.DeleteOne(priorityKey, transaction);
+        _evictionTree.DeleteOne(evictionKey, transaction);
     }
     public bool Exist(string transactionId)
     {

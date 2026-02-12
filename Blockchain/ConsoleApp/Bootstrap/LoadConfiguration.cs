@@ -1,8 +1,7 @@
-﻿using Domain.Transaction;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Domain;
 
-namespace Application.MiningApplication;
+namespace ConsoleApp.Bootstrap;
 
 public class LoadConfiguration
 {
