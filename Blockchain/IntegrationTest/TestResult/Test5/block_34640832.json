@@ -3,6 +3,7 @@
   "PrevBlockHash": "0000000000000000000000000000000000000000000000000000000000000000",
   "Difficulty": 5,
   "Nonce": 1121560,
+  "MerkleRoot": "20fd15d3f622eaa58ed85bc729cf2f7828d412695734fab86e8ae7345f2a1d74",
   "Transactions": [
     {
       "Id": "parent555555555555555555555555555555555555555555555555555555",
@@ -25,7 +26,7 @@
         }
       ],
       "Fee": 0,
-      "Size": 308
+      "Size": 375
     },
     {
       "Id": "child1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -44,7 +45,7 @@
         }
       ],
       "Fee": 0.2,
-      "Size": 249
+      "Size": 307
     },
     {
       "Id": "child2bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
@@ -63,8 +64,7 @@
         }
       ],
       "Fee": 0.2,
-      "Size": 249
+      "Size": 307
     }
-  ],
-  "MerkleRoot": "5890da8f0779527892af7d7ad71403b26a1d87cf8a50f8704252be2507acec0a"
+  ]
 }

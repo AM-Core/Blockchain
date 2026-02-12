@@ -1,0 +1,21 @@
+[
+  {
+    "Id": "parentaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "Inputs": [
+      {
+        "PrevId": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 10,
+        "PublicKey": "02bbbb..."
+      }
+    ],
+    "Fee": 0,
+    "Size": 312
+  }
+]

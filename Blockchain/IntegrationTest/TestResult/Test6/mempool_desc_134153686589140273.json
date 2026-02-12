@@ -1,0 +1,63 @@
+[
+  {
+    "Id": "Cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "Inputs": [
+      {
+        "PrevId": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "PrevIndex": 1,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 3.8,
+        "PublicKey": "02eeee..."
+      }
+    ],
+    "Fee": 0.2,
+    "Size": 307
+  },
+  {
+    "Id": "Bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "Inputs": [
+      {
+        "PrevId": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 5.8,
+        "PublicKey": "02dddd..."
+      }
+    ],
+    "Fee": 0.2,
+    "Size": 307
+  },
+  {
+    "Id": "Aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "Inputs": [
+      {
+        "PrevId": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 6,
+        "PublicKey": "02bbbb..."
+      },
+      {
+        "Value": 4,
+        "PublicKey": "02cccc..."
+      }
+    ],
+    "Fee": 0,
+    "Size": 379
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "Id": "child1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "Inputs": [
+      {
+        "PrevId": "parent555555555555555555555555555555555555555555555555555555",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 5.8,
+        "PublicKey": "02dddd..."
+      }
+    ],
+    "Fee": 0.2,
+    "Size": 307
+  },
+  {
+    "Id": "parent555555555555555555555555555555555555555555555555555555",
+    "Inputs": [
+      {
+        "PrevId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 6,
+        "PublicKey": "02bbbb..."
+      },
+      {
+        "Value": 4,
+        "PublicKey": "02cccc..."
+      }
+    ],
+    "Fee": 0,
+    "Size": 375
+  }
+]

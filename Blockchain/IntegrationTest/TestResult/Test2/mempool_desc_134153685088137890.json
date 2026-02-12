@@ -1,0 +1,59 @@
+[
+  {
+    "Id": "2222222222222222222222222222222222222222222222222222222222222222",
+    "Inputs": [
+      {
+        "PrevId": "1111111111111111111111111111111111111111111111111111111111111111",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 9.5,
+        "PublicKey": "02dddd..."
+      }
+    ],
+    "Fee": 0.5,
+    "Size": 313
+  },
+  {
+    "Id": "3333333333333333333333333333333333333333333333333333333333333333",
+    "Inputs": [
+      {
+        "PrevId": "2222222222222222222222222222222222222222222222222222222222222222",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 9.25,
+        "PublicKey": "02eeee..."
+      }
+    ],
+    "Fee": 0.25,
+    "Size": 312
+  },
+  {
+    "Id": "1111111111111111111111111111111111111111111111111111111111111111",
+    "Inputs": [
+      {
+        "PrevId": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "PrevIndex": 0,
+        "PublicKey": null,
+        "Signature": null
+      }
+    ],
+    "Outputs": [
+      {
+        "Value": 10,
+        "PublicKey": "02cccc..."
+      }
+    ],
+    "Fee": 0,
+    "Size": 312
+  }
+]
