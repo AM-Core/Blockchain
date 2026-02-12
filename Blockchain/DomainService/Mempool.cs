@@ -10,7 +10,7 @@ public class Mempool
     private readonly AVL<string, TransactionEntry> _evictionTree;
     private readonly object _lock = new();
     private readonly HashMap<string, TransactionEntry> _map;
-    private readonly FeeRateCalculator _FeeRateCalculator;
+    private readonly FeeRateCalculator _feeRateCalculator;
     private readonly AVL<string, TransactionEntry> _priorityTree;
     private readonly MiningConfig _config;
     public Mempool()
@@ -19,7 +19,7 @@ public class Mempool
         _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
-        _FeeRateCalculator = new FeeRateCalculator();
+        _feeRateCalculator = new FeeRateCalculator();
         _config = new MiningConfig();
     }
 
@@ -36,7 +36,7 @@ public class Mempool
                 _dag.AddNode(transaction);
                 AddDependencies(transaction);
 
-                _FeeRateCalculator.CalculateFee(transaction, _map);
+                _feeRateCalculator.CalculateFee(transaction, _map);
                 var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
                 var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
                 _priorityTree.InsertOne(priorityKey, transaction);
@@ -76,10 +76,10 @@ public class Mempool
     }
     private void RemoveTransactionInternal(TransactionEntry transaction)
     {
-        _FeeRateCalculator.CalculateFee(transaction, _map);
+        _feeRateCalculator.CalculateFee(transaction, _map);
         var feeRate = transaction.Size > 0 ? (int)(transaction.Fee / transaction.Size * 100000) : 0;
-        var priorityKey = $"{feeRate:D10}_{transaction.Id}";
-        var evictionKey = $"{feeRate:D10}_{transaction.Id}";
+        var priorityKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
+        var evictionKey = $"{feeRate:D10}_{transaction.Size}_{transaction.Id}";
 
         _map.Remove(transaction.Id);
         _dag.RemoveNode(transaction);

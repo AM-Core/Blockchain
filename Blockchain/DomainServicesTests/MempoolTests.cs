@@ -12,6 +12,23 @@ public class MempoolTests
         _mempool = new Mempool();
     }
 
+    private TransactionEntry CreateTestTransaction(string id, double fee, int size)
+    {
+        var transaction = new TransactionEntry(id)
+        {
+            Fee = fee,
+            Size = size
+        };
+
+        var input = new Input("prevTx1", 0, "pubKey1", "signature1");
+        transaction.Inputs.Add(input);
+
+        var output = new Output(10.0, "pubKeyOut1");
+        transaction.Outputs.Add(output);
+
+        return transaction;
+    }
+
     private Mempool _mempool;
 
     [Test]
@@ -357,7 +374,7 @@ public class MempoolTests
     [Test]
     public void EvictHighestPriorityTransaction_EvictsLowestFeeTransaction()
     {
-        // Arrange - tx1 has lowest fee rate
+        // Arrange - tx1 has the lowest fee rate
         var tx1 = CreateTestTransaction("tx1", 1.0, 1000); // fee rate = 0.001
         var tx2 = CreateTestTransaction("tx2", 5.0, 1000); // fee rate = 0.005
         var tx3 = CreateTestTransaction("tx3", 3.0, 1000); // fee rate = 0.003
@@ -574,23 +591,6 @@ public class MempoolTests
         // Assert
         var allTransactions = _mempool.GetTransactionsByPriority();
         Assert.That(allTransactions, Has.Count.EqualTo(1000));
-    }
-
-    private TransactionEntry CreateTestTransaction(string id, double fee, int size)
-    {
-        var transaction = new TransactionEntry(id)
-        {
-            Fee = fee,
-            Size = size
-        };
-
-        var input = new Input("prevTx1", 0, "pubKey1", "signature1");
-        transaction.Inputs.Add(input);
-
-        var output = new Output(10.0, "pubKeyOut1");
-        transaction.Outputs.Add(output);
-
-        return transaction;
     }
 
     private TransactionEntry CreateTestTransactionWithParent(string id, double fee, int size, string parentId)
