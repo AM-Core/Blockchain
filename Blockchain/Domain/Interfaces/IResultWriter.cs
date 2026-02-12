@@ -1,5 +1,4 @@
 ﻿using Domain.Contracts;
-using Domain.Transaction;
 
 namespace Domain.Interfaces;
 

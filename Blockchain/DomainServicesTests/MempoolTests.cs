@@ -1,5 +1,4 @@
-﻿using Domain;
-using Domain.Transaction;
+﻿using Domain.Transaction;
 using DomainService;
 
 namespace DomainServicesTests;
@@ -10,7 +9,7 @@ public class MempoolTests
     [SetUp]
     public void Setup()
     {
-        _mempool = new Mempool(new MiningConfig());
+        _mempool = new Mempool();
     }
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)

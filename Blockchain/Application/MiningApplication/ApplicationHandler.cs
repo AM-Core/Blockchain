@@ -17,14 +17,14 @@ public class ApplicationHandler
 
     public ApplicationHandler(IResultWriter resultWriter,
         ITransactionReader transactionReader, IQueryParser queryParser, Mempool mempool,
-        BlockMiner blockMiner, MiningConfig miningConfig)
+        BlockMiner blockMiner)
     {
         _resultWriter = resultWriter;
         _transactionReader = transactionReader;
         _queryParser = queryParser;
         _mempool = mempool;
         _blockMiner = blockMiner;
-        _miningConfig = miningConfig;
+        _miningConfig = MiningConfig.Instance;
     }
 
     public void Handle(string query)

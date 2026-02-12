@@ -1,6 +1,5 @@
 ﻿using Application.MiningApplication;
 using Application.QueryHandler;
-using Domain;
 using Domain.Interfaces;
 using DomainService;
 using IO;
@@ -21,7 +20,6 @@ public static class DependencyBootstrapper
         services.AddSingleton<ApplicationHandler>();
         services.AddSingleton<Mempool>();
         services.AddSingleton<BlockMiner>();
-        services.AddSingleton<MiningConfig>();
 
         return services.BuildServiceProvider();
     }

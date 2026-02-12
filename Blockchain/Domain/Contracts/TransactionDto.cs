@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Transaction;
+﻿namespace Domain.Contracts;
 
-namespace Domain.Contracts
+public class TransactionDto
 {
-    public class TransactionDto
+    public TransactionDto()
     {
-        public string TxId { get; set; }
-
-        public TransactionDto(string transactionId)
-        {
-            TxId = transactionId;
-        }
     }
+
+    public TransactionDto(string transactionId)
+    {
+        TxId = transactionId;
+    }
+
+    public string TxId { get; set; }
 }

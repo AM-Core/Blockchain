@@ -15,10 +15,10 @@ public class BlockMiner
         _nonceRunner = new NonceRunner(new HashingHandler());
     }
 
-    public Block MineBlock(MiningConfig miningConfig)
+    public Block MineBlock()
     {
         var transactions = _mempool.GetTransactionsSortedToCreateBlock();
-        var block = new Block(miningConfig.Difficulty, transactions);
+        var block = new Block(MiningConfig.Instance.Difficulty, transactions);
         block.Nonce = _nonceRunner.FindValidNonce(block);
         block.BlockHash = _hashingHandler.ComputeBlockHash(block);
         block.MerkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);

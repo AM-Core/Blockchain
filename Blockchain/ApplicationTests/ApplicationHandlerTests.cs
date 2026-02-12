@@ -2,11 +2,11 @@
 using Application.QueryHandler;
 using Application.QueryHandler.Command;
 using Domain;
+using Domain.Contracts;
 using Domain.Interfaces;
 using Domain.Transaction;
 using DomainService;
 using Moq;
-using Domain.Contracts;
 
 namespace ApplicationTests;
 
@@ -19,10 +19,10 @@ public class ApplicationHandlerTests
         _mockResultWriter = new Mock<IResultWriter>();
         _mockTransactionReader = new Mock<ITransactionReader>();
         _mockQueryParser = new Mock<IQueryParser>();
-        _miningConfig = new MiningConfig();
+        _miningConfig = MiningConfig.Instance;
 
         // Use real instances instead of mocks
-        _mempool = new Mempool(_miningConfig);
+        _mempool = new Mempool();
         _blockMiner = new BlockMiner(_mempool);
 
         _handler = new ApplicationHandler(
@@ -30,8 +30,7 @@ public class ApplicationHandlerTests
             _mockTransactionReader.Object,
             _mockQueryParser.Object,
             _mempool,
-            _blockMiner,
-            _miningConfig
+            _blockMiner
         );
     }
 

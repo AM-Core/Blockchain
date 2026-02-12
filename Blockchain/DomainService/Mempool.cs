@@ -1,7 +1,6 @@
 ﻿using DataStructures;
 using Domain;
 using Domain.Exceptions;
-using Domain.Contracts;
 using Domain.Transaction;
 
 namespace DomainService;
@@ -16,14 +15,14 @@ public class Mempool
     private readonly MiningConfig _miningConfig;
     private readonly AVL<string, TransactionEntry> _priorityTree;
 
-    public Mempool(MiningConfig miningConfig)
+    public Mempool()
     {
         _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
         _feeRateCalculator = new FeeRateCalculator();
-        _miningConfig = miningConfig;
+        _miningConfig = MiningConfig.Instance;
     }
 
     public bool AddTransaction(TransactionEntry transaction)
