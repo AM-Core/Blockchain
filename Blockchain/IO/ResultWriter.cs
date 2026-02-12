@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Domain.Contracts;
 using Domain.Interfaces;
-
+using System.IO;
 namespace IO;
 
 public class ResultWriter : IResultWriter
@@ -11,12 +11,7 @@ public class ResultWriter : IResultWriter
     public ResultWriter()
     {
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
-
-        if (solutionRoot == null)
-            throw new InvalidOperationException("Could not determine solution root directory");
-
-        _resultDir = Path.Combine(solutionRoot, "Results");
+        _resultDir = Path.Combine(baseDirectory, "Results");
         Directory.CreateDirectory(_resultDir);
     }
 
