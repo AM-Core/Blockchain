@@ -12,15 +12,15 @@ public class Mempool
     private readonly HashMap<string, TransactionEntry> _map;
     private readonly FeeRateCalculator _feeRateCalculator;
     private readonly AVL<string, TransactionEntry> _priorityTree;
-    private readonly MiningConfig _config;
-    public Mempool()
+    private readonly MiningConfig _miningConfig;
+    public Mempool(MiningConfig miningConfig)
     {
         _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
         _feeRateCalculator = new FeeRateCalculator();
-        _config = new MiningConfig();
+        _miningConfig = miningConfig;
     }
 
     public bool AddTransaction(TransactionEntry transaction)
@@ -99,7 +99,7 @@ public class Mempool
             
             var selectedTransactions = new List<TransactionEntry>();
             int totalSize = 0;
-            long maxBlockSize = _config.Size;
+            long maxBlockSize = _miningConfig.Size;
 
             foreach (var transaction in allTransactions)
             {

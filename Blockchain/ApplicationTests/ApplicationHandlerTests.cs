@@ -18,6 +18,7 @@ public class ApplicationHandlerTests
     private Mempool _mempool;
     private BlockMiner _blockMiner;
     private ApplicationHandler _handler;
+    private MiningConfig _miningConfig;
 
     [SetUp]
     public void Setup()
@@ -25,9 +26,10 @@ public class ApplicationHandlerTests
         _mockResultWriter = new Mock<IResultWriter>();
         _mockTransactionReader = new Mock<ITransactionReader>();
         _mockQueryParser = new Mock<IQueryParser>();
+        _miningConfig = new MiningConfig();
         
         // Use real instances instead of mocks
-        _mempool = new Mempool();
+        _mempool = new Mempool(_miningConfig);
         _blockMiner = new BlockMiner(_mempool);
         
         _handler = new ApplicationHandler(
@@ -35,7 +37,8 @@ public class ApplicationHandlerTests
             _mockTransactionReader.Object,
             _mockQueryParser.Object,
             _mempool,
-            _blockMiner
+            _blockMiner,
+            _miningConfig
         );
     }
 

@@ -13,7 +13,7 @@ public class BlockMinerTests
     [SetUp]
     public void Setup()
     {
-        _mempool = new Mempool();
+        _mempool = new Mempool(new MiningConfig());
         _blockMiner = new BlockMiner(_mempool);
     }
 
