@@ -2,6 +2,7 @@
 using Domain.Transaction;
 using System.Text;
 using System.Text.Json;
+using DomainService;
 
 namespace IO;
 
@@ -19,8 +20,10 @@ public class TransactionReader : ITransactionReader
         
         if (transaction == null || transaction.Id == null)
             throw new InvalidDataException("Failed to deserialize TransactionEntry from file.");
+
+        var sizeCalculator = new TransactionSizeCalculator();
         
-        transaction.Size = CalculateSize(json);
+        transaction.Size = sizeCalculator.Calculate(json);
         return transaction;
     }
 
@@ -36,11 +39,5 @@ public class TransactionReader : ITransactionReader
             throw new InvalidOperationException("Could not determine solution root directory");
 
         return Path.Combine(solutionRoot, filePath);
-    }
-
-    private int CalculateSize(string json)
-    {
-        var bytes = Encoding.UTF8.GetBytes(json);
-        return bytes.Length;
     }
 }
