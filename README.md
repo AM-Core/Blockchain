@@ -34,9 +34,10 @@ Here is what you can do in our console application:
   Shows the list of commands if you forget them.
 
 ## 🏃 How to Run
-1. Open the project in your favorite C# IDE (like Visual Studio or Rider).
-2. Run the `ConsoleApp` project.
-3. Type your commands and start mining! 🚀
+1. Download the Latest release from here [Releases](https://github.com/AM-Core/Blockchain/releases/tag/v1.0.0)
+2. Extract the RAR file.
+3. Run the ConsoleApp.exe.
+4. Type your commands and start mining! 🚀
 
 ---
 **Made with ❤️ by Amir & Moein**
