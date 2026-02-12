@@ -1,4 +1,5 @@
 ﻿using Domain;
+using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
@@ -11,6 +12,6 @@ public sealed class BlockApplication
     {
         var transactions = mempool.GetTransactionsSortedToCreateBlock();
         var block = blockMiner.MineBlock(miningConfig);
-        resultWriter.WriteBlock(block);
+        resultWriter.WriteBlock(new BlockDto(block));
     }
 }

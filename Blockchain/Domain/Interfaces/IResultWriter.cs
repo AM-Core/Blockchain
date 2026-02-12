@@ -1,12 +1,13 @@
-﻿using Domain.Transaction;
+﻿using Domain.Contracts;
+using Domain.Transaction;
 
 namespace Domain.Interfaces;
 
 public interface IResultWriter
 {
-    string WriteBlock(Block block);
+    string WriteBlock(BlockDto block);
 
-    string WriteTransaction(TransactionEntry transactionEntry);
+    string WriteTransaction(TransactionDto transaction);
 
-    string WriteMempool(bool ascending = false);
+    string WriteMempool(MempoolDto mempool, bool ascending = false);
 }

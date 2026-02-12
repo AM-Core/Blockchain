@@ -1,5 +1,4 @@
 ﻿AddTransactionToMempool IntegrationTest\TransactionsInfo\Test4\Transaction01.json
 AddTransactionToMempool IntegrationTest\TransactionsInfo\Test4\Transaction02.json
 AddTransactionToMempool IntegrationTest\TransactionsInfo\Test4\Transaction03.json
-
 EvictMempool 1

@@ -1,6 +1,5 @@
 ﻿AddTransactionToMempool IntegrationTest\TransactionsInfo\Test2\Transaction01.json
 AddTransactionToMempool IntegrationTest\TransactionsInfo\Test2\Transaction02.json
 AddTransactionToMempool IntegrationTest\TransactionsInfo\Test2\Transaction03.json
-
 SetDifficulty 5
 MineBlock
