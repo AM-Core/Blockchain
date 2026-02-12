@@ -93,8 +93,8 @@ public class ResultWriterTests
         _mempool.AddTransaction(CreateTestTransaction("tx2", 2.0, 300));
         var filePath = _writer.WriteMempool();
         var json = File.ReadAllText(filePath);
-        var deserialized = JsonSerializer.Deserialize<MempoolResult>(json);
-        Assert.That(deserialized.TransactionEntries.Count, Is.EqualTo(2));
+        var deserialized = JsonSerializer.Deserialize<List<TransactionEntry>>(json);
+        Assert.That(deserialized!.Count, Is.EqualTo(2));
     }
 
     private Block CreateTestBlock()
