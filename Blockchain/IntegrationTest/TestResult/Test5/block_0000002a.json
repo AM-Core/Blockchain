@@ -1,0 +1,19 @@
+{
+  "Header": {
+    "BlockHash": "0000002a",
+    "PrevBlockHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "Difficulty": 5,
+    "Nonce": 1121560
+  },
+  "Transactions": [
+    {
+      "TxId": "parent555555555555555555555555555555555555555555555555555555"
+    },
+    {
+      "TxId": "child1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "TxId": "child2bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ]
+}
