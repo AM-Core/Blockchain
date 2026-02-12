@@ -44,3 +44,7 @@ Here is what you can do in our console application:
 🔗 **Check us out on GitHub:**
 *   👤 [Amir (ahk1384)](https://github.com/ahk1384)
 *   👤 [Moein (MoeinH-0)](https://github.com/MoeinH-0)
+
+---
+🙏 **Special Thanks**
+The main idea of this project came from **Sadegh Jabbari**. Thank you for the inspiration! 💡
