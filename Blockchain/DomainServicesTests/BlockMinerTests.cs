@@ -10,10 +10,12 @@ public class BlockMinerTests
     [SetUp]
     public void Setup()
     {
-        _mempool = new Mempool();
-        _blockMiner = new BlockMiner(_mempool);
+        _miningConfig = new MiningConfig();
+        _mempool = new Mempool(_miningConfig);
+        _blockMiner = new BlockMiner(_mempool,_miningConfig);
     }
 
+    private MiningConfig _miningConfig;
     private Mempool _mempool;
     private BlockMiner _blockMiner;
 
@@ -21,7 +23,7 @@ public class BlockMinerTests
     public void MineBlock_EmptyMempool_CreatesBlockWithNoTransactions()
     {
         // Arrange
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -40,7 +42,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -66,7 +68,7 @@ public class BlockMinerTests
         _mempool.AddTransaction(tx2);
         _mempool.AddTransaction(tx3);
 
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -85,7 +87,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -101,7 +103,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 2;
+        _miningConfig.Difficulty = 2;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -117,7 +119,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 3;
+        _miningConfig.Difficulty = 3;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -137,7 +139,7 @@ public class BlockMinerTests
         _mempool.AddTransaction(tx1);
         _mempool.AddTransaction(tx2);
 
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -155,7 +157,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 5;
+        _miningConfig.Difficulty = 5;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -170,7 +172,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -185,7 +187,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -202,7 +204,7 @@ public class BlockMinerTests
         // Arrange & Act - First block
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(tx1);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
         var block1 = _blockMiner.MineBlock();
 
         // Reset mempool for second block
@@ -221,7 +223,7 @@ public class BlockMinerTests
         // Arrange
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(tx1);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block1 = _blockMiner.MineBlock();
@@ -238,7 +240,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -276,7 +278,7 @@ public class BlockMinerTests
     {
         // Arrange
         var tx1 = CreateTestTransaction("tx1", 1.0, 250);
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         _mempool.AddTransaction(tx1);
@@ -300,7 +302,7 @@ public class BlockMinerTests
             _mempool.AddTransaction(tx);
         }
 
-        MiningConfig.Instance.Difficulty = 1;
+        _miningConfig.Difficulty = 1;
 
         // Act
         var block = _blockMiner.MineBlock();
@@ -318,7 +320,7 @@ public class BlockMinerTests
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);
         _mempool.AddTransaction(transaction);
-        MiningConfig.Instance.Difficulty = 0;
+        _miningConfig.Difficulty = 0;
 
         // Act
         var block = _blockMiner.MineBlock();

@@ -10,7 +10,7 @@ namespace IntegrationTest;
 public class IntegrationTests
 {
     [OneTimeSetUp]
-    public void cleanupfirst()
+    public void Cleanupfirst()
     {
         var based = AppDomain.CurrentDomain.BaseDirectory;
         var solution = Directory.GetParent(based)?.Parent?.Parent?.Parent?.Parent?.FullName;
@@ -80,8 +80,7 @@ public class IntegrationTests
 
     private string GetLatestBlockFile()
     {
-        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
+        var solutionRoot = Directory.GetCurrentDirectory();
         var resultDir = Path.Combine(solutionRoot, "Results");
         if (!Directory.Exists(resultDir)) return null;
 
@@ -92,8 +91,7 @@ public class IntegrationTests
 
     private string GetLatestMempoolFile()
     {
-        var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;
+        var solutionRoot = Directory.GetCurrentDirectory();
         var resultDir = Path.Combine(solutionRoot, "Results");
         if (!Directory.Exists(resultDir)) return null;
 
