@@ -12,10 +12,9 @@ public class IntegrationTests
     [OneTimeSetUp]
     public void Cleanupfirst()
     {
-        var based = AppDomain.CurrentDomain.BaseDirectory;
-        var solution = Directory.GetParent(based)?.Parent?.Parent?.Parent?.Parent?.FullName;
-        var result = Path.Combine(solution, "Results");
-        foreach (var file in Directory.GetFiles(result)) File.Delete(file);
+        var solutionRoot = Directory.GetCurrentDirectory();
+        var resultDir = Path.Combine(solutionRoot, "Results");
+        foreach (var file in Directory.GetFiles(resultDir)) File.Delete(file);
     }
 
     [SetUp]
