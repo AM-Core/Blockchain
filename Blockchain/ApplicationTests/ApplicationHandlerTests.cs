@@ -19,18 +19,19 @@ public class ApplicationHandlerTests
         _mockResultWriter = new Mock<IResultWriter>();
         _mockTransactionReader = new Mock<ITransactionReader>();
         _mockQueryParser = new Mock<IQueryParser>();
-        _miningConfig = MiningConfig.Instance;
+        _miningConfig = new MiningConfig();
 
         // Use real instances instead of mocks
-        _mempool = new Mempool();
-        _blockMiner = new BlockMiner(_mempool);
+        _mempool = new Mempool(_miningConfig);
+        _blockMiner = new BlockMiner(_mempool, _miningConfig);
 
         _handler = new ApplicationHandler(
             _mockResultWriter.Object,
             _mockTransactionReader.Object,
             _mockQueryParser.Object,
             _mempool,
-            _blockMiner
+            _blockMiner,
+            _miningConfig
         );
     }
 

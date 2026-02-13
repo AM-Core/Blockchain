@@ -15,14 +15,14 @@ public class Mempool
     private readonly MiningConfig _miningConfig;
     private readonly AVL<string, TransactionEntry> _priorityTree;
 
-    public Mempool()
+    public Mempool(MiningConfig miningConfig)
     {
+        _miningConfig = miningConfig;
         _map = new HashMap<string, TransactionEntry>();
         _dag = new DAG<TransactionEntry>();
         _priorityTree = new AVL<string, TransactionEntry>();
         _evictionTree = new AVL<string, TransactionEntry>();
         _feeRateCalculator = new FeeRateCalculator();
-        _miningConfig = MiningConfig.Instance;
     }
 
     public bool AddTransaction(TransactionEntry transaction)
