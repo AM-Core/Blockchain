@@ -6,7 +6,7 @@ Welcome to our joint project! We built this Blockchain simulation from scratch u
 
 ## 🧠 What is this project?
 
-This is a fully functional **Blockchain CLI (Command Line Interface)**. We created a system that simulates how real cryptocurrencies work. It manages a "Mempool" (a waiting room for transactions ⏳), handles mining operations using Proof of Work, and securely links blocks together using cryptographic hashes. 🔗🔒
+This is a fully functional **Blockchain CLI (Command Line Interface)**. We created a system that simulates a simplified version of the Bitcoin miner software core. It manages a "Mempool" (a waiting room for transactions ⏳), handles mining operations using Proof of Work, and securely links blocks together using cryptographic hashes. 🔗🔒
 
 We built this to understand the core concepts of distributed ledgers, difficulty adjustment, and transaction validation.
 
@@ -48,4 +48,4 @@ Here is what you can do in our console application:
 
 ---
 🙏 **Special Thanks**
-The main idea of this project came from **Sadegh Jabbari**. Thank you for the inspiration! 💡
+The main idea of this project came from **Sadegh Jabbari & Amirali Goli**. Thank you for the inspiration! 💡
