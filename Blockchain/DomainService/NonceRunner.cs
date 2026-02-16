@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.Transaction;
 
 namespace DomainService;
 
@@ -11,13 +11,15 @@ public class NonceRunner
         _hashingHandler = hashingHandler;
     }
 
-    public long FindValidNonce(Block block)
+    public long FindValidNonce(List<TransactionEntry> transactions, long difficulty)
     {
+        var transactionString = transactions.ToString();
+        
         for (long nonce = 0;; nonce++)
         {
-            block.Nonce = nonce;
-            var hash = _hashingHandler.ComputeBlockHash(block);
-            if (GetLeadingZeroCount(hash) > block.Difficulty)
+            var hash = _hashingHandler.ComputeHash(nonce + transactionString);
+            
+            if (GetLeadingZeroCount(hash) > difficulty)
                 return nonce;
         }
     }

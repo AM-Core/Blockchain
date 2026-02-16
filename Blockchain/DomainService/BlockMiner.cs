@@ -20,7 +20,7 @@ public class BlockMiner
     {
         var transactions = _mempool.GetTransactionsSortedToCreateBlock();
         var block = new Block(_miningConfig.Difficulty, transactions);
-        block.Nonce = _nonceRunner.FindValidNonce(block);
+        block.Nonce = _nonceRunner.FindValidNonce(transactions, block.Difficulty);
         block.BlockHash = _hashingHandler.ComputeBlockHash(block);
         block.MerkleRoot = _hashingHandler.ComputeMerkleRoot(transactions);
         return block;
