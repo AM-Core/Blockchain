@@ -16,8 +16,7 @@ public class LoadConfiguration
 
     public bool LoadConfigs()
     {
-        var configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "config.json");
-        var jsonString = File.ReadAllText(configPath);
+        var jsonString = File.ReadAllText(_configFilePath);
         var readedConfig = JsonSerializer.Deserialize<MiningConfig>(jsonString);
         _miningConfig.Difficulty = readedConfig.Difficulty;
         _miningConfig.Size = readedConfig.Size;
