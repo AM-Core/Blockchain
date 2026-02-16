@@ -24,7 +24,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(0);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -40,7 +40,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(1);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -56,7 +56,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(2);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -72,7 +72,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(3);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -88,7 +88,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(4);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -105,7 +105,7 @@ public class NonceRunnerTests
         var initialNonce = block.Nonce;
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(block.Nonce, Is.EqualTo(nonce));
@@ -122,7 +122,7 @@ public class NonceRunnerTests
         };
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -138,7 +138,7 @@ public class NonceRunnerTests
         var block = CreateTestBlockWithTransactions(2, 3);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -154,9 +154,9 @@ public class NonceRunnerTests
         var block = CreateTestBlock(1);
 
         // Act
-        var nonce1 = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce1 = _nonceRunner.FindValidNonce(block);
         block.Nonce = 0; // Reset nonce
-        var nonce2 = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce2 = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce1, Is.EqualTo(nonce2));
@@ -171,8 +171,8 @@ public class NonceRunnerTests
         block2.MerkleRoot = "different_merkle_root";
 
         // Act
-        var nonce1 = _nonceRunner.FindValidNonce(block1.Transactions, block1.Difficulty);
-        var nonce2 = _nonceRunner.FindValidNonce(block2.Transactions, block2.Difficulty);
+        var nonce1 = _nonceRunner.FindValidNonce(block1);
+        var nonce2 = _nonceRunner.FindValidNonce(block2);
 
         // Assert
         // Nonces can be different or same, but hashes should meet difficulty
@@ -193,8 +193,8 @@ public class NonceRunnerTests
         var hardBlock = CreateTestBlock(3);
 
         // Act
-        var easyNonce = _nonceRunner.FindValidNonce(easyBlock.Transactions, easyBlock.Difficulty);
-        var hardNonce = _nonceRunner.FindValidNonce(hardBlock.Transactions, hardBlock.Difficulty);
+        var easyNonce = _nonceRunner.FindValidNonce(easyBlock);
+        var hardNonce = _nonceRunner.FindValidNonce(hardBlock);
 
         // Assert
         // Higher difficulty typically requires more iterations (higher nonce)
@@ -211,7 +211,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(difficulty);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         block.Nonce = nonce;
@@ -232,8 +232,8 @@ public class NonceRunnerTests
         block2.MerkleRoot = "merkle_root_2";
 
         // Act
-        var nonce1 =  _nonceRunner.FindValidNonce(block1.Transactions, block1.Difficulty);
-        var nonce2 =  _nonceRunner.FindValidNonce(block2.Transactions, block2.Difficulty);
+        var nonce1 = _nonceRunner.FindValidNonce(block1);
+        var nonce2 = _nonceRunner.FindValidNonce(block2);
 
         // Assert
         block1.Nonce = nonce1;
@@ -254,7 +254,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(1);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         // The nonce should be found starting from 0
@@ -274,7 +274,7 @@ public class NonceRunnerTests
         };
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -291,7 +291,7 @@ public class NonceRunnerTests
         var initialNonce = block.Nonce;
 
         // Act
-        var finalNonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var finalNonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(block.Nonce, Is.EqualTo(finalNonce));
@@ -304,7 +304,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(0);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         Assert.That(nonce, Is.GreaterThanOrEqualTo(0));
@@ -320,9 +320,9 @@ public class NonceRunnerTests
         block2.MerkleRoot = block1.MerkleRoot; // Same merkle root
 
         // Act
-        var nonce1 =  _nonceRunner.FindValidNonce(block1.Transactions, block1.Difficulty);
+        var nonce1 = _nonceRunner.FindValidNonce(block1);
         block2.Nonce = 0; // Reset
-        var nonce2 =  _nonceRunner.FindValidNonce(block2.Transactions, block2.Difficulty);
+        var nonce2 = _nonceRunner.FindValidNonce(block2);
 
         // Assert
         Assert.That(nonce1, Is.EqualTo(nonce2), "Same block should produce same nonce");
@@ -336,7 +336,7 @@ public class NonceRunnerTests
         var block = CreateTestBlock(difficulty);
 
         // Act
-        var nonce = _nonceRunner.FindValidNonce(block.Transactions, block.Difficulty);;
+        var nonce = _nonceRunner.FindValidNonce(block);
 
         // Assert
         block.Nonce = nonce;
