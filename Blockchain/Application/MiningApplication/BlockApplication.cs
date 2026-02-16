@@ -10,7 +10,6 @@ public sealed class BlockApplication
     public void MineBlock(IResultWriter resultWriter,
         MiningConfig miningConfig, BlockMiner blockMiner, Mempool mempool)
     {
-        var transactions = mempool.GetTransactionsSortedToCreateBlock();
         var block = blockMiner.MineBlock();
         resultWriter.WriteBlock(new BlockDto(block));
     }
