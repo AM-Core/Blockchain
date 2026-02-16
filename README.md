@@ -48,4 +48,4 @@ Here is what you can do in our console application:
 
 ---
 🙏 **Special Thanks**
-The main idea of this project came from **Sadegh Jabbari & Amirali Goli**. Thank you for the inspiration! 💡
+The main idea of this project came from **Sadegh Jabbari & [Amirali Goli](https://github.com/amirali079)**. Thank you for the inspiration! 💡
