@@ -1,4 +1,5 @@
 ﻿using Application.MiningApplication;
+using Application.MiningApplication.Dispatching;
 
 namespace ConsoleApp.ConsoleHandler;
 

@@ -1,4 +1,5 @@
 using Application.MiningApplication;
+using Application.MiningApplication.Dispatching;
 using Application.QueryHandler;
 using ConsoleApp.Bootstrap;
 using ConsoleApp.ConsoleHandler;

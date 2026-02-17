@@ -8,12 +8,13 @@ public class BlockMiner
     private readonly Mempool _mempool;
     private readonly NonceRunner _nonceRunner;
     private readonly MiningConfig _miningConfig;
-    public BlockMiner(Mempool mempool, MiningConfig miningConfig)
+    public BlockMiner(Mempool mempool, MiningConfig miningConfig, HashingHandler hashingHandler,
+        NonceRunner nonceRunner)
     {
         _mempool = mempool;
         _miningConfig = miningConfig;
-        _hashingHandler = new HashingHandler();
-        _nonceRunner = new NonceRunner(new HashingHandler());
+        _hashingHandler = hashingHandler;
+        _nonceRunner = nonceRunner;
     }
 
     public Block MineBlock()

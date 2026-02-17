@@ -1,11 +1,14 @@
 ﻿using Application.MiningApplication;
+using Application.MiningApplication.Dispatching;
 using Application.QueryHandler;
 using Application.QueryHandler.Command;
+using ConsoleApp.Bootstrap;
 using Domain;
 using Domain.Contracts;
 using Domain.Interfaces;
 using Domain.Transaction;
 using DomainService;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 
 namespace ApplicationTests;
@@ -21,6 +24,9 @@ public class ApplicationHandlerTests
         _mockQueryParser = new Mock<IQueryParser>();
         _miningConfig = new MiningConfig();
 
+        var provider = DependencyBootstrapper.ConfigureServices();
+        _commandRegistry = provider.GetRequiredService<CommandHandlerRegistry>();
+
         // Use real instances instead of mocks
         _mempool = new Mempool(_miningConfig);
         _blockMiner = new BlockMiner(_mempool, _miningConfig);
@@ -31,7 +37,8 @@ public class ApplicationHandlerTests
             _mockQueryParser.Object,
             _mempool,
             _blockMiner,
-            _miningConfig
+            _miningConfig,
+            _commandRegistry
         );
     }
 
@@ -42,6 +49,7 @@ public class ApplicationHandlerTests
     private BlockMiner _blockMiner;
     private ApplicationHandler _handler;
     private MiningConfig _miningConfig;
+    private CommandHandlerRegistry _commandRegistry;
 
     [Test]
     public void Constructor_WithValidDependencies_CreatesInstance()
