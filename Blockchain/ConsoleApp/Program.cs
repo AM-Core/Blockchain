@@ -4,7 +4,7 @@ using ConsoleApp.Bootstrap;
 using ConsoleApp.ConsoleHandler;
 using Microsoft.Extensions.DependencyInjection;
 
-var provider = DependencyBootstrapper.ConfigureServices();
+var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
 var application = provider.GetRequiredService<ApplicationHandler>();
 var consoleHandler = provider.GetRequiredService<ConsoleHandler>();

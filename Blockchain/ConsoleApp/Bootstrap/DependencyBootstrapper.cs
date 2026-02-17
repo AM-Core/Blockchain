@@ -13,7 +13,7 @@ namespace ConsoleApp.Bootstrap;
 
 public static class DependencyBootstrapper
 {
-    public static ServiceProvider ConfigureServices()
+    public static IServiceCollection ConfigureServices()
     {
         var services = new ServiceCollection();
         
@@ -40,6 +40,6 @@ public static class DependencyBootstrapper
         services.AddSingleton<TransactionSizeCalculator>();
         services.AddSingleton<FeeRateCalculator>();
         
-        return services.BuildServiceProvider();
+        return services;
     }
 }
