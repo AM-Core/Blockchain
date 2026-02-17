@@ -1,16 +1,17 @@
-﻿using Application.QueryHandler.Command;
+﻿using Application.MiningApplication.Abstractions;
+using Application.QueryHandler.Command;
 using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
-namespace Application.MiningApplication;
+namespace Application.MiningApplication.Commands;
 
-public sealed class BlockApplication : ICommand
+public sealed class BlockCommand : ICommand
 {
     private readonly BlockMiner _blockMiner;
     private readonly IResultWriter _resultWriter;
 
-    public BlockApplication(BlockMiner blockMiner, IResultWriter resultWriter)
+    public BlockCommand(BlockMiner blockMiner, IResultWriter resultWriter)
     {
         _blockMiner = blockMiner;
         _resultWriter = resultWriter;

@@ -1,10 +1,11 @@
-﻿using Application.QueryHandler;
+﻿using Application.MiningApplication.Abstractions;
+using Application.QueryHandler;
 using Application.QueryHandler.Command;
 using Domain;
 using Domain.Interfaces;
 using DomainService;
 
-namespace Application.MiningApplication;
+namespace Application.MiningApplication.Dispatching;
 
 public class ApplicationHandler
 {

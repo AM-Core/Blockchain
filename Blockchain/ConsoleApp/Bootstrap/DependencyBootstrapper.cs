@@ -1,4 +1,6 @@
 ﻿using Application.MiningApplication;
+using Application.MiningApplication.Commands;
+using Application.MiningApplication.Dispatching;
 using Application.QueryHandler;
 using Domain;
 using Domain.Interfaces;
@@ -21,10 +23,10 @@ public static class DependencyBootstrapper
         services.AddSingleton<ITransactionReader, TransactionReader>();
         services.AddSingleton<IQueryParser, QueryParser>();
         
-        services.AddSingleton<TransactionApplication>();
-        services.AddSingleton<BlockApplication>();
-        services.AddSingleton<EvictApplication>();
-        services.AddSingleton<DifficultyApplication>();
+        services.AddSingleton<TransactionCommand>();
+        services.AddSingleton<BlockCommand>();
+        services.AddSingleton<EvictCommand>();
+        services.AddSingleton<DifficultyCommand>();
 
         services.AddSingleton<HashingHandler>();
         services.AddSingleton<NonceRunner>();

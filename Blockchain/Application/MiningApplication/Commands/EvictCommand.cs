@@ -1,16 +1,17 @@
-﻿using Application.QueryHandler.Command;
+﻿using Application.MiningApplication.Abstractions;
+using Application.QueryHandler.Command;
 using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
-namespace Application.MiningApplication;
+namespace Application.MiningApplication.Commands;
 
-public sealed class EvictApplication : ICommand
+public sealed class EvictCommand : ICommand
 {
     private readonly Mempool _mempool;
     private readonly IResultWriter _resultWriter;
     
-    public EvictApplication(Mempool mempool, IResultWriter resultWriter)
+    public EvictCommand(Mempool mempool, IResultWriter resultWriter)
     {
         _mempool = mempool;
         _resultWriter = resultWriter;

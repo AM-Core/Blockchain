@@ -1,18 +1,19 @@
-﻿using System.Data;
+﻿using Application.MiningApplication.Abstractions;
+using Application.MiningApplication.Commands;
 using CommandType = Application.QueryHandler.Command.CommandType;
 
-namespace Application.MiningApplication;
+namespace Application.MiningApplication.Dispatching;
 
 public class CommandHandlerRegistry
 {
-    private readonly DifficultyApplication _difficultyApplication;
-    private readonly TransactionApplication _transactionApplication;
-    private readonly EvictApplication _evictApplication;
-    private readonly BlockApplication _blockApplication;
+    private readonly DifficultyCommand _difficultyApplication;
+    private readonly TransactionCommand _transactionApplication;
+    private readonly EvictCommand _evictApplication;
+    private readonly BlockCommand _blockApplication;
 
-    public CommandHandlerRegistry(DifficultyApplication difficultyApplication,
-        TransactionApplication transactionApplication, EvictApplication evictApplication,
-        BlockApplication blockApplication)
+    public CommandHandlerRegistry(DifficultyCommand difficultyApplication,
+        TransactionCommand transactionApplication, EvictCommand evictApplication,
+        BlockCommand blockApplication)
     {
         _difficultyApplication = difficultyApplication;
         _transactionApplication = transactionApplication;

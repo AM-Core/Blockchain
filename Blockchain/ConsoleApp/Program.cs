@@ -1,4 +1,5 @@
 ﻿using Application.MiningApplication;
+using Application.MiningApplication.Dispatching;
 using ConsoleApp.Bootstrap;
 using ConsoleApp.ConsoleHandler;
 using Microsoft.Extensions.DependencyInjection;

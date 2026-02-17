@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
-using Application.MiningApplication;
+using Application.MiningApplication.Dispatching;
 using ConsoleApp.Bootstrap;
 using Domain.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace IntegrationTest;
+namespace IntegrationTests;
 
 [TestFixture]
 public class IntegrationTests

@@ -1,17 +1,18 @@
-﻿using Application.QueryHandler.Command;
+﻿using Application.MiningApplication.Abstractions;
+using Application.QueryHandler.Command;
 using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
-namespace Application.MiningApplication;
+namespace Application.MiningApplication.Commands;
 
-public class TransactionApplication : ICommand
+public class TransactionCommand : ICommand
 {
     private readonly Mempool _mempool;
     private readonly ITransactionReader _transactionReader;
     private readonly IResultWriter _resultWriter;
     
-    public TransactionApplication(Mempool mempool, ITransactionReader transactionReader,
+    public TransactionCommand(Mempool mempool, ITransactionReader transactionReader,
         IResultWriter resultWriter)
     {
         _mempool = mempool;

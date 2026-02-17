@@ -1,6 +1,6 @@
 ﻿using Application.QueryHandler.Command;
 
-namespace Application.MiningApplication;
+namespace Application.MiningApplication.Abstractions;
 
 public interface ICommand
 {
