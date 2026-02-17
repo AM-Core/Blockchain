@@ -14,9 +14,9 @@ public static class DependencyBootstrapper
     {
         var services = new ServiceCollection();
 
-        services.AddTransient<IResultWriter, ResultWriter>();
-        services.AddTransient<ITransactionReader, TransactionReader>();
-        services.AddTransient<IQueryParser, QueryParser>();
+        services.AddSingleton<IResultWriter, ResultWriter>();
+        services.AddSingleton<ITransactionReader, TransactionReader>();
+        services.AddSingleton<IQueryParser, QueryParser>();
 
         services.AddSingleton<ApplicationHandler>();
         services.AddSingleton<Mempool>();
