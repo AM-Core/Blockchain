@@ -7,6 +7,13 @@ namespace IO;
 
 public class TransactionReader : ITransactionReader
 {
+    private readonly TransactionSizeCalculator _sizeCalculator;
+
+    public TransactionReader(TransactionSizeCalculator sizeCalculator)
+    {
+        _sizeCalculator = sizeCalculator;
+    }
+
     public TransactionEntry ReadTransaction(string filePath)
     {
         var resolvedPath = ResolveFilePath(filePath);
@@ -20,9 +27,7 @@ public class TransactionReader : ITransactionReader
         if (transaction == null || transaction.Id == null)
             throw new InvalidDataException("Failed to deserialize TransactionEntry from file.");
 
-        var sizeCalculator = new TransactionSizeCalculator();
-
-        transaction.Size = sizeCalculator.Calculate(json);
+        transaction.Size = _sizeCalculator.Calculate(json);
         return transaction;
     }
 
