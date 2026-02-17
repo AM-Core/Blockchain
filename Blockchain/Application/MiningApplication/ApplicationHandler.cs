@@ -14,10 +14,12 @@ public class ApplicationHandler
     private readonly IQueryParser _queryParser;
     private readonly IResultWriter _resultWriter;
     private readonly ITransactionReader _transactionReader;
+    private readonly CommandHandlerRegistry _commandHandlerRegistry;
+    private readonly Dictionary<CommandType, ICommand> _handlersByType;
 
     public ApplicationHandler(IResultWriter resultWriter,
         ITransactionReader transactionReader, IQueryParser queryParser, Mempool mempool,
-        BlockMiner blockMiner, MiningConfig miningConfig)
+        BlockMiner blockMiner, MiningConfig miningConfig, CommandHandlerRegistry commandHandlerRegistry)
     {
         _resultWriter = resultWriter;
         _transactionReader = transactionReader;
@@ -25,34 +27,14 @@ public class ApplicationHandler
         _mempool = mempool;
         _blockMiner = blockMiner;
         _miningConfig = miningConfig;
+        _commandHandlerRegistry = commandHandlerRegistry;
+        _handlersByType = new Dictionary<CommandType, ICommand>();
+        commandHandlerRegistry.Registry(_handlersByType);
     }
 
     public void Handle(string query)
     {
         var command = _queryParser.Parse(query);
-        switch (command.Type)
-        {
-            case CommandType.ADDTRANSACTIONTOMEMPOOL:
-                var transactionApplication = new TransactionApplication();
-                transactionApplication
-                    .AddTransactionToMempool(command.Argument, _transactionReader, _mempool, _resultWriter);
-
-                break;
-
-            case CommandType.EVICTMEMPOOL:
-                var evictApplication = new EvictApplication();
-                evictApplication.EvictMempool(Convert.ToInt32(command.Argument), _mempool, _resultWriter);
-                break;
-
-            case CommandType.MINEBLOCK:
-                var blockApplication = new BlockApplication();
-                blockApplication.MineBlock(_resultWriter, _miningConfig, _blockMiner, _mempool);
-                break;
-
-            case CommandType.SETDIFFICULTY:
-                var difficultyApplication = new DifficultyApplication();
-                difficultyApplication.SetDifficulty(Convert.ToInt32(command.Argument), _miningConfig);
-                break;
-        }
+        _handlersByType[command.Type].Execute(command);
     }
 }

@@ -1,16 +1,28 @@
-﻿using Domain.Contracts;
+﻿using Application.QueryHandler.Command;
+using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
 namespace Application.MiningApplication;
 
-public class TransactionApplication
+public class TransactionApplication : ICommand
 {
-    public void AddTransactionToMempool(string filePath,
-        ITransactionReader transactionReader, Mempool mempool, IResultWriter resultWriter)
+    private readonly Mempool _mempool;
+    private readonly ITransactionReader _transactionReader;
+    private readonly IResultWriter _resultWriter;
+    
+    public TransactionApplication(Mempool mempool, ITransactionReader transactionReader,
+        IResultWriter resultWriter)
     {
-        var transactionEntry = transactionReader.ReadTransaction(filePath);
-        mempool.AddTransaction(transactionEntry);
-        resultWriter.WriteMempool(new MempoolDto(mempool.GetAllTransactions()));
+        _mempool = mempool;
+        _transactionReader = transactionReader;
+        _resultWriter = resultWriter;
+    }
+    public void Execute(Command command)
+    {
+        var filePath = command.Argument;
+        var transactionEntry = _transactionReader.ReadTransaction(filePath);
+        _mempool.AddTransaction(transactionEntry);
+        _resultWriter.WriteMempool(new MempoolDto(_mempool.GetAllTransactions()));
     }
 }

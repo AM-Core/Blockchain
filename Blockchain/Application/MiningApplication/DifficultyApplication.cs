@@ -1,11 +1,19 @@
-﻿using Domain;
+﻿using Application.QueryHandler.Command;
+using Domain;
 
 namespace Application.MiningApplication;
 
-public sealed class DifficultyApplication
+public sealed class DifficultyApplication : ICommand
 {
-    public void SetDifficulty(int difficulty, MiningConfig miningConfig)
+    private readonly MiningConfig _miningConfig;
+
+    public DifficultyApplication(MiningConfig miningConfig)
     {
-        miningConfig.Difficulty = difficulty;
+        _miningConfig = miningConfig;
+    }
+
+    public void Execute(Command command)
+    {
+        _miningConfig.Difficulty = long.Parse(command.Argument);
     }
 }

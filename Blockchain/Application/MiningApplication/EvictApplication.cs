@@ -1,14 +1,24 @@
-﻿using Domain.Contracts;
+﻿using Application.QueryHandler.Command;
+using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
 namespace Application.MiningApplication;
 
-public sealed class EvictApplication
+public sealed class EvictApplication : ICommand
 {
-    public void EvictMempool(int count, Mempool mempool, IResultWriter resultWriter)
+    private readonly Mempool _mempool;
+    private readonly IResultWriter _resultWriter;
+    
+    public EvictApplication(Mempool mempool, IResultWriter resultWriter)
     {
-        mempool.EvictHighestPriorityTransaction(count);
-        resultWriter.WriteMempool(new MempoolDto(mempool.GetAllTransactions(true)), true);
+        _mempool = mempool;
+        _resultWriter = resultWriter;
+    }
+    public void Execute(Command command)
+    {
+        var count = int.Parse(command.Argument);
+        _mempool.EvictHighestPriorityTransaction(count);
+        _resultWriter.WriteMempool(new MempoolDto(_mempool.GetAllTransactions(true)), true);
     }
 }

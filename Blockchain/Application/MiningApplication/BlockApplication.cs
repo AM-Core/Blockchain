@@ -1,17 +1,24 @@
-﻿using Domain;
+﻿using Application.QueryHandler.Command;
 using Domain.Contracts;
 using Domain.Interfaces;
 using DomainService;
 
 namespace Application.MiningApplication;
 
-public sealed class BlockApplication
+public sealed class BlockApplication : ICommand
 {
-    public void MineBlock(IResultWriter resultWriter,
-        MiningConfig miningConfig, BlockMiner blockMiner, Mempool mempool)
+    private readonly BlockMiner _blockMiner;
+    private readonly IResultWriter _resultWriter;
+
+    public BlockApplication(BlockMiner blockMiner, IResultWriter resultWriter)
     {
-        var transactions = mempool.GetTransactionsSortedToCreateBlock();
-        var block = blockMiner.MineBlock();
-        resultWriter.WriteBlock(new BlockDto(block));
+        _blockMiner = blockMiner;
+        _resultWriter = resultWriter;
+    }
+    
+    public void Execute(Command command)
+    {
+        var block = _blockMiner.MineBlock();
+        _resultWriter.WriteBlock(new BlockDto(block));
     }
 }
