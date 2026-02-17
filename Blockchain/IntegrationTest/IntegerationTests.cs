@@ -20,7 +20,7 @@ public class IntegrationTests
     [SetUp]
     public void Setup()
     {
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
         _handler = provider.GetRequiredService<ApplicationHandler>();
         var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
         var solutionRoot = Directory.GetParent(baseDirectory)?.Parent?.Parent?.Parent?.Parent?.FullName;

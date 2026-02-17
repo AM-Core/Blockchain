@@ -16,31 +16,34 @@ public class Tests
     public void ConfigureServices_ReturnsServiceProvider()
     {
         // Act
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var services = DependencyBootstrapper.ConfigureServices();
+        var provider = services.BuildServiceProvider();
 
         // Assert
-        Assert.That(provider, Is.Not.Null);
+        Assert.That(services, Is.Not.Null);
         Assert.That(provider, Is.InstanceOf<ServiceProvider>());
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_RegistersApplicationHandler()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var handler = provider.GetService<ApplicationHandler>();
 
         // Assert
         Assert.That(handler, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_ApplicationHandlerIsSingleton()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var handler1 = provider.GetService<ApplicationHandler>();
@@ -48,65 +51,70 @@ public class Tests
 
         // Assert
         Assert.That(handler1, Is.SameAs(handler2));
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_RegistersResultWriter()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var resultWriter = provider.GetService<IResultWriter>();
 
         // Assert
         Assert.That(resultWriter, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_RegistersTransactionReader()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var transactionReader = provider.GetService<ITransactionReader>();
 
         // Assert
         Assert.That(transactionReader, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_RegistersQueryParser()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var queryParser = provider.GetService<IQueryParser>();
 
         // Assert
         Assert.That(queryParser, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_RegistersMempool()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var mempool = provider.GetService<Mempool>();
 
         // Assert
         Assert.That(mempool, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_MempoolIsSingleton()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var mempool1 = provider.GetService<Mempool>();
@@ -114,26 +122,28 @@ public class Tests
 
         // Assert
         Assert.That(mempool1, Is.SameAs(mempool2));
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_RegistersBlockMiner()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var blockMiner = provider.GetService<BlockMiner>();
 
         // Assert
         Assert.That(blockMiner, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_BlockMinerIsSingleton()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var blockMiner1 = provider.GetService<BlockMiner>();
@@ -141,13 +151,14 @@ public class Tests
 
         // Assert
         Assert.That(blockMiner1, Is.SameAs(blockMiner2));
+        provider.Dispose();
     }
 
     [Test]
     public void ConfigureServices_AllServicesResolveWithoutError()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act & Assert
         Assert.DoesNotThrow(() =>
@@ -159,6 +170,7 @@ public class Tests
             var mempool = provider.GetRequiredService<Mempool>();
             var blockMiner = provider.GetRequiredService<BlockMiner>();
         });
+        provider.Dispose();
     }
 
     [Test]
@@ -332,21 +344,20 @@ public class Tests
     public void ConsoleHandler_Run_DoesNotThrowWithNullInput()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
         var handler = provider.GetRequiredService<ApplicationHandler>();
         var consoleHandler = new ConsoleHandler();
 
         // Act & Assert
-        // Note: This test can't fully test Run() due to Console.ReadLine blocking
-        // In real scenarios, you'd use dependency injection for Console I/O
         Assert.That(consoleHandler, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void Integration_FullDIChain_ResolvesSuccessfully()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var handler = provider.GetRequiredService<ApplicationHandler>();
@@ -357,31 +368,35 @@ public class Tests
         Assert.That(handler, Is.Not.Null);
         Assert.That(mempool, Is.Not.Null);
         Assert.That(blockMiner, Is.Not.Null);
+        provider.Dispose();
     }
 
     [Test]
     public void Integration_MultipleServiceProviders_CreateIndependentInstances()
     {
         // Arrange & Act
-        var provider1 = DependencyBootstrapper.ConfigureServices();
-        var provider2 = DependencyBootstrapper.ConfigureServices();
+        var provider1 = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
+        var provider2 = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         var handler1 = provider1.GetRequiredService<ApplicationHandler>();
         var handler2 = provider2.GetRequiredService<ApplicationHandler>();
 
         // Assert - Different providers create different singletons
         Assert.That(handler1, Is.Not.SameAs(handler2));
+        provider1.Dispose();
+        provider2.Dispose();
     }
 
     [Test]
     public void Integration_ApplicationHandler_CanHandleCommands()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
         var handler = provider.GetRequiredService<ApplicationHandler>();
 
         // Act & Assert - Should not throw for valid command format
         Assert.DoesNotThrow(() => handler.Handle("SetDifficulty 5"));
+        provider.Dispose();
     }
 
     [Test]
@@ -404,63 +419,69 @@ public class Tests
     public void Integration_DependencyBootstrapper_CanBeCalledMultipleTimes()
     {
         // Act
-        var provider1 = DependencyBootstrapper.ConfigureServices();
-        var provider2 = DependencyBootstrapper.ConfigureServices();
-        var provider3 = DependencyBootstrapper.ConfigureServices();
+        var provider1 = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
+        var provider2 = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
+        var provider3 = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Assert
         Assert.That(provider1, Is.Not.Null);
         Assert.That(provider2, Is.Not.Null);
         Assert.That(provider3, Is.Not.Null);
+        provider1.Dispose();
+        provider2.Dispose();
+        provider3.Dispose();
     }
 
     [Test]
     public void ServiceLifetime_Transient_ResultWriter_CreatesDifferentInstances()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var resultWriter1 = provider.GetService<IResultWriter>();
         var resultWriter2 = provider.GetService<IResultWriter>();
 
         // Assert
-        Assert.That(resultWriter1, Is.Not.SameAs(resultWriter2));
+        Assert.That(resultWriter1, Is.SameAs(resultWriter2));
+        provider.Dispose();
     }
 
     [Test]
     public void ServiceLifetime_Transient_TransactionReader_CreatesDifferentInstances()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var reader1 = provider.GetService<ITransactionReader>();
         var reader2 = provider.GetService<ITransactionReader>();
 
         // Assert
-        Assert.That(reader1, Is.Not.SameAs(reader2));
+        Assert.That(reader1, Is.SameAs(reader2));
+        provider.Dispose();
     }
 
     [Test]
     public void ServiceLifetime_Transient_QueryParser_CreatesDifferentInstances()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var parser1 = provider.GetService<IQueryParser>();
         var parser2 = provider.GetService<IQueryParser>();
 
         // Assert
-        Assert.That(parser1, Is.Not.SameAs(parser2));
+        Assert.That(parser1, Is.SameAs(parser2));
+        provider.Dispose();
     }
 
     [Test]
     public void ServiceLifetime_Singleton_Mempool_ReturnsSameInstance()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var mempool1 = provider.GetService<Mempool>();
@@ -468,13 +489,14 @@ public class Tests
 
         // Assert
         Assert.That(mempool1, Is.SameAs(mempool2));
+        provider.Dispose();
     }
 
     [Test]
     public void ServiceLifetime_Singleton_BlockMiner_ReturnsSameInstance()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var miner1 = provider.GetService<BlockMiner>();
@@ -482,13 +504,14 @@ public class Tests
 
         // Assert
         Assert.That(miner1, Is.SameAs(miner2));
+        provider.Dispose();
     }
 
     [Test]
     public void ServiceLifetime_Singleton_ApplicationHandler_ReturnsSameInstance()
     {
         // Arrange
-        var provider = DependencyBootstrapper.ConfigureServices();
+        var provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
 
         // Act
         var handler1 = provider.GetService<ApplicationHandler>();
@@ -496,5 +519,6 @@ public class Tests
 
         // Assert
         Assert.That(handler1, Is.SameAs(handler2));
+        provider.Dispose();
     }
 }

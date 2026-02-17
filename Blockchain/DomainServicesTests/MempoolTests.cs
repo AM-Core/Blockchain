@@ -1,16 +1,28 @@
 ﻿using Domain;
 using Domain.Transaction;
 using DomainService;
+using Microsoft.Extensions.DependencyInjection;
+using ConsoleApp.Bootstrap;
 
 namespace DomainServicesTests;
 
 [TestFixture]
 public class MempoolTests
 {
+    private ServiceProvider _provider;
+    private Mempool _mempool;
+
     [SetUp]
     public void Setup()
     {
-        _mempool = new Mempool(new MiningConfig());
+        _provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
+        _mempool = _provider.GetRequiredService<Mempool>();
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        _provider?.Dispose();
     }
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)
@@ -30,8 +42,6 @@ public class MempoolTests
         return transaction;
     }
     
-    private Mempool _mempool;
-
     [Test]
     public void AddTransaction_ValidTransaction_ReturnsTrue()
     {
@@ -352,7 +362,7 @@ public class MempoolTests
     }
 
     [Test]
-    public void EvictHighestPriorityTransaction_NegativeCount_DoesNothing()
+    public void EvictHighestPriorityTransaction_NegativeCount_Doesnothing()
     {
         // Arrange
         var transaction = CreateTestTransaction("tx1", 1.0, 250);

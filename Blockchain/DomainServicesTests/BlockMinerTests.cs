@@ -1,23 +1,34 @@
 ﻿using Domain;
+using Domain.Interfaces;
 using Domain.Transaction;
 using DomainService;
+using System;
+using ConsoleApp.Bootstrap;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DomainServicesTests;
 
 [TestFixture]
 public class BlockMinerTests
 {
+
+    private ServiceProvider _provider;
+    private Mempool _mempool;
+    private BlockMiner _blockMiner;
+    private MiningConfig _miningConfig;
+
     [SetUp]
     public void Setup()
     {
-        _miningConfig = new MiningConfig();
-        _mempool = new Mempool(_miningConfig);
-        _blockMiner = new BlockMiner(_mempool,_miningConfig);
+        // Build DI container with overrides for mocks
+        _provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
+
+        // Resolve all dependencies from the provider
+        _mempool = _provider.GetRequiredService<Mempool>();
+        _blockMiner = _provider.GetRequiredService<BlockMiner>();
+        _miningConfig = _provider.GetRequiredService<MiningConfig>();
     }
 
-    private MiningConfig _miningConfig;
-    private Mempool _mempool;
-    private BlockMiner _blockMiner;
 
     [Test]
     public void MineBlock_EmptyMempool_CreatesBlockWithNoTransactions()
@@ -369,5 +380,10 @@ public class BlockMinerTests
     private int GetLeadingZeroCount(string value)
     {
         return value.TakeWhile(c => c == '0').Count();
+    }
+    [TearDown]
+    public void TearDown()
+    {
+        _provider?.Dispose();
     }
 }

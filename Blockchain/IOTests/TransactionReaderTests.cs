@@ -1,23 +1,42 @@
-﻿using System.Text.Json;
+﻿using Application.MiningApplication.Dispatching;
+using Application.QueryHandler;
+using ConsoleApp.Bootstrap;
+using Domain;
+using Domain.Interfaces;
 using Domain.Transaction;
+using DomainService;
 using IO;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using System.Text.Json;
 
 namespace IOTests;
 
 [TestFixture]
 public class TransactionReaderTests
 {
+    private ServiceProvider _provider;
+    private ITransactionReader _reader;
+    private string _testDirectory;
+
     [SetUp]
     public void Setup()
     {
-        _reader = new TransactionReader();
         _testDirectory = Path.Combine(Path.GetTempPath(), $"TransactionReaderTests_{Guid.NewGuid()}");
         Directory.CreateDirectory(_testDirectory);
-    }
 
+        // Build DI container
+        _provider = DependencyBootstrapper.ConfigureServices().BuildServiceProvider();
+        
+        // Resolve the transaction reader from the container
+        _reader = _provider.GetRequiredService<ITransactionReader>();
+    }
+    
     [TearDown]
     public void TearDown()
     {
+        _provider?.Dispose();
+        
         try
         {
             if (Directory.Exists(_testDirectory))
@@ -27,9 +46,6 @@ public class TransactionReaderTests
         {
         }
     }
-
-    private TransactionReader _reader;
-    private string _testDirectory;
 
     [Test]
     public void ReadTransaction_ValidJsonFile_ReturnsTransaction()
@@ -46,7 +62,6 @@ public class TransactionReaderTests
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Id, Is.EqualTo("tx1"));
         Assert.That(result.Fee, Is.EqualTo(1.5));
-        //Assert.That(result.Size, Is.EqualTo(300));
     }
 
     [Test]
@@ -221,10 +236,11 @@ public class TransactionReaderTests
             Size = 5000
         };
 
-        // Add many Inputs and Outputs
-        for (var i = 0; i < 50; i++) transaction.Inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
+        for (var i = 0; i < 50; i++) 
+            transaction.Inputs.Add(new Input($"prevTx{i}", i, $"pubKey{i}", $"sig{i}"));
 
-        for (var i = 0; i < 50; i++) transaction.Outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));
+        for (var i = 0; i < 50; i++) 
+            transaction.Outputs.Add(new Output(i * 0.1, $"pubKeyOut{i}"));
 
         var filePath = Path.Combine(_testDirectory, "large_transaction.json");
         WriteTransactionToFile(transaction, filePath);
@@ -252,7 +268,6 @@ public class TransactionReaderTests
         // Assert
         Assert.That(readTransaction.Id, Is.EqualTo(originalTransaction.Id));
         Assert.That(readTransaction.Fee, Is.EqualTo(originalTransaction.Fee));
-        //Assert.That(readTransaction.Size, Is.EqualTo(originalTransaction.Size));
         Assert.That(readTransaction.Inputs.Count, Is.EqualTo(originalTransaction.Inputs.Count));
         Assert.That(readTransaction.Outputs.Count, Is.EqualTo(originalTransaction.Outputs.Count));
     }
@@ -294,7 +309,6 @@ public class TransactionReaderTests
         // Assert
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Fee, Is.EqualTo(999999.99));
-        //Assert.That(result.Size, Is.EqualTo(int.MaxValue));
     }
 
     private TransactionEntry CreateTestTransaction(string id, double fee, int size)

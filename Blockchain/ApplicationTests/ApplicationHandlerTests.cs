@@ -16,40 +16,44 @@ namespace ApplicationTests;
 [TestFixture]
 public class ApplicationHandlerTests
 {
+    private ServiceProvider _provider;
+    private Mock<IResultWriter> _mockResultWriter;
+    private Mock<ITransactionReader> _mockTransactionReader;
+    private Mock<IQueryParser> _mockQueryParser;
+    private ApplicationHandler _handler;
+    private Mempool _mempool;
+    private BlockMiner _blockMiner;
+    private MiningConfig _miningConfig;
+    private CommandHandlerRegistry _commandRegistry;
+
     [SetUp]
     public void Setup()
     {
         _mockResultWriter = new Mock<IResultWriter>();
         _mockTransactionReader = new Mock<ITransactionReader>();
         _mockQueryParser = new Mock<IQueryParser>();
-        _miningConfig = new MiningConfig();
 
-        var provider = DependencyBootstrapper.ConfigureServices();
-        _commandRegistry = provider.GetRequiredService<CommandHandlerRegistry>();
+        // Build DI container with overrides for mocks
+        var services = DependencyBootstrapper.ConfigureServices();
+        services.AddSingleton(_ => _mockResultWriter.Object);
+        services.AddSingleton(_ => _mockTransactionReader.Object);
+        services.AddSingleton(_ => _mockQueryParser.Object);
 
-        // Use real instances instead of mocks
-        _mempool = new Mempool(_miningConfig);
-        _blockMiner = new BlockMiner(_mempool, _miningConfig);
+        _provider = services.BuildServiceProvider();
 
-        _handler = new ApplicationHandler(
-            _mockResultWriter.Object,
-            _mockTransactionReader.Object,
-            _mockQueryParser.Object,
-            _mempool,
-            _blockMiner,
-            _miningConfig,
-            _commandRegistry
-        );
+        // Resolve all dependencies from the provider
+        _handler = _provider.GetRequiredService<ApplicationHandler>();
+        _mempool = _provider.GetRequiredService<Mempool>();
+        _blockMiner = _provider.GetRequiredService<BlockMiner>();
+        _miningConfig = _provider.GetRequiredService<MiningConfig>();
+        _commandRegistry = _provider.GetRequiredService<CommandHandlerRegistry>();
     }
 
-    private Mock<IResultWriter> _mockResultWriter;
-    private Mock<ITransactionReader> _mockTransactionReader;
-    private Mock<IQueryParser> _mockQueryParser;
-    private Mempool _mempool;
-    private BlockMiner _blockMiner;
-    private ApplicationHandler _handler;
-    private MiningConfig _miningConfig;
-    private CommandHandlerRegistry _commandRegistry;
+    [TearDown]
+    public void TearDown()
+    {
+        _provider?.Dispose();
+    }
 
     [Test]
     public void Constructor_WithValidDependencies_CreatesInstance()
@@ -183,8 +187,8 @@ public class ApplicationHandlerTests
         var query = "EvictMempool 10";
         var command = new Command(CommandType.EVICTMEMPOOL, "10");
 
-        // Add transactions to evict
-        for (var i = 0; i < 15; i++) _mempool.AddTransaction(CreateTestTransaction($"tx{i}", 1.0 + i, 250));
+        for (var i = 0; i < 15; i++) 
+            _mempool.AddTransaction(CreateTestTransaction($"tx{i}", 1.0 + i, 250));
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
         _mockResultWriter.Setup(w => w.WriteMempool(It.IsAny<MempoolDto>(), It.IsAny<bool>())).Returns("path");
@@ -254,7 +258,6 @@ public class ApplicationHandlerTests
         var query = "MineBlock";
         var command = new Command(CommandType.MINEBLOCK, "");
 
-        // Add a transaction to the mempool
         _mempool.AddTransaction(CreateTestTransaction("tx1", 1.0, 250));
 
         _mockQueryParser.Setup(p => p.Parse(query)).Returns(command);
